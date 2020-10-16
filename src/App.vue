@@ -1,12 +1,19 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
+    <CategoryList/>
+    <router-view :key="$route.fullPath"/>
   </div>
 </template>
+
+<script>
+import CategoryList from './components/CategoryList.vue'
+
+export default {
+  components: {
+    CategoryList
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
