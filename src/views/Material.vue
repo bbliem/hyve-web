@@ -23,13 +23,16 @@ export default {
 
 <style lang="scss">
 $sidebar-width: 250px;
+$large-screen-width: 600px;
 
 #sidebar {
-  position: fixed; // Fixed sidebar (stay in place on scroll)
-  height: 100%;
+  @media screen and (min-width: $large-screen-width) {
+    position: fixed; // Fixed sidebar (stay in place on scroll)
+    height: 100%;
+    width: $sidebar-width;
+  }
   margin: 0;
   padding: 10px;
-  width: $sidebar-width;
   /*overflow-x: hidden; [> Disable horizontal scroll <]*/
 
   ul.content-list {
@@ -67,6 +70,8 @@ $sidebar-width: 250px;
 }
 
 #content {
-  margin-left: $sidebar-width;
+  @media screen and (min-width: $large-screen-width) {
+    margin-left: $sidebar-width;
+  }
 }
 </style>
