@@ -1,8 +1,20 @@
 <template>
-  <div>
+  <b-container>
     <h1>{{ title }}</h1>
     <p>{{ text }}</p>
-  </div>
+    <b-btn
+      variant="primary"
+      @click="showAlert = !showAlert"
+    >
+      primary foo foo foo foo foo foo
+    </b-btn>
+    <b-btn variant="secondary">
+      secondary foo foo foo foo foo foo
+    </b-btn>
+    <b-alert :show="showAlert" variant="success">
+      You clicked the button!
+    </b-alert>
+  </b-container>
 </template>
 
 <script>
@@ -12,6 +24,7 @@ export default {
     return {
       title: null,
       text: null,
+      showAlert: false
     }
   },
   mounted: function() {

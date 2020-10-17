@@ -1,14 +1,16 @@
 <template>
-	<div>
-		<h1>{{ title }}</h1>
-		<p>{{ description }}</p>
-		<h2>Contents in this category</h2>
-		<ul>
-			<li v-for="content in contents" :key="content.id">
-				<router-link :to="'/' + $route.params.categoryId + '/' + content.id">{{ content.title }}</router-link>
-			</li>
-		</ul>
-	</div>
+  <div>
+    <h1>{{ title }}</h1>
+    <p>{{ description }}</p>
+    <h2>Contents in this category</h2>
+    <ul>
+      <li v-for="content in contents" :key="content.id">
+        <router-link :to="'/' + $route.params.categoryId + '/' + content.id">
+          {{ content.title }}
+        </router-link>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>

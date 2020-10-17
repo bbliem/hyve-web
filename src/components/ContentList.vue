@@ -1,9 +1,29 @@
 <template>
   <div>
-    <router-link :to="'/' + category.id">{{ category.title }}</router-link>
-    <ul v-if="contents.length">
+    <router-link
+      :to="{
+        name: 'category-detail',
+        params: {
+          categoryId: category.id
+        }
+      }"
+      class="category-link"
+    >
+      {{ category.title }}
+    </router-link>
+    <ul v-if="contents.length" class="content-list">
       <li v-for="content in contents" :key="content.id">
-        <router-link :to="'/' + category.id + '/' + content.id">{{ content.title }}</router-link>
+        <router-link
+          :to="{
+            name: 'content-detail',
+            params: {
+              categoryId: category.id,
+              contentId: content.id
+            }}"
+          class="content-link"
+        >
+          {{ content.title }}
+        </router-link>
       </li>
     </ul>
   </div>
@@ -13,7 +33,10 @@
 export default {
   name: 'ContentList',
   props: {
-    category: Object,
+    category: {
+      type: Object,
+      required: true
+    }
   },
   data: function() {
     // return serverData.categories[this.categoryId]

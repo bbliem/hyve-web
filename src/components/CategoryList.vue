@@ -1,7 +1,7 @@
 <template>
-  <nav>
-    <ContentList v-for="category in categories" :key="category.id" :category="category"/>
-  </nav>
+  <div>
+    <ContentList v-for="category in categories" :key="category.id" :category="category" />
+  </div>
 </template>
 
 <script>
@@ -23,12 +23,12 @@ export default {
     // Dealing with errors etc. is described at https://vuejs.org/v2/cookbook/using-axios-to-consume-apis.html
     this.categories = [
       {
-        id: 'cat-1',
-        title: 'Cat 1',
+        id: 'mindfulness',
+        title: 'Mindfulness',
       },
       {
-        id: 'cat-2',
-        title: 'Cat 2',
+        id: 'wellbeing',
+        title: 'Wellbeing',
       },
     ]
   }

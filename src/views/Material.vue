@@ -1,0 +1,72 @@
+<template>
+  <div>
+    <nav id="sidebar">
+      <CategoryList />
+    </nav>
+
+    <main id="content">
+      <router-view :key="$route.fullPath" />
+    </main>
+  </div>
+</template>
+
+<script>
+import CategoryList from '../components/CategoryList.vue'
+
+export default {
+  name: 'Material',
+  components: {
+    CategoryList
+  }
+}
+</script>
+
+<style lang="scss">
+$sidebar-width: 250px;
+
+#sidebar {
+  position: fixed; // Fixed sidebar (stay in place on scroll)
+  height: 100%;
+  margin: 0;
+  padding: 10px;
+  width: $sidebar-width;
+  /*overflow-x: hidden; [> Disable horizontal scroll <]*/
+
+  ul.content-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  a {
+    display: block;
+    padding: 16px;
+    color: $shadow;
+    border-left: .25rem solid transparent;
+    transition: background-color .3s ease;
+    padding: .35rem 1.5rem .35rem 1.25rem;
+
+    &:hover {
+      background: $cultured;
+      text-decoration: none;
+    }
+
+    &.router-link-active {
+      border-left-color: $shadow;
+    }
+  }
+
+  .category-link {
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .content-link {
+    font-size: 1.1rem;
+  }
+}
+
+#content {
+  margin-left: $sidebar-width;
+}
+</style>
