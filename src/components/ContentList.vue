@@ -39,23 +39,16 @@ export default {
     }
   },
   data: function() {
-    // return serverData.categories[this.categoryId]
     return {
       contents: [],
     }
   },
-  mounted: function() {
-    // TODO same as in CategoryList
-    this.contents = [
-      {
-        id: 'content-1',
-        title: 'Content 1',
-      },
-      {
-        id: 'content-2',
-        title: 'Content 2',
-      },
-    ]
+  created: function() {
+    if(this.category.contents) {
+      this.contents = this.category.contents
+    } else {
+      console.warn('TODO loading category contents not implemented yet')
+    }
   }
 }
 </script>

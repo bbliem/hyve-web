@@ -1,5 +1,9 @@
 <template>
   <div>
+    <b-skeleton-table v-if="loading" :rows="3" :columns="1" :table-props="{ borderless: true }" />
+    <b-alert v-if="error" variant="danger" show>
+      {{ error }}
+    </b-alert>
     <ContentList v-for="category in categories" :key="category.id" :category="category" />
   </div>
 </template>
@@ -15,22 +19,28 @@ export default {
   data: function() {
     return {
       categories: [],
+      error: null,
+      loading: true,
     }
   },
-  mounted: function() {
-    // TODO something like:
-    // axios.get('endpoint').then(response => this.categories = response{)
-    // Dealing with errors etc. is described at https://vuejs.org/v2/cookbook/using-axios-to-consume-apis.html
-    this.categories = [
-      {
-        id: 'mindfulness',
-        title: 'Mindfulness',
-      },
-      {
-        id: 'wellbeing',
-        title: 'Wellbeing',
-      },
-    ]
+  created: function() {
+    fetch(this.$appConfig.backendApiUrl + this.$appConfig.endpointCategory)
+      .then(response => response.json())
+      .then(json => {
+        this.categories = json.map(category => ({
+          id: category.id,
+          title: category.name,
+          contents: category.lessons.map(lesson =>({
+            id: lesson.id,
+            title: lesson.name,
+          })),
+        }))
+      })
+      .catch(error => {
+        this.error = 'Could not load categories: ' + error
+        console.error(this.error)
+      })
+      .finally(() => this.loading = false)
   }
 }
 </script>

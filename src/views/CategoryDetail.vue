@@ -23,20 +23,29 @@ export default {
       contents: []
     }
   },
-  mounted: function() {
-    // TODO same as in CategoryList
-    this.title = `Title of category ${this.$route.params.categoryId}`
-    this.description = `Description of category ${this.$route.params.categoryId}`
-    this.contents = [
-      {
-        id: 'content-1',
-        title: 'Content 1'
-      },
-      {
-        id: 'content-2',
-        title: 'Content 2'
-      }
-    ]
+  created: function() {
+    const id = this.$route.params.categoryId
+    fetch(this.$appConfig.backendApiUrl + this.$appConfig.endpointCategory + `/${id}/`)
+      .then(response => response.json())
+      .then(json => {
+        this.title = json.name
+        this.description = json.description
+        this.contents = [
+          {
+            id: 'todo1',
+            title: 'Placeholder content 1'
+          },
+          {
+            id: 'todo-2',
+            title: 'Placeholder content 2'
+          }
+        ]
+      })
+      .catch(error => {
+        this.error = 'Could not load category: ' + error
+        console.error(this.error)
+      })
+      .finally(() => this.loading = false)
   }
 }
 </script>

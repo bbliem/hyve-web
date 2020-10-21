@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavBar brand-name="Unnamed Learning Platform" />
+    <NavBar :brand-name="title" />
 
     <div id="page">
       <!--<router-view :key="$route.fullPath" />-->
@@ -15,6 +15,11 @@ import NavBar from './components/NavBar.vue'
 export default {
   components: {
     NavBar
+  },
+  data: function() {
+    return {
+      title: this.$appConfig.appTitle
+    }
   }
 }
 </script>

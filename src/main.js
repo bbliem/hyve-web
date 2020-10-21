@@ -3,10 +3,12 @@ import 'mutationobserver-shim'
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import './styles/bootstrap-vue.scss'
-Vue.use(BootstrapVue)
-//
+import ConfigPlugin from '@/config'
 import App from './App.vue'
 import router from './router'
+
+Vue.use(BootstrapVue)
+Vue.use(ConfigPlugin)
 
 Vue.config.productionTip = false
 
