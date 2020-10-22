@@ -16,6 +16,8 @@ const routes = [
       {
         name: 'category-detail',
         path: ':categoryId',
+        //props: true, // Problem: https://stackoverflow.com/questions/49924450/vue-router-how-to-cast-params-as-integers-instead-of-strings
+        props: ({params}) => ({categoryId: Number.parseInt(params.categoryId, 10) || 0}),
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.

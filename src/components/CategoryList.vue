@@ -10,7 +10,7 @@
 
 <script>
 import ContentList from './ContentList.vue'
-import Category from '@/models/Category'
+import { state, fetchCategories } from '@/store'
 
 export default {
   name: 'CategoryList',
@@ -18,33 +18,21 @@ export default {
     ContentList
   },
   data: function() {
-    return {
-      categories: [],
-      error: null,
-      loading: false,
+    return {}
+  },
+  computed: {
+    categories: function() {
+      return state.categories
+    },
+    loading: function() {
+      return state.loading
+    },
+    error: function() {
+      return state.error
     }
   },
   created: function() {
-    this.fetchData()
-  },
-  methods: {
-    fetchData() {
-      this.categories = []
-      this.error = null
-      this.loading = true
-      Category
-        .include('lessons')
-        .params({omit: 'lessons.contents'})
-        .get()
-        .then(response => {
-          this.categories = response
-        })
-        .catch(error => {
-          this.error = 'Could not load categories: ' + error
-          console.error(this.error)
-        })
-        .finally(() => this.loading = false)
-    }
+    fetchCategories()
   }
 }
 </script>

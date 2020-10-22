@@ -1,49 +1,54 @@
 <template>
   <div>
-    <h1>{{ title }}</h1>
-    <p>{{ description }}</p>
-    <h2>Contents in this category</h2>
-    <ul>
-      <li v-for="content in contents" :key="content.id">
-        <router-link :to="'/' + $route.params.categoryId + '/' + content.id">
-          {{ content.title }}
-        </router-link>
-      </li>
-    </ul>
+    <b-skeleton-table v-if="loading" :rows="3" :columns="1" :table-props="{ borderless: true }" />
+    <b-alert v-if="error" variant="danger" show>
+      {{ error }}
+    </b-alert>
+    <section v-if="category">
+      <h1>{{ category.name }}</h1>
+      <p>{{ category.description }}</p>
+      <h2>Lessons in this category</h2>
+      <ul>
+        <li v-for="lesson in category.lessons" :key="lesson.id">
+          <router-link :to="'/' + categoryId + '/' + lesson.id">
+            {{ lesson.name }}
+          </router-link>
+        </li>
+      </ul>
+    </section>
   </div>
 </template>
 
 <script>
+import Category from '@/models/Category'
+import fetchMixin from '@/mixins/fetchMixin'
+
 export default {
   name: 'CategoryDetail',
+  mixins: [fetchMixin],
+  props: {
+    categoryId: {
+      type: Number,
+      required: true
+    }
+  },
   data: function() {
     return {
-      title: null,
-      description: null,
-      contents: []
+      category: null
     }
   },
   created: function() {
-    const id = this.$route.params.categoryId
-    fetch(this.$appConfig.backendApiUrl + this.$appConfig.endpointCategory + `/${id}/`)
-      .then(response => response.json())
-      .then(json => {
-        this.title = json.name
-        this.description = json.description
-        this.contents = [
-          {
-            id: 'todo1',
-            title: 'Placeholder content 1'
-          },
-          {
-            id: 'todo-2',
-            title: 'Placeholder content 2'
-          }
-        ]
+    this.loading = true
+    Category
+      .include('lessons')
+      .params({omit: 'lessons.contents'})
+      .find(this.categoryId)
+      .then(category => {
+        this.category = category
       })
       .catch(error => {
-        this.error = 'Could not load category: ' + error
-        console.error(this.error)
+        this.error = 'Could not load category'
+        console.error(error)
       })
       .finally(() => this.loading = false)
   }
