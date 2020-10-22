@@ -1,9 +1,5 @@
 <template>
   <div>
-    <b-skeleton-table v-if="loading" :rows="3" :columns="1" :table-props="{ borderless: true }" />
-    <b-alert v-if="error" variant="danger" show>
-      {{ error }}
-    </b-alert>
     <section v-if="category">
       <h1>{{ category.name }}</h1>
       <p>{{ category.description }}</p>
@@ -20,37 +16,20 @@
 </template>
 
 <script>
-import Category from '@/models/Category'
-import fetchMixin from '@/mixins/fetchMixin'
+import { state } from '@/store'
 
 export default {
   name: 'CategoryDetail',
-  mixins: [fetchMixin],
   props: {
     categoryId: {
       type: Number,
       required: true
     }
   },
-  data: function() {
-    return {
-      category: null
+  computed: {
+    category() {
+      return state.categories.find(c => c.id == this.categoryId)
     }
-  },
-  created: function() {
-    this.loading = true
-    Category
-      .include('lessons')
-      .params({omit: 'lessons.contents'})
-      .find(this.categoryId)
-      .then(category => {
-        this.category = category
-      })
-      .catch(error => {
-        this.error = 'Could not load category'
-        console.error(error)
-      })
-      .finally(() => this.loading = false)
   }
 }
 </script>

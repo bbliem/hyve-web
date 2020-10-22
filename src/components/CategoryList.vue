@@ -35,4 +35,6 @@ export default {
     fetchCategories()
   }
 }
+
+console.log(state)
 </script>
