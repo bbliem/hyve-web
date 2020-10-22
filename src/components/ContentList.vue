@@ -9,20 +9,20 @@
       }"
       class="category-link"
     >
-      {{ category.title }}
+      {{ category.name }}
     </router-link>
-    <ul v-if="contents.length" class="content-list">
-      <li v-for="content in contents" :key="content.id">
+    <ul v-if="category.lessons.length" class="content-list">
+      <li v-for="lesson in category.lessons" :key="lesson.id">
         <router-link
           :to="{
             name: 'content-detail',
             params: {
               categoryId: category.id,
-              contentId: content.id
+              contentId: lesson.id
             }}"
           class="content-link"
         >
-          {{ content.title }}
+          {{ lesson.name }}
         </router-link>
       </li>
     </ul>
@@ -36,18 +36,6 @@ export default {
     category: {
       type: Object,
       required: true
-    }
-  },
-  data: function() {
-    return {
-      contents: [],
-    }
-  },
-  created: function() {
-    if(this.category.contents) {
-      this.contents = this.category.contents
-    } else {
-      console.warn('TODO loading category contents not implemented yet')
     }
   }
 }

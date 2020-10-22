@@ -10,6 +10,7 @@
 
 <script>
 import ContentList from './ContentList.vue'
+import Category from '@/models/Category'
 
 export default {
   name: 'CategoryList',
@@ -31,17 +32,12 @@ export default {
       this.categories = []
       this.error = null
       this.loading = true
-      fetch(this.$appConfig.backendApiUrl + this.$appConfig.endpointCategory)
-        .then(response => response.json())
-        .then(json => {
-          this.categories = json.map(category => ({
-            id: category.id,
-            title: category.name,
-            contents: category.lessons.map(lesson =>({
-              id: lesson.id,
-              title: lesson.name,
-            })),
-          }))
+      Category
+        .include('lessons')
+        .params({omit: 'lessons.contents'})
+        .get()
+        .then(response => {
+          this.categories = response
         })
         .catch(error => {
           this.error = 'Could not load categories: ' + error

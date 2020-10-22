@@ -6,6 +6,11 @@ import './styles/bootstrap-vue.scss'
 import ConfigPlugin from '@/config'
 import App from './App.vue'
 import router from './router'
+import axios from 'axios'
+import { Model } from 'vue-api-query'
+
+// inject global axios instance as http client to Model
+Model.$http = axios
 
 Vue.use(BootstrapVue)
 Vue.use(ConfigPlugin)
