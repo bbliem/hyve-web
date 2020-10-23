@@ -17,7 +17,7 @@ export function fetchCategories() {
       state.categories = response
     })
     .catch(error => {
-      state.error = 'Could not load categories'
+      state.error = 'Could not load categories.'
       console.error(state.error, error)
     })
     .finally(() => state.loading = false)
