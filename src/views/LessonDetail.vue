@@ -19,7 +19,7 @@
 
 <script>
 export default {
-  name: 'ContentDetail',
+  name: 'LessonDetail',
   data: function() {
     return {
       title: null,
@@ -28,9 +28,8 @@ export default {
     }
   },
   mounted: function() {
-    // TODO same as in CategoryList
-    this.title = `Title of content ${this.$route.params.contentId} in category ${this.$route.params.categoryId}`
-    this.text = `Text of content ${this.$route.params.contentId} in category ${this.$route.params.categoryId}`
+    this.title = `Title of lesson ${this.$route.params.lessonId} in category ${this.$route.params.categoryId}`
+    this.text = `Text of lesson ${this.$route.params.lessonId} in category ${this.$route.params.categoryId}`
   }
 }
 </script>

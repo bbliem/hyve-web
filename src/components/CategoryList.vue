@@ -1,17 +1,30 @@
 <template>
   <div>
-    <ContentList v-for="category in categories" :key="category.id" :category="category" />
+    <div v-for="category in categories" :key="category.id">
+      <router-link
+        :to="{
+          name: 'category-detail',
+          params: {
+            categoryId: category.id
+          }
+        }"
+        class="category-link"
+      >
+        {{ category.name }}
+      </router-link>
+      <LessonList :category="category" />
+    </div>
   </div>
 </template>
 
 <script>
-import ContentList from './ContentList.vue'
+import LessonList from './LessonList.vue'
 import { state } from '@/store'
 
 export default {
   name: 'CategoryList',
   components: {
-    ContentList
+    LessonList
   },
   computed: {
     categories() { return state.categories }

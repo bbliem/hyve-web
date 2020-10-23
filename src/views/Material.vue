@@ -35,7 +35,7 @@ $large-screen-width: 600px;
   padding: 10px;
   /*overflow-x: hidden; [> Disable horizontal scroll <]*/
 
-  ul.content-list {
+  ul.lesson-list {
     list-style-type: none;
     padding: 0;
     margin: 0;
@@ -64,7 +64,7 @@ $large-screen-width: 600px;
     font-weight: 700;
   }
 
-  .content-link {
+  .lesson-link {
     font-size: 1.1rem;
   }
 }

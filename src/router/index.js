@@ -24,9 +24,9 @@ const routes = [
         component: () => import(/* webpackChunkName: "category-detail" */ '../views/CategoryDetail.vue')
       },
       {
-        name: 'content-detail',
-        path: ':categoryId/:contentId',
-        component: () => import(/* webpackChunkName: "content-detail" */ '../views/ContentDetail.vue')
+        name: 'lesson-detail',
+        path: ':categoryId/:lessonId',
+        component: () => import(/* webpackChunkName: "lesson-detail" */ '../views/LessonDetail.vue')
       },
       {
         name: 'material-home',
