@@ -11,6 +11,9 @@
         class="lesson-link"
       >
         {{ lesson.name }}
+        <b-badge v-if="lesson.id === 1" pill variant="success" style="float: right">
+          &checkmark;
+        </b-badge>
       </router-link>
     </li>
   </ul>

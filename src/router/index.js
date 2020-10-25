@@ -3,6 +3,10 @@ import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)
 
+function toIntOrUndefined(value) {
+  return Number.parseInt(value, 10) || undefined
+}
+
 const routes = [
   {
     name: 'home',
@@ -17,7 +21,7 @@ const routes = [
         name: 'category-detail',
         path: ':categoryId',
         //props: true, // Problem: https://stackoverflow.com/questions/49924450/vue-router-how-to-cast-params-as-integers-instead-of-strings
-        props: ({params}) => ({categoryId: Number.parseInt(params.categoryId, 10) || 0}),
+        props: ({params}) => ({ categoryId: toIntOrUndefined(params.categoryId) }),
         // route level code-splitting
         // this generates a separate chunk (about.[hash].js) for this route
         // which is lazy-loaded when the route is visited.
@@ -26,6 +30,10 @@ const routes = [
       {
         name: 'lesson-detail',
         path: ':categoryId/:lessonId',
+        props: (route) => ({
+          lessonId: toIntOrUndefined(route.params.lessonId),
+          page: toIntOrUndefined(route.query.page)
+        }),
         component: () => import(/* webpackChunkName: "lesson-detail" */ '../views/LessonDetail.vue')
       },
       {

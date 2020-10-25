@@ -2,7 +2,6 @@
 const config = {
   appTitle: parse(process.env.VUE_APP_TITLE, 'Unnamed App'),
   backendApiUrl: parse(process.env.VUE_APP_BACKEND_API_URL, 'http://127.0.0.1:8000'),
-  endpointCategory: parse(process.env.VUE_APP_ENDPOINT_CATEGORY, '/categories/?expand=lessons&omit=lessons.contents'),
   features: {
     // ...
   }

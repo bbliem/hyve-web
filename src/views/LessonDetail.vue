@@ -1,35 +1,71 @@
 <template>
-  <b-container>
-    <h1>{{ title }}</h1>
-    <p>{{ text }}</p>
-    <b-btn
-      variant="primary"
-      @click="showAlert = !showAlert"
-    >
-      primary foo foo foo foo foo foo
-    </b-btn>
-    <b-btn variant="secondary">
-      secondary foo foo foo foo foo foo
-    </b-btn>
-    <b-alert :show="showAlert" variant="success">
-      You clicked the button!
-    </b-alert>
-  </b-container>
+  <div>
+    <div class="text-center">
+      <b-spinner v-if="loading" />
+    </div>
+    <div v-if="lesson">
+      <h1>{{ lesson.name }}</h1>
+      <p v-if="lesson.description">
+        {{ lesson.description }}
+      </p>
+      <p>You are on page {{ page }}.</p>
+      <div v-if="contentsOnCurrentPage">
+        <SectionDetail v-for="content in contentsOnCurrentPage" :key="content.section" :section-id="content.section" />
+      </div>
+      <p>TODO: Page buttons here</p>
+    </div>
+    <ErrorMessage v-else-if="error" :message="error" />
+  </div>
 </template>
 
 <script>
+import ErrorMessage from '@/components/ErrorMessage.vue'
+import SectionDetail from '@/components/SectionDetail.vue'
+import Lesson from '@/models/Lesson'
+
 export default {
   name: 'LessonDetail',
-  data: function() {
-    return {
-      title: null,
-      text: null,
-      showAlert: false
+  components: {
+    ErrorMessage,
+    SectionDetail
+  },
+  props: {
+    lessonId: {
+      type: Number,
+      required: true
+    },
+    page: {
+      type: Number,
+      default: 1
     }
   },
-  mounted: function() {
-    this.title = `Title of lesson ${this.$route.params.lessonId} in category ${this.$route.params.categoryId}`
-    this.text = `Text of lesson ${this.$route.params.lessonId} in category ${this.$route.params.categoryId}`
+  data() {
+    return {
+      lesson: null,
+      error: null,
+      loading: false
+    }
+  },
+  computed: {
+    contentsOnCurrentPage() {
+      if(this.lesson === null) {
+        return []
+      }
+      return this.lesson.contents.filter(({ page }) => page === this.page)
+    }
+  },
+  created() {
+    this.loading = true
+    return Lesson
+      .find(this.lessonId)
+      .then(response => {
+        this.lesson = response
+      })
+      .catch(error => {
+        this.error = 'Could not load lesson.'
+        console.error(this.error, error)
+      })
+      .finally(() => this.loading = false)
   }
 }
 </script>
