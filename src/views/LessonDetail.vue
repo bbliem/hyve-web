@@ -8,11 +8,44 @@
       <p v-if="lesson.description">
         {{ lesson.description }}
       </p>
-      <p>You are on page {{ page }}.</p>
       <div v-if="contentsOnCurrentPage">
         <SectionDetail v-for="content in contentsOnCurrentPage" :key="content.section" :section-id="content.section" />
       </div>
-      <p>TODO: Page buttons here</p>
+      <!-- Page navigation -->
+      <b-row class="m-3">
+        <b-col>
+          <b-button
+            v-if="page > 1"
+            size="lg"
+            class="float-left"
+            @click="onPrevious"
+          >
+            Previous page
+          </b-button>
+        </b-col>
+        <b-col class="text-center">
+          Page {{ page }} of {{ numPages }}
+        </b-col>
+        <b-col>
+          <b-button
+            v-if="page < numPages"
+            size="lg"
+            class="float-right"
+            @click="onNext"
+          >
+            Next page
+          </b-button>
+          <b-button
+            v-else-if="page === numPages"
+            variant="primary"
+            size="lg"
+            class="float-right"
+            @click="onFinish"
+          >
+            Finish lesson
+          </b-button>
+        </b-col>
+      </b-row>
     </div>
     <ErrorMessage v-else-if="error" :message="error" />
   </div>
@@ -47,11 +80,15 @@ export default {
     }
   },
   computed: {
+    contents() {
+      return this.lesson === null ? [] : this.lesson.contents
+    },
     contentsOnCurrentPage() {
-      if(this.lesson === null) {
-        return []
-      }
-      return this.lesson.contents.filter(({ page }) => page === this.page)
+      return this.contents.filter(({ page }) => page === this.page)
+    },
+    numPages() {
+      const pageNumbers = this.contents.map(({ page }) => page)
+      return pageNumbers.length ? Math.max(...pageNumbers) : 0
     }
   },
   created() {
@@ -66,6 +103,17 @@ export default {
         console.error(this.error, error)
       })
       .finally(() => this.loading = false)
-  }
+  },
+  methods: {
+    onPrevious() {
+      this.$router.push({ query: { page: this.page - 1 } })
+    },
+    onNext() {
+      this.$router.push({ query: { page: this.page + 1 } })
+    },
+    onFinish() {
+      alert('Finished')
+    }
+  },
 }
 </script>

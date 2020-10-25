@@ -7,7 +7,7 @@
       <p v-if="section.text">
         {{ section.text }}
       </p>
-      <p v-if="section.text">
+      <p v-if="section.questions.length">
         TODO render quiz
       </p>
     </div>
