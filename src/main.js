@@ -8,7 +8,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import { Model } from 'vue-api-query'
-import { fetchCategories } from '@/store'
+import { init } from '@/store'
 
 // inject global axios instance as http client to Model
 Model.$http = axios
@@ -21,7 +21,7 @@ Vue.config.productionTip = false
 new Vue({
   router,
   created() {
-    fetchCategories()
+    init()
   },
   render: h => h(App)
 }).$mount('#app')

@@ -5,20 +5,20 @@
     <div id="page">
       <!-- If global state is loading or has an error, show this here. -->
       <b-overlay :show="loading" variant="white" no-wrap />
-      <b-alert v-if="error" variant="danger" show>
-        Error: {{ error }}
-      </b-alert>
+      <ErrorMessage v-if="error" :message="error" />
       <router-view v-else />
     </div>
   </div>
 </template>
 
 <script>
+import ErrorMessage from './components/ErrorMessage.vue'
 import NavBar from './components/NavBar.vue'
 import { state } from '@/store'
 
 export default {
   components: {
+    ErrorMessage,
     NavBar
   },
   data() {

@@ -4,10 +4,11 @@ import Category from '@/models/Category'
 export const state = Vue.observable({
   categories: [],
   error: null,
+  initialized: false,
   loading: false
 })
 
-export function fetchCategories() {
+export function init() {
   state.loading = true
   return Category
     .include('lessons')
@@ -15,6 +16,7 @@ export function fetchCategories() {
     .get()
     .then(response => {
       state.categories = response
+      state.initialized = true
     })
     .catch(error => {
       state.error = 'Could not load categories.'
