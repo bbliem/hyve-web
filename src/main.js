@@ -13,6 +13,11 @@ import { init } from '@/store'
 // inject global axios instance as http client to Model
 Model.$http = axios
 
+const token = localStorage.getItem('token')
+if(token) {
+  Model.$http.defaults.headers.common['Authorization'] = token
+}
+
 Vue.use(BootstrapVue)
 Vue.use(ConfigPlugin)
 

@@ -1,3 +1,7 @@
+// Override variables before importing Bootstrap
 @import 'bootstrap-theme-overrides';
+
 @import '~bootstrap';
 @import '~bootstrap-vue';
+
+// If necessary, override SCSS here

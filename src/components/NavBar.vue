@@ -19,26 +19,34 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown right>
-          <!-- Using 'button-content' slot -->
+        <b-nav-item-dropdown v-if="loggedIn" right>
           <template v-slot:button-content>
-            <em>User</em>
+            User
           </template>
           <b-dropdown-item href="#">
             Profile
           </b-dropdown-item>
-          <b-dropdown-item href="#">
-            Sign Out
+          <b-dropdown-item @click="logout">
+            Log Out
           </b-dropdown-item>
         </b-nav-item-dropdown>
+        <template v-else>
+          <b-nav-item :to="{ name: 'login' }">
+            Log in
+          </b-nav-item>
+          <b-nav-item>Register</b-nav-item>
+        </template>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </template>
 
 <script>
+import authenticationMixin from '@/mixins/authenticationMixin'
+
 export default {
   name: 'NavBar',
+  mixins: [authenticationMixin],
   props: {
     brandName: {
       type: String,
