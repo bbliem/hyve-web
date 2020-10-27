@@ -2,7 +2,6 @@ import { login as storeLogin, logout as storeLogout, state } from '@/store'
 
 export default {
   computed: {
-    loggedIn() { return state.loggedIn },
     user() { return state.user }
   },
   methods: {

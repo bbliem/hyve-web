@@ -19,9 +19,9 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown v-if="loggedIn" right>
+        <b-nav-item-dropdown v-if="user" right>
           <template v-slot:button-content>
-            User
+            {{ user.email }}
           </template>
           <b-dropdown-item href="#">
             Profile

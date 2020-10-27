@@ -10,9 +10,8 @@ export const state = Vue.observable({
 
   // Authentication
   // cf. https://www.digitalocean.com/community/tutorials/handling-authentication-in-vue-using-vuex
-  loggedIn: false,
-	user: null,
-  token: localStorage.getItem('token') || ''
+  user: null,
+  token: localStorage.getItem('token')
 })
 
 export function init() {
@@ -37,16 +36,15 @@ export function login(username, password) {
     const loginData = { username, password }
     axios({ url: Vue.appConfig.backendApiUrl + '/api-token-auth/', data: loginData, method: 'POST' })
       .then(response => {
-        state.loggedIn = true
+        state.user = response.data.user
         state.token = response.data.token
         localStorage.setItem('token', state.token)
         axios.defaults.headers.common['Authorization'] = state.token
-				// TODO get user info from API now
-        resolve(response)
+        resolve()
       })
       .catch(error => {
-        state.loggedIn = false
-        state.token = ''
+        state.user = null
+        state.token = null
         localStorage.removeItem('token')
         reject(error)
       })
@@ -54,7 +52,7 @@ export function login(username, password) {
 }
 
 export function logout() {
-  // TODO log out
-  state.loggedIn = false
+  state.user = null
+  state.token = null
   return new Promise((resolve) => resolve())
 }
