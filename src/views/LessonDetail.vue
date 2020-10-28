@@ -3,50 +3,55 @@
     <div class="text-center">
       <b-spinner v-if="loading" />
     </div>
-    <div v-if="lesson">
+    <template v-if="lesson">
       <h1>{{ lesson.name }}</h1>
       <p v-if="lesson.description">
         {{ lesson.description }}
       </p>
-      <div v-if="contentsOnCurrentPage">
-        <SectionDetail v-for="content in contentsOnCurrentPage" :key="content.section" :section-id="content.section" />
-      </div>
-      <!-- Page navigation -->
-      <b-row class="m-3">
-        <b-col>
-          <b-button
-            v-if="page > 1"
-            size="lg"
-            class="float-left"
-            @click="onPrevious"
-          >
-            Previous page
-          </b-button>
-        </b-col>
-        <b-col class="text-center">
-          Page {{ page }} of {{ numPages }}
-        </b-col>
-        <b-col>
-          <b-button
-            v-if="page < numPages"
-            size="lg"
-            class="float-right"
-            @click="onNext"
-          >
-            Next page
-          </b-button>
-          <b-button
-            v-else-if="page === numPages"
-            variant="primary"
-            size="lg"
-            class="float-right"
-            @click="onFinish"
-          >
-            Finish lesson
-          </b-button>
-        </b-col>
-      </b-row>
-    </div>
+      <template v-if="contents && contents.length">
+        <template v-if="contentsOnCurrentPage">
+          <SectionDetail v-for="content in contentsOnCurrentPage" :key="content.section" :section-id="content.section" />
+        </template>
+        <!-- Page navigation -->
+        <b-row class="m-3">
+          <b-col>
+            <b-button
+              v-if="page > 1"
+              size="lg"
+              class="float-left"
+              @click="onPrevious"
+            >
+              Previous page
+            </b-button>
+          </b-col>
+          <b-col class="text-center">
+            Page {{ page }} of {{ numPages }}
+          </b-col>
+          <b-col>
+            <b-button
+              v-if="page < numPages"
+              size="lg"
+              class="float-right"
+              @click="onNext"
+            >
+              Next page
+            </b-button>
+            <b-button
+              v-else-if="page === numPages"
+              variant="primary"
+              size="lg"
+              class="float-right"
+              @click="onFinish"
+            >
+              Finish lesson
+            </b-button>
+          </b-col>
+        </b-row>
+      </template>
+      <p v-else>
+        This lesson has no content yet.
+      </p>
+    </template>
     <ErrorMessage v-else-if="error" :message="error" />
   </div>
 </template>
@@ -55,6 +60,7 @@
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import SectionDetail from '@/components/SectionDetail.vue'
 import Lesson from '@/models/Lesson'
+import { state } from '@/store'
 
 export default {
   name: 'LessonDetail',
@@ -89,6 +95,9 @@ export default {
     numPages() {
       const pageNumbers = this.contents.map(({ page }) => page)
       return pageNumbers.length ? Math.max(...pageNumbers) : 0
+    },
+    user() {
+      return state.user
     }
   },
   created() {
@@ -109,6 +118,10 @@ export default {
       this.$router.push({ query: { page: this.page - 1 } })
     },
     onNext() {
+      console.log("Sections done before click: ", this.user.completedSections)
+      for(const { section } of this.contentsOnCurrentPage) {
+        console.log("Marking as done: ", section)
+      }
       this.$router.push({ query: { page: this.page + 1 } })
     },
     onFinish() {

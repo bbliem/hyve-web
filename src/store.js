@@ -18,7 +18,6 @@ export function init() {
   state.loading = true
   return Category
     .include('lessons')
-    .params({omit: 'lessons.contents'})
     .get()
     .then(response => {
       state.categories = response

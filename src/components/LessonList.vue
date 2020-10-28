@@ -11,7 +11,7 @@
         class="lesson-link"
       >
         {{ lesson.name }}
-        <b-badge v-if="lesson.id === 1" pill variant="success" style="float: right">
+        <b-badge v-if="lessonCompleted(lesson)" pill variant="success" style="float: right">
           &checkmark;
         </b-badge>
       </router-link>
@@ -20,12 +20,20 @@
 </template>
 
 <script>
+import { state } from '@/store'
+
 export default {
   name: 'LessonList',
   props: {
     category: {
       type: Object,
       required: true
+    }
+  },
+  methods: {
+    lessonCompleted(lesson) {
+      const sectionsInLesson = lesson.contents.map(c => c.section)
+      return state.user && sectionsInLesson.every(id => state.user.completedSections.includes(id))
     }
   }
 }
