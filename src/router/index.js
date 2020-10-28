@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import { state } from '@/store'
 
 Vue.use(VueRouter)
 
@@ -21,6 +22,7 @@ const routes = [
   {
     path: '/material',
     component: () => import(/* webpackChunkName: "material" */ '../views/Material.vue'),
+    meta: { requiresAuth: true },
     children: [
       {
         name: 'category-detail',
@@ -59,6 +61,20 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    // this route requires auth, check if logged in
+    // if not, redirect to login page.
+    if(!state.user) {
+      next({ name: 'login', query: { redirect: to.fullPath }})
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
 })
 
 export default router

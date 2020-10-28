@@ -11,7 +11,8 @@ export default {
           console.log("Sucessfully logged in.")
           this.showToast("Login successful", `You are now logged in.`, 'success')
           // Ignoring errors because if we are already at the target there will be an error
-          this.$router.push({ name: 'home' }).catch(() => {})
+          const to = this.$route.query.redirect || { name: 'home' }
+          this.$router.push(to).catch(() => {})
         })
         .catch(error => {
           let errorMessage;
@@ -29,6 +30,7 @@ export default {
     logout() {
       storeLogout()
         .then(() => {
+          console.log("Logged out.")
           this.showToast("Logged out", `You are now logged out.`, 'info')
           // Ignoring errors because if we are already at the target there will be an error
           this.$router.push({ name: 'home' }).catch(() => {})
