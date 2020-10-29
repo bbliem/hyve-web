@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Category from '@/models/Category'
+import User from '@/models/User'
 import axios from 'axios'
 
 export const state = Vue.observable({
@@ -35,7 +36,7 @@ export function login(username, password) {
     const loginData = { username, password }
     axios({ url: Vue.appConfig.backendApiUrl + '/api-token-auth/', data: loginData, method: 'POST' })
       .then(response => {
-        state.user = response.data.user
+        state.user = new User(response.data.user)
         state.token = response.data.token
         localStorage.setItem('token', state.token)
         axios.defaults.headers.common['Authorization'] = state.token

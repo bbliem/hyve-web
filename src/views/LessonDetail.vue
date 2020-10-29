@@ -60,6 +60,7 @@
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import SectionDetail from '@/components/SectionDetail.vue'
 import Lesson from '@/models/Lesson'
+import SectionCompletion from '@/models/SectionCompletion'
 import { state } from '@/store'
 
 export default {
@@ -114,17 +115,22 @@ export default {
       .finally(() => this.loading = false)
   },
   methods: {
+    markSectionsAsComplete() {
+      for(const { section } of this.contentsOnCurrentPage) {
+        if(!this.user.completedSections.includes(section)) {
+          new SectionCompletion({user: this.user.id, section: section}).save()
+        }
+      }
+    },
     onPrevious() {
       this.$router.push({ query: { page: this.page - 1 } })
     },
     onNext() {
-      console.log("Sections done before click: ", this.user.completedSections)
-      for(const { section } of this.contentsOnCurrentPage) {
-        console.log("Marking as done: ", section)
-      }
+      this.markSectionsAsComplete()
       this.$router.push({ query: { page: this.page + 1 } })
     },
     onFinish() {
+      this.markSectionsAsComplete()
       alert('Finished')
     }
   },
