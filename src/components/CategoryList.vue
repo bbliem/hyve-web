@@ -1,31 +1,34 @@
 <template>
-  <div>
-    <div v-for="category in categories" :key="category.id">
-      <router-link
+  <div class="d-flex flex-wrap">
+    <b-card
+      v-for="category in categories"
+      :key="category.id"
+      :img-src="`https://picsum.photos/seed/123${category.id}/600/300/`"
+      style="max-width: 25rem"
+      class="m-2"
+      :title="category.name"
+    >
+      <b-card-text v-if="category.description">
+        {{ category.description }}
+      </b-card-text>
+      <b-button
         :to="{
           name: 'category-detail',
           params: {
             categoryId: category.id
-          }
-        }"
-        class="category-link"
+          }}"
       >
-        {{ category.name }}
-      </router-link>
-      <LessonList :category="category" />
-    </div>
+        View category
+      </b-button>
+    </b-card>
   </div>
 </template>
 
 <script>
-import LessonList from './LessonList.vue'
 import { state } from '@/store'
 
 export default {
   name: 'CategoryList',
-  components: {
-    LessonList
-  },
   computed: {
     categories() { return state.categories }
   }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav id="sidebar">
-      <CategoryList />
+      <MaterialSidebar />
     </nav>
 
     <main id="content">
@@ -11,12 +11,12 @@
 </template>
 
 <script>
-import CategoryList from '../components/CategoryList.vue'
+import MaterialSidebar from '@/components/MaterialSidebar.vue'
 
 export default {
   name: 'Material',
   components: {
-    CategoryList
+    MaterialSidebar
   }
 }
 </script>

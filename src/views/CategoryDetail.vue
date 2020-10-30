@@ -27,7 +27,10 @@
         >
           Start lesson
         </b-button>
-        <LessonCompletionCheckmark :lesson="lesson" style="position: absolute; top: 10px; right: 10px" />
+        <LessonCompletionCheckmark
+          :lesson="lesson"
+          class="checkmark"
+        />
       </b-card>
     </div>
   </div>
@@ -61,3 +64,12 @@ export default {
   }
 }
 </script>
+
+<style lang=scss>
+.checkmark {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  box-shadow: 0 0 10px black;
+}
+</style>
