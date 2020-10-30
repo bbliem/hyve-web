@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>This is the place for all learning material. Choose a category or lesson.</p>
+    <h1>Learning Material</h1>
     <CategoryList />
   </div>
 </template>

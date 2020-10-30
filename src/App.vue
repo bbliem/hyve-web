@@ -4,7 +4,7 @@
 
     <div id="page">
       <!-- If global state is loading or has an error, show this here. -->
-      <b-overlay :show="loading" variant="white" no-wrap />
+      <b-overlay :show="fetchingMaterial" variant="white" no-wrap />
       <ErrorMessage v-if="error" :message="error" />
       <router-view v-else />
     </div>
@@ -27,7 +27,7 @@ export default {
     }
   },
   computed: {
-    loading() { return state.loading },
+    fetchingMaterial() { return state.fetchingMaterial },
     error() { return state.error },
   }
 }

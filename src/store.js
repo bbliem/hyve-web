@@ -8,7 +8,8 @@ export const state = Vue.observable({
   error: null,
   // Use the state only once initialized is true.
   initialized: false,
-  loading: false,
+  fetchingMaterial: false,
+  fetchedMaterial: false,
 
   // Authentication
   // cf. https://www.digitalocean.com/community/tutorials/handling-authentication-in-vue-using-vuex
@@ -63,9 +64,12 @@ export function init() {
 export function onVueCreated() {
   // To be called after Vue has been created and after init() has completed, returns Promise
   if(!state.error) {
-    state.loading = true
+    state.fetchingMaterial = true
     return fetchMaterial()
-      .finally(() => { state.loading = false })
+      .finally(() => {
+        state.fetchingMaterial = false
+        state.fetchedMaterial = true
+      })
       .catch(error => {
         state.error = 'Could not fetch material.'
         console.error(state.error, error)
