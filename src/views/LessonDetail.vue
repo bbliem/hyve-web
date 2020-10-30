@@ -60,7 +60,6 @@
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import SectionDetail from '@/components/SectionDetail.vue'
 import Lesson from '@/models/Lesson'
-import SectionCompletion from '@/models/SectionCompletion'
 import { state } from '@/store'
 
 export default {
@@ -117,9 +116,7 @@ export default {
   methods: {
     markSectionsAsComplete() {
       for(const { section } of this.contentsOnCurrentPage) {
-        if(!this.user.completedSections.includes(section)) {
-          new SectionCompletion({user: this.user.id, section: section}).save()
-        }
+        this.user.completeSection(section)
       }
     },
     onPrevious() {
@@ -131,7 +128,7 @@ export default {
     },
     onFinish() {
       this.markSectionsAsComplete()
-      alert('Finished')
+      this.$router.push({ name: 'material-home' })
     }
   },
 }

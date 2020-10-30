@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import { state } from '@/store'
+import { state, initPromise as storeInitialized } from '@/store'
 
 Vue.use(VueRouter)
 
@@ -65,13 +65,15 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
-    // this route requires auth, check if logged in
-    // if not, redirect to login page.
-    if(!state.user) {
-      next({ name: 'login', query: { redirect: to.fullPath }})
-    } else {
-      next()
-    }
+    // This route requires auth, check if logged in; if not, redirect to login page.
+    // We need to wait until the state is initialized before we can use `state.user`.
+    storeInitialized.then(() => {
+      if(state.user) {
+        next()
+      } else {
+        next({ name: 'login', query: { redirect: to.fullPath }})
+      }
+    })
   } else {
     next()
   }

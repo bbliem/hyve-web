@@ -8,7 +8,7 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import { Model } from 'vue-api-query'
-import { init } from '@/store'
+import { init, onVueCreated } from '@/store'
 
 // Use trailing slashes for endpoints, as expected by our backend.
 // Unfortunately there is no way to make vue-api-query use trailing slashes, so
@@ -37,20 +37,17 @@ axios.interceptors.request.use((config) => {
 // Inject global axios instance as HTTP client to Model.
 Model.$http = axios
 
-const token = localStorage.getItem('token')
-if(token) {
-  Model.$http.defaults.headers.common['Authorization'] = token
-}
-
 Vue.use(BootstrapVue)
 Vue.use(ConfigPlugin)
 
 Vue.config.productionTip = false
 
+let initPromise = init();
+
 new Vue({
   router,
   created() {
-    init()
+    initPromise.then(onVueCreated)
   },
   render: h => h(App)
 }).$mount('#app')

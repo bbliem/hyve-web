@@ -31,7 +31,7 @@ export default {
       storeLogout()
         .then(() => {
           console.log("Logged out.")
-          this.showToast("Logged out", `You are now logged out.`, 'info')
+          this.showToast("Logged out", "You are now logged out.", 'info')
           // Ignoring errors because if we are already at the target there will be an error
           this.$router.push({ name: 'home' }).catch(() => {})
         })
