@@ -24,12 +24,16 @@ function clearCredentials() {
   delete axios.defaults.headers.common['Authorization']
 }
 
+function setAuthorizationHeader(token) {
+  axios.defaults.headers.common['Authorization'] = 'Token ' + token
+}
+
 function restoreLogin() {
   // Restore user data and token from the last visit
   const userId = localStorage.getItem('userId')
   const token = localStorage.getItem('token')
   if(token && userId) {
-    axios.defaults.headers.common['Authorization'] = 'Token ' + token
+    setAuthorizationHeader(token)
     // Get user data
     return User
       .find(userId)
@@ -76,17 +80,13 @@ export function login(username, password) {
   return axios({ url: Vue.appConfig.backendApiUrl + '/api-token-auth/', data: loginData, method: 'POST' })
     .then(response => {
       state.user = new User(response.data.user)
-      state.token = response.data.token
+      const token = response.data.token
       localStorage.setItem('userId', state.user.id)
-      localStorage.setItem('token', state.token)
-      axios.defaults.headers.common['Authorization'] = 'Token ' + state.token
+      localStorage.setItem('token', token)
+      setAuthorizationHeader(token)
     })
     .catch((error) => {
-      state.user = null
-      state.token = null
-      localStorage.removeItem('userId')
-      localStorage.removeItem('token')
-      delete axios.defaults.headers.common['Authorization']
+      clearCredentials()
       throw error
     })
 }
