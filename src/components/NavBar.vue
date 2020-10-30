@@ -19,23 +19,26 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown v-if="user" right>
-          <template v-slot:button-content>
-            {{ user.email }}
+        <template v-if="initialized">
+          <b-nav-item-dropdown v-if="user" right>
+            <template v-slot:button-content>
+              {{ user.email }}
+            </template>
+            <b-dropdown-item href="#">
+              Profile
+            </b-dropdown-item>
+            <b-dropdown-item @click="logout">
+              Log Out
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+          <template v-else>
+            <b-nav-item :to="{ name: 'login' }">
+              Log in
+            </b-nav-item>
+            <b-nav-item>Register</b-nav-item>
           </template>
-          <b-dropdown-item href="#">
-            Profile
-          </b-dropdown-item>
-          <b-dropdown-item @click="logout">
-            Log Out
-          </b-dropdown-item>
-        </b-nav-item-dropdown>
-        <template v-else>
-          <b-nav-item :to="{ name: 'login' }">
-            Log in
-          </b-nav-item>
-          <b-nav-item>Register</b-nav-item>
         </template>
+        <b-spinner v-else variant="secondary" />
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
@@ -43,6 +46,7 @@
 
 <script>
 import authenticationMixin from '@/mixins/authenticationMixin'
+import { state } from '@/store.js'
 
 export default {
   name: 'NavBar',
@@ -52,6 +56,9 @@ export default {
       type: String,
       required: true
     }
+  },
+  computed: {
+    initialized() { return state.initialized }
   }
 }
 </script>
