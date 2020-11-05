@@ -10,8 +10,10 @@
           }}"
         class="lesson-link"
       >
-        {{ lesson.name }}
-        <LessonCompletionCheckmark :lesson="lesson" style="float: right" />
+        <div class="lesson-row">
+          {{ lesson.name }}
+          <LessonCompletionCheckmark :lesson="lesson" class="checkmark" />
+        </div>
       </router-link>
     </li>
   </ul>
@@ -33,3 +35,14 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.lesson-row {
+  display: flex;
+  align-items: start;
+}
+
+.checkmark {
+  margin-left: auto;
+}
+</style>

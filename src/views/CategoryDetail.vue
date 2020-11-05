@@ -9,7 +9,7 @@
       <b-card
         v-for="lesson in category.lessons"
         :key="lesson.id"
-        :img-src="`https://picsum.photos/seed/${lesson.id}/600/300/`"
+        :img-src="`https://picsum.photos/seed/${lesson.id}/400/200/`"
         style="max-width: 25rem"
         class="m-2"
         :title="lesson.name"
@@ -65,7 +65,7 @@ export default {
 }
 </script>
 
-<style lang=scss>
+<style lang="scss" scoped>
 .checkmark {
   position: absolute;
   top: 10px;
