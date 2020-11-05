@@ -39,7 +39,7 @@ export default {
 <style lang="scss" scoped>
 .lesson-row {
   display: flex;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .checkmark {

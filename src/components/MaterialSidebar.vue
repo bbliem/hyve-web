@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="category in categories" :key="category.id">
+    <div v-for="category in categories" :key="category.id" class="category">
       <router-link
         :to="{
           name: 'category-detail',
@@ -31,3 +31,9 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.category {
+  margin-bottom: 2ex;
+}
+</style>
