@@ -8,7 +8,7 @@
         {{ section.text }}
       </p>
       <p v-if="section.questions.length">
-        TODO render quiz
+        <Quiz :questions="section.questions" />
       </p>
     </div>
     <ErrorMessage v-else-if="error" :message="error" />
@@ -17,12 +17,14 @@
 
 <script>
 import ErrorMessage from '@/components/ErrorMessage.vue'
+import Quiz from '@/components/Quiz.vue'
 import Section from '@/models/Section'
 
 export default {
   name: 'SectionDetail',
   components: {
-    ErrorMessage
+    ErrorMessage,
+    Quiz
   },
   props: {
     sectionId: {
@@ -40,6 +42,7 @@ export default {
   created() {
     this.loading = true
     return Section
+      .include('questions.answers')
       .find(this.sectionId)
       .then(response => {
         this.section = response
