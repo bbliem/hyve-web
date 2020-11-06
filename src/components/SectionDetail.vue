@@ -14,7 +14,7 @@
         <template v-else>
           <!-- eslint-disable-next-line vue/no-v-html -->
           <div v-html="section.text" />
-          <b-button @click="openEditor">
+          <b-button v-if="canEdit" @click="openEditor">
             <b-icon icon="pencil" aria-hidden="true" /> Edit
           </b-button>
         </template>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import { state } from '@/store'
 import Editor from '@/components/Editor.vue'
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import Quiz from '@/components/Quiz.vue'
@@ -55,6 +56,11 @@ export default {
       error: null,
       loading: false,
       editing: false,
+    }
+  },
+  computed: {
+    canEdit() {
+      return state.user && state.user.isSuperuser
     }
   },
   created() {
