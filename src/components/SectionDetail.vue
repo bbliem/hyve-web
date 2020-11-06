@@ -7,12 +7,13 @@
       <div v-if="section.text">
         <!-- Editor for text part -->
         <template v-if="editing">
-          <Editor :content="section.text" @close-editor="closeEditor" />
+          <Editor :content="section.text" :on-save="onSaveText" @close-editor="closeEditor" />
         </template>
 
         <!-- Text part -->
         <template v-else>
-          <div>{{ section.text }}</div>
+          <!-- eslint-disable-next-line vue/no-v-html -->
+          <div v-html="section.text" />
           <b-button @click="openEditor">
             <b-icon icon="pencil" aria-hidden="true" /> Edit
           </b-button>
@@ -76,6 +77,16 @@ export default {
     },
     closeEditor() {
       this.editing = false
+    },
+    async onSaveText(text) {
+      const oldText = this.section.text
+      this.section.text = text
+      try {
+        await this.section.save()
+      } catch(error) {
+        this.section.text = oldText
+        throw error
+      }
     },
   },
 }

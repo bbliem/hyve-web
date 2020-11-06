@@ -112,7 +112,7 @@
       variant="primary"
       :disabled="!unsavedEdits"
       class="mr-1"
-      @click="onSave"
+      @click="save"
     >
       <b-icon icon="check" aria-hidden="true" /> Save
     </b-button>
@@ -150,6 +150,10 @@ export default {
       type: String,
       default: '',
     },
+    onSave: {
+      type: Function,
+      required: true,
+    }
   },
   data() {
     return {
@@ -205,13 +209,23 @@ export default {
         this.$emit('close-editor')
       }
     },
-    async onSave() {
+    async save() {
       this.saving = true
-      // await this.section.updateText(text)
-      await new Promise(resolve => setTimeout(resolve, 200))
-      this.saving = false
-      this.cleanDoc = this.editor.state.doc
-      this.closeEditor()
+      //await new Promise(resolve => setTimeout(resolve, 200))
+      try {
+        await this.onSave(this.editor.getHTML())
+        this.cleanDoc = this.editor.state.doc
+        this.closeEditor()
+      } catch(error) {
+        this.$root.$bvToast.toast(error.toString(), {
+          title: "Saving failed",
+          variant: 'danger',
+          solid: true,
+          toaster: 'b-toaster-bottom-right'
+        })
+      } finally {
+        this.saving = false
+      }
     },
     preventNavIfEditing(event) {
       if(this.unsavedEdits && !this.confirmLeave()) {
