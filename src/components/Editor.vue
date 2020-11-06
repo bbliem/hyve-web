@@ -97,11 +97,29 @@
         </b-button-group>
       </b-button-toolbar>
     </EditorMenuBar>
+
     <EditorContent :editor="editor" class="editor-content">
       <template slot="content">
         <h1>foo</h1><slot />
       </template>
     </EditorContent>
+
+    <b-button v-if="saving" disabled variant="primary">
+      <b-spinner small /> Saving...
+    </b-button>
+    <b-button
+      v-else
+      variant="primary"
+      :disabled="!unsavedEdits"
+      class="mr-1"
+      @click="onSave"
+    >
+      <b-icon icon="check" aria-hidden="true" /> Save
+    </b-button>
+
+    <b-button variant="secondary" @click="closeEditor">
+      <b-icon icon="x" aria-hidden="true" /> Close
+    </b-button>
   </div>
 </template>
 
@@ -135,9 +153,14 @@ export default {
   },
   data() {
     return {
-      dirty: false, // whether content is different from original content
       cleanDoc: null, // when the current document is equal to this, it is considered "clean"
       editor: null,
+      saving: false,
+    }
+  },
+  computed: {
+    unsavedEdits() {
+      return !this.editor.state.doc.eq(this.cleanDoc)
     }
   },
   created() {
@@ -162,28 +185,42 @@ export default {
       onInit: ({ state }) => {
         this.cleanDoc = state.doc
       },
-      onUpdate: ({ state }) => {
-        if(state.doc.eq(this.cleanDoc)) {
-          if(this.dirty) {
-            this.dirty = false
-            this.$emit('became-clean')
-          }
-        } else {
-          if(!this.dirty) {
-            this.dirty = true
-            this.$emit('became-dirty')
-          }
-        }
-      }
     })
-
-    this.$parent.$on('editor-saved', () => {
-      this.cleanDoc = this.editor.state.doc
-      this.dirty = false
-    })
+    window.addEventListener('beforeunload', this.preventNavIfEditing)
   },
   beforeDestroy() {
+    window.removeEventListener('beforeunload', this.preventNavIfEditing)
     this.editor.destroy()
+  },
+  beforeRouteLeave(to, from, next) {
+    if(!this.preventNavIfEditing())
+      next()
+  },
+  methods: {
+    confirmLeave() {
+      return window.confirm("You have unsaved changes. Do you want to discard them?")
+    },
+    closeEditor() {
+      if(!this.unsavedEdits || this.confirmLeave()) {
+        this.$emit('close-editor')
+      }
+    },
+    async onSave() {
+      this.saving = true
+      // await this.section.updateText(text)
+      await new Promise(resolve => setTimeout(resolve, 200))
+      this.saving = false
+      this.cleanDoc = this.editor.state.doc
+      this.closeEditor()
+    },
+    preventNavIfEditing(event) {
+      if(this.unsavedEdits && !this.confirmLeave()) {
+        event.preventDefault()
+        event.returnValue = ''
+        return true
+      }
+      return false
+    },
   },
 }
 </script>
