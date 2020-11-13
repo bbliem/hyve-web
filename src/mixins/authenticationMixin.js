@@ -7,9 +7,10 @@ export default {
   methods: {
     login(email, password) {
       storeLogin(email, password)
-        .then(() => {
-          console.log("Sucessfully logged in.")
-          this.showToast("Login successful", `You are now logged in.`, 'success')
+        .then(user => {
+          console.log(`Sucessfully logged in as ${user.email}.`)
+          const greeting = user.name ? `Welcome back, ${user.name}!` : "Welcome back!"
+          this.showToast("Login successful", greeting, 'success')
           // Ignoring errors because if we are already at the target there will be an error
           const to = this.$route.query.redirect || { name: 'home' }
           this.$router.push(to).catch(() => {})
@@ -28,10 +29,14 @@ export default {
     },
 
     logout() {
+      if(state.user) {
+        var name = state.user.name
+      }
       storeLogout()
         .then(() => {
           console.log("Logged out.")
-          this.showToast("Logged out", "You are now logged out.", 'info')
+          const personalizedMessage = name ? `See you again soon, ${name}!` : "See you again soon!"
+          this.showToast("Logged out", personalizedMessage, 'info')
           // Ignoring errors because if we are already at the target there will be an error
           this.$router.push({ name: 'home' }).catch(() => {})
         })

@@ -88,6 +88,7 @@ export function login(username, password) {
       localStorage.setItem('userId', state.user.id)
       localStorage.setItem('token', token)
       setAuthorizationHeader(token)
+      return state.user
     })
     .catch((error) => {
       clearCredentials()
