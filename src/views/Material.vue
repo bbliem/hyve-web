@@ -28,6 +28,7 @@ $large-screen-width: 600px;
 #sidebar {
   @media screen and (min-width: $large-screen-width) {
     position: fixed; // Fixed sidebar (stay in place on scroll)
+    overflow-y: auto;
     height: 100%;
     width: $sidebar-width;
   }
