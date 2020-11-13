@@ -6,7 +6,7 @@
       <!-- If global state is loading or has an error, show this here. -->
       <b-overlay :show="fetchingMaterial" variant="white" no-wrap />
       <ErrorMessage v-if="error" :message="error" />
-      <router-view v-else />
+      <router-view v-else :key="$route.fullPath" />
     </div>
   </div>
 </template>
