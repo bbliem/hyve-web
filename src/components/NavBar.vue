@@ -23,7 +23,7 @@
           <b-nav-item-dropdown v-if="user" right>
             <template v-slot:button-content>
               <b-avatar variant="info" src="https://placebeard.it/300/300" alt="" />
-              {{ user.email }}
+              {{ user.name || user.email }}
             </template>
             <b-dropdown-item href="#">
               Profile
