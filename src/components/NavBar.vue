@@ -12,7 +12,7 @@
           Material
         </b-nav-item>
         <!-- TODO create about page and link here-->
-        <b-nav-item :to="{ name: 'home' }">
+        <b-nav-item :to="{ name: 'about' }">
           About
         </b-nav-item>
       </b-navbar-nav>

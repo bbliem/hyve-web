@@ -12,7 +12,14 @@ const routes = [
   {
     name: 'home',
     path: '/',
-    component: () => import(/* webpackChunkName: "index" */ '../views/Index.vue')
+    props: { staticPageId: 1 }, // FIXME think of something better than hard-coding a PK
+    component: () => import(/* webpackChunkName: "static-page" */ '../views/StaticPage.vue')
+  },
+  {
+    name: 'about',
+    path: '/about',
+    props: { staticPageId: 2 }, // FIXME think of something better than hard-coding a PK
+    component: () => import(/* webpackChunkName: "static-page" */ '../views/StaticPage.vue')
   },
   {
     name: 'login',

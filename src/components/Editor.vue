@@ -1,102 +1,104 @@
 <template>
   <div class="editor">
-    <EditorMenuBar v-slot="{ commands, isActive }" :editor="editor">
-      <b-button-toolbar key-nav aria-label="Text editor toolbar">
-        <b-button-group class="mr-1">
-          <b-button
-            title="Undo"
-            @click="commands.undo"
-          >
-            <b-icon icon="arrow-counterclockwise" aria-hidden="true" />
-          </b-button>
-          <b-button
-            title="Redo"
-            @click="commands.redo"
-          >
-            <b-icon icon="arrow-clockwise" aria-hidden="true" />
-          </b-button>
-        </b-button-group>
+    <template v-if="multiLine">
+      <EditorMenuBar v-slot="{ commands, isActive }" :editor="editor">
+        <b-button-toolbar key-nav aria-label="Text editor toolbar">
+          <b-button-group class="mr-1">
+            <b-button
+              title="Undo"
+              @click="commands.undo"
+            >
+              <b-icon icon="arrow-counterclockwise" aria-hidden="true" />
+            </b-button>
+            <b-button
+              title="Redo"
+              @click="commands.redo"
+            >
+              <b-icon icon="arrow-clockwise" aria-hidden="true" />
+            </b-button>
+          </b-button-group>
 
-        <b-button-group class="mr-1">
-          <b-button
-            title="Headline 1"
-            :class="{ 'active': isActive.heading({ level: 1 }) }"
-            @click="commands.heading({ level: 1 })"
-          >
-            <b-icon icon="type-h1" aria-hidden="true" />
-          </b-button>
-          <b-button
-            title="Headline 2"
-            :class="{ 'active': isActive.heading({ level: 2 }) }"
-            @click="commands.heading({ level: 2 })"
-          >
-            <b-icon icon="type-h2" aria-hidden="true" />
-          </b-button>
-          <b-button
-            title="Headline 3"
-            :class="{ 'active': isActive.heading({ level: 3 }) }"
-            @click="commands.heading({ level: 3 })"
-          >
-            <b-icon icon="type-h3" aria-hidden="true" />
-          </b-button>
-        </b-button-group>
+          <b-button-group class="mr-1">
+            <b-button
+              title="Headline 1"
+              :class="{ 'active': isActive.heading({ level: 1 }) }"
+              @click="commands.heading({ level: 1 })"
+            >
+              <b-icon icon="type-h1" aria-hidden="true" />
+            </b-button>
+            <b-button
+              title="Headline 2"
+              :class="{ 'active': isActive.heading({ level: 2 }) }"
+              @click="commands.heading({ level: 2 })"
+            >
+              <b-icon icon="type-h2" aria-hidden="true" />
+            </b-button>
+            <b-button
+              title="Headline 3"
+              :class="{ 'active': isActive.heading({ level: 3 }) }"
+              @click="commands.heading({ level: 3 })"
+            >
+              <b-icon icon="type-h3" aria-hidden="true" />
+            </b-button>
+          </b-button-group>
 
-        <b-button-group class="mr-1">
-          <b-button
-            title="Bold"
-            :class="{ 'active': isActive.bold() }"
-            @click="commands.bold"
-          >
-            <b-icon icon="type-bold" aria-hidden="true" />
-          </b-button>
-          <b-button
-            title="Italic"
-            :class="{ 'active': isActive.italic() }"
-            @click="commands.italic"
-          >
-            <b-icon icon="type-italic" aria-hidden="true" />
-          </b-button>
-          <b-button
-            title="Underline"
-            :class="{ 'active': isActive.underline() }"
-            @click="commands.underline"
-          >
-            <b-icon icon="type-underline" aria-hidden="true" />
-          </b-button>
-          <b-button
-            title="Strikethrough"
-            :class="{ 'active': isActive.strike() }"
-            @click="commands.strike"
-          >
-            <b-icon icon="type-strikethrough" aria-hidden="true" />
-          </b-button>
-        </b-button-group>
+          <b-button-group class="mr-1">
+            <b-button
+              title="Bold"
+              :class="{ 'active': isActive.bold() }"
+              @click="commands.bold"
+            >
+              <b-icon icon="type-bold" aria-hidden="true" />
+            </b-button>
+            <b-button
+              title="Italic"
+              :class="{ 'active': isActive.italic() }"
+              @click="commands.italic"
+            >
+              <b-icon icon="type-italic" aria-hidden="true" />
+            </b-button>
+            <b-button
+              title="Underline"
+              :class="{ 'active': isActive.underline() }"
+              @click="commands.underline"
+            >
+              <b-icon icon="type-underline" aria-hidden="true" />
+            </b-button>
+            <b-button
+              title="Strikethrough"
+              :class="{ 'active': isActive.strike() }"
+              @click="commands.strike"
+            >
+              <b-icon icon="type-strikethrough" aria-hidden="true" />
+            </b-button>
+          </b-button-group>
 
-        <b-button-group class="mr-1">
-          <b-button
-            title="Bullet list"
-            :class="{ 'active': isActive.bullet_list() }"
-            @click="commands.bullet_list"
-          >
-            <b-icon icon="list-ul" aria-hidden="true" />
-          </b-button>
-          <b-button
-            title="Ordered list"
-            :class="{ 'active': isActive.ordered_list() }"
-            @click="commands.ordered_list"
-          >
-            <b-icon icon="list-ol" aria-hidden="true" />
-          </b-button>
-          <b-button
-            title="Blockquote"
-            :class="{ 'active': isActive.blockquote() }"
-            @click="commands.blockquote"
-          >
-            <b-icon icon="blockquote-left" aria-hidden="true" />
-          </b-button>
-        </b-button-group>
-      </b-button-toolbar>
-    </EditorMenuBar>
+          <b-button-group class="mr-1">
+            <b-button
+              title="Bullet list"
+              :class="{ 'active': isActive.bullet_list() }"
+              @click="commands.bullet_list"
+            >
+              <b-icon icon="list-ul" aria-hidden="true" />
+            </b-button>
+            <b-button
+              title="Ordered list"
+              :class="{ 'active': isActive.ordered_list() }"
+              @click="commands.ordered_list"
+            >
+              <b-icon icon="list-ol" aria-hidden="true" />
+            </b-button>
+            <b-button
+              title="Blockquote"
+              :class="{ 'active': isActive.blockquote() }"
+              @click="commands.blockquote"
+            >
+              <b-icon icon="blockquote-left" aria-hidden="true" />
+            </b-button>
+          </b-button-group>
+        </b-button-toolbar>
+      </EditorMenuBar>
+    </template>
 
     <EditorContent :editor="editor" class="editor-content">
       <template slot="content">
@@ -124,7 +126,14 @@
 </template>
 
 <script>
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
+import {
+  Doc,
+  Editor,
+  EditorContent,
+  EditorMenuBar,
+  Paragraph,
+  Text,
+} from 'tiptap'
 import {
   Blockquote,
   Bold,
@@ -138,6 +147,19 @@ import {
   Strike,
   Underline,
 } from 'tiptap-extensions'
+
+// Replacement for tiptap Doc so that the document is only a single text node -- no HTML tags
+// Resources:
+// https://github.com/ueberdosis/tiptap/blob/main/examples/Components/Routes/Title/Doc.js
+// https://github.com/ueberdosis/tiptap/issues/96
+// https://prosemirror.net/examples/schema/
+class TextNodeDoc extends Doc {
+  get schema() {
+    return {
+      content: 'text*',
+    }
+  }
+}
 
 export default {
   name: 'Editor',
@@ -153,7 +175,11 @@ export default {
     onSave: {
       type: Function,
       required: true,
-    }
+    },
+    multiLine: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
@@ -168,9 +194,9 @@ export default {
     }
   },
   created() {
-    this.editor = new Editor({
-      content: this.content,
-      extensions: [
+    var extensions;
+    if(this.multiLine) {
+      extensions = [
         new Blockquote(),
         new Bold(),
         new BulletList(),
@@ -185,7 +211,21 @@ export default {
         }),
         new Strike(),
         new Underline(),
-      ],
+      ]
+    } else {
+      extensions = [
+        new TextNodeDoc(),
+        new Paragraph(),
+        new Text(),
+        new Placeholder({
+          emptyNodeText: 'Enter text here...'
+        }),
+      ]
+    }
+    this.editor = new Editor({
+      useBuiltInExtensions: this.multiLine,
+      content: this.content,
+      extensions: extensions,
       onInit: ({ state }) => {
         this.cleanDoc = state.doc
       },
