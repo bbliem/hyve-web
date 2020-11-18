@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-IMAGE=hyventaminen-web
+IMAGE=hyve-web
 ARCHIVE=${IMAGE}.tar.gz
 HOST=blargg
 
@@ -16,5 +16,5 @@ ssh $HOST <<-EOF
 	rm /tmp/${ARCHIVE}
 	sudo docker stop $CONTAINER
 	sudo docker rm $CONTAINER
-	sudo docker run -d -p 5580:80 --name $CONTAINER ${IMAGE}:latest            
+	sudo docker run -d -p 5580:80 --name $CONTAINER ${IMAGE}:latest
 EOF
