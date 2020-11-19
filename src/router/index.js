@@ -28,6 +28,9 @@ const routes = [
   },
   {
     path: '/material',
+    props: ({params}) => ({
+      activeCategoryId: toIntOrUndefined(params.categoryId)
+    }),
     component: () => import(/* webpackChunkName: "material" */ '../views/Material.vue'),
     meta: { requiresAuth: true },
     children: [

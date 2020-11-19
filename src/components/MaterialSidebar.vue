@@ -12,7 +12,7 @@
       >
         {{ category.name }}
       </router-link>
-      <LessonList :category="category" />
+      <LessonList v-if="activeCategoryId === category.id" :category="category" />
     </div>
   </div>
 </template>
@@ -25,6 +25,12 @@ export default {
   name: 'MaterialSidebar',
   components: {
     LessonList
+  },
+  props: {
+    activeCategoryId: {
+      type: Number,
+      default: undefined,
+    },
   },
   computed: {
     categories() { return state.categories }

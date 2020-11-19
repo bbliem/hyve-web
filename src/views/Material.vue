@@ -1,7 +1,7 @@
 <template>
   <div>
     <nav id="sidebar">
-      <MaterialSidebar />
+      <MaterialSidebar :active-category-id="activeCategoryId" />
     </nav>
 
     <main id="content">
@@ -16,8 +16,14 @@ import MaterialSidebar from '@/components/MaterialSidebar.vue'
 export default {
   name: 'Material',
   components: {
-    MaterialSidebar
-  }
+    MaterialSidebar,
+  },
+  props: {
+    activeCategoryId: {
+      type: Number,
+      default: undefined,
+    },
+  },
 }
 </script>
 
