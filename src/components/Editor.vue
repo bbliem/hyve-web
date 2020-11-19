@@ -100,11 +100,7 @@
       </EditorMenuBar>
     </template>
 
-    <EditorContent :editor="editor" class="editor-content">
-      <template slot="content">
-        <h1>foo</h1><slot />
-      </template>
-    </EditorContent>
+    <EditorContent :editor="editor" class="editor-content" />
 
     <b-button v-if="saving" disabled variant="primary">
       <b-spinner small /> Saving...
