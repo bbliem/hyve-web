@@ -19,6 +19,20 @@
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
+        <b-nav-item-dropdown right>
+          <template v-slot:button-content>
+            <b-icon icon="globe" aria-hidden="true" /> English
+          </template>
+          <b-dropdown-item href="#">
+            <span class="selected">English</span>
+          </b-dropdown-item>
+          <b-dropdown-item href="#">
+            <span class="">Suomi</span>
+          </b-dropdown-item>
+        </b-nav-item-dropdown>
+      </b-navbar-nav>
+
+      <b-navbar-nav>
         <template v-if="initialized">
           <b-nav-item-dropdown v-if="user" right>
             <template v-slot:button-content>
@@ -63,3 +77,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.selected::before {
+  position: absolute;
+  left: .5rem;
+  content: '✓';
+}
+</style>
