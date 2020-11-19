@@ -12,6 +12,9 @@ export default {
   name: 'MaterialHome',
   components: {
     CategoryList
-  }
+  },
+  metaInfo: {
+    title: "Learning Material"
+  },
 }
 </script>

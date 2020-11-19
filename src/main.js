@@ -1,14 +1,18 @@
 import '@babel/polyfill'
 import 'mutationobserver-shim'
 import Vue from 'vue'
+import VueMeta from 'vue-meta'
+
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import './styles/bootstrap-vue.scss'
-import ConfigPlugin from '@/config'
-import App from './App.vue'
-import router from './router'
+
 import axios from 'axios'
 import { Model } from 'vue-api-query'
-import { init, onVueCreated } from '@/store'
+
+import App from './App.vue'
+import ConfigPlugin from './config'
+import router from './router'
+import { init, onVueCreated } from './store'
 
 // Use trailing slashes for endpoints, as expected by our backend.
 // Unfortunately there is no way to make vue-api-query use trailing slashes, so
@@ -40,6 +44,7 @@ Model.$http = axios
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(ConfigPlugin)
+Vue.use(VueMeta)
 
 Vue.config.productionTip = false
 

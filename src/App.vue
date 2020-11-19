@@ -19,7 +19,7 @@ import { state } from '@/store'
 export default {
   components: {
     ErrorMessage,
-    NavBar
+    NavBar,
   },
   data() {
     return {
@@ -29,7 +29,14 @@ export default {
   computed: {
     fetchingMaterial() { return state.fetchingMaterial },
     error() { return state.error },
-  }
+  },
+  metaInfo() {
+    return {
+      titleTemplate: titleChunk => {
+        return titleChunk ? `${titleChunk} | ${this.$appConfig.appTitle}` : this.$appConfig.appTitle;
+      }
+    }
+  },
 }
 </script>
 

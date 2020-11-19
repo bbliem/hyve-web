@@ -15,6 +15,7 @@
     "tiptap-extensions": "^1.33.2",
     "vue": "^2.6.11",
     "vue-api-query": "^1.7.1",
+    "vue-meta": "^2.4.0",
     "vue-router": "^3.2.0"
   },
   "devDependencies": {

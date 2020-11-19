@@ -61,7 +61,12 @@ export default {
     fetchedMaterial() {
       return state.fetchedMaterial
     }
-  }
+  },
+  metaInfo() {
+    return {
+      title: this.category ? this.category.name : undefined
+    }
+  },
 }
 </script>
 

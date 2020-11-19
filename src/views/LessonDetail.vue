@@ -131,5 +131,10 @@ export default {
       this.$router.push({ name: 'material-home' })
     }
   },
+  metaInfo() {
+    return {
+      title: this.lesson ? this.lesson.name : undefined
+    }
+  },
 }
 </script>
