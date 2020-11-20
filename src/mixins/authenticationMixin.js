@@ -9,8 +9,8 @@ export default {
       storeLogin(email, password)
         .then(user => {
           console.log(`Sucessfully logged in as ${user.email}.`)
-          const greeting = user.name ? `Welcome back, ${user.name}!` : "Welcome back!"
-          this.showToast("Login successful", greeting, 'success')
+          const greeting = user.name ? this.$t('welcome-back-name', { name: user.name }) : this.$t('welcome-back')
+          this.showToast(this.$t('login-successful'), greeting, 'success')
           // Ignoring errors because if we are already at the target there will be an error
           const to = this.$route.query.redirect || { name: 'home' }
           this.$router.push(to).catch(() => {})
@@ -18,13 +18,13 @@ export default {
         .catch(error => {
           let errorMessage;
           if(error.response && error.response.status >= 400 && error.response.status < 500) {
-            errorMessage = "Please check your e-mail address and password."
+            errorMessage = this.$t('check-email-and-password')
           } else {
-            errorMessage = "An unexpected error occurred."
+            errorMessage = this.$t('unexpected-error')
             console.error(error)
           }
-          this.showToast("Login failed", errorMessage, 'danger')
-          console.error(`Login failed.`)
+          this.showToast(this.$t('login-failed'), errorMessage, 'danger')
+          console.error("Login failed.")
         })
     },
 
@@ -35,8 +35,8 @@ export default {
       storeLogout()
         .then(() => {
           console.log("Logged out.")
-          const personalizedMessage = name ? `See you again soon, ${name}!` : "See you again soon!"
-          this.showToast("Logged out", personalizedMessage, 'info')
+          const personalizedMessage = name ? this.$t('see-you-again-soon-name', { name }) : this.$t('see-you-again-soon')
+          this.showToast(this.$t('logged-out'), personalizedMessage, 'info')
           // Ignoring errors because if we are already at the target there will be an error
           this.$router.push({ name: 'home' }).catch(() => {})
         })

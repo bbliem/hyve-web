@@ -11,7 +11,6 @@
         <b-nav-item :to="{ name: 'material-home' }">
           {{ $t('material') }}
         </b-nav-item>
-        <!-- TODO create about page and link here-->
         <b-nav-item :to="{ name: 'about' }">
           {{ $t('about') }}
         </b-nav-item>
@@ -38,7 +37,9 @@
             <b-nav-item :to="{ name: 'login' }">
               {{ $t('login') }}
             </b-nav-item>
-            <b-nav-item>{{ $t('register') }}</b-nav-item>
+            <b-nav-item>
+              {{ $t('register') }}
+            </b-nav-item>
           </template>
         </template>
         <b-spinner v-else variant="secondary" />

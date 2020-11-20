@@ -3,7 +3,7 @@
     v-if="lessonCompleted"
     pill
     variant="success"
-    title="You completed all sections in this lesson."
+    :title="$t('lesson-all-sections-completed')"
   >
     &checkmark;
   </b-badge>

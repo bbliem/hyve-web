@@ -18,7 +18,7 @@
             categoryId: category.id
           }}"
       >
-        View category
+        {{ $t('view-category') }}
       </b-button>
     </b-card>
   </div>

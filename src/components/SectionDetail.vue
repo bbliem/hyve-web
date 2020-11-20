@@ -15,7 +15,7 @@
           <!-- eslint-disable-next-line vue/no-v-html -->
           <div v-html="section.text" />
           <b-button v-if="canEdit" @click="openEditor">
-            <b-icon icon="pencil" aria-hidden="true" /> Edit
+            <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
           </b-button>
         </template>
       </div>
@@ -42,7 +42,7 @@ export default {
   components: {
     Editor,
     ErrorMessage,
-    Quiz
+    Quiz,
   },
   props: {
     sectionId: {
@@ -61,7 +61,7 @@ export default {
   computed: {
     canEdit() {
       return state.user && state.user.isSuperuser
-    }
+    },
   },
   created() {
     this.loading = true
@@ -72,7 +72,7 @@ export default {
         this.section = response
       })
       .catch(error => {
-        this.error = 'Could not load section.'
+        this.error = this.$t('could-not-load-section')
         console.error(this.error, error)
       })
       .finally(() => this.loading = false)

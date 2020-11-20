@@ -4,7 +4,7 @@
     <p v-if="category.description">
       {{ category.description }}
     </p>
-    <h2>Lessons in this category</h2>
+    <h2>{{ $t('lessons-in-this-category') }}</h2>
     <div class="d-flex flex-wrap">
       <b-card
         v-for="lesson in category.lessons"
@@ -25,7 +25,7 @@
               lessonId: lesson.id
             }}"
         >
-          Start lesson
+          {{ $t('start-lesson') }}
         </b-button>
         <LessonCompletionCheckmark
           :lesson="lesson"
@@ -34,7 +34,7 @@
       </b-card>
     </div>
   </div>
-  <ErrorMessage v-else-if="fetchedMaterial" message="Category not found." />
+  <ErrorMessage v-else-if="fetchedMaterial" :message="$t('category-not-found')" />
 </template>
 
 <script>

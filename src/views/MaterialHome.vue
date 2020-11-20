@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>Learning Material</h1>
+    <h1>{{ $t('learning-material') }}</h1>
     <CategoryList />
   </div>
 </template>
@@ -13,8 +13,8 @@ export default {
   components: {
     CategoryList
   },
-  metaInfo: {
-    title: "Learning Material"
+  metaInfo() {
+    return { title: this.$t('learning-material') }
   },
 }
 </script>

@@ -11,7 +11,7 @@ export default class User extends Model {
       new SectionCompletion({user: this.id, section: sectionId})
         .save()
         .then(() => {
-          console.log("completed section", sectionId)
+          console.log("Completed section", sectionId)
           this.completedSections.push(sectionId)
         })
     }

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="login-form">
-      <h1 v-t="'login'" />
+      <h1>{{ $t('login') }}</h1>
       <b-form @submit.prevent="login(email, password)">
         <b-form-group
           id="form-group-email"
@@ -30,18 +30,22 @@
           />
         </b-form-group>
 
-        <b-button v-t="'login'" type="submit" class="mb-3" block />
+        <b-button type="submit" class="mb-3" block>
+          {{ $t('login') }}
+        </b-button>
 
         <p class="text-center">
-          <a v-t="'forgot-password'" href="#">
-            Forgot password?
+          <a href="#">
+            {{ $t('forgot-password') }}
           </a>
         </p>
       </b-form>
     </div>
     <p class="text-center">
       {{ $t('no-account') }}
-      <a v-t="'to-registration'" href="#" />
+      <a href="#">
+        {{ $t('to-registration') }}
+      </a>
     </p>
   </div>
 </template>

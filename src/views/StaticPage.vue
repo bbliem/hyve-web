@@ -14,7 +14,7 @@
         <template v-else>
           {{ page.title }}
           <b-button v-if="canEdit" @click="openTitleEditor">
-            <b-icon icon="pencil" aria-hidden="true" /> Edit
+            <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
           </b-button>
         </template>
       </h1>
@@ -29,7 +29,7 @@
         <!-- eslint-disable-next-line vue/no-v-html -->
         <div v-html="page.content" />
         <b-button v-if="canEdit" @click="openContentEditor">
-          <b-icon icon="pencil" aria-hidden="true" /> Edit
+          <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
         </b-button>
       </template>
     </template>
@@ -77,7 +77,7 @@ export default {
         this.page = response
       })
       .catch(error => {
-        this.error = 'Could not load page.'
+        this.error = this.$t('could-not-load-page')
         console.error(this.error, error)
       })
       .finally(() => this.loading = false)

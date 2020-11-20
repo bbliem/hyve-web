@@ -71,7 +71,7 @@ export function onVueCreated() {
         state.fetchedMaterial = true
       })
       .catch(error => {
-        state.error = 'Could not fetch material.'
+        state.error = this.$t('could-not-load-material')
         console.error(state.error, error)
       })
   } else {

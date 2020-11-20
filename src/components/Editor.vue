@@ -5,13 +5,13 @@
         <b-button-toolbar key-nav aria-label="Text editor toolbar">
           <b-button-group class="mr-1">
             <b-button
-              title="Undo"
+              :title="$t('editor.undo')"
               @click="commands.undo"
             >
               <b-icon icon="arrow-counterclockwise" aria-hidden="true" />
             </b-button>
             <b-button
-              title="Redo"
+              :title="$t('editor.redo')"
               @click="commands.redo"
             >
               <b-icon icon="arrow-clockwise" aria-hidden="true" />
@@ -20,21 +20,21 @@
 
           <b-button-group class="mr-1">
             <b-button
-              title="Headline 1"
+              :title="$t('editor.h1')"
               :class="{ 'active': isActive.heading({ level: 1 }) }"
               @click="commands.heading({ level: 1 })"
             >
               <b-icon icon="type-h1" aria-hidden="true" />
             </b-button>
             <b-button
-              title="Headline 2"
+              :title="$t('editor.h2')"
               :class="{ 'active': isActive.heading({ level: 2 }) }"
               @click="commands.heading({ level: 2 })"
             >
               <b-icon icon="type-h2" aria-hidden="true" />
             </b-button>
             <b-button
-              title="Headline 3"
+              :title="$t('editor.h3')"
               :class="{ 'active': isActive.heading({ level: 3 }) }"
               @click="commands.heading({ level: 3 })"
             >
@@ -44,28 +44,28 @@
 
           <b-button-group class="mr-1">
             <b-button
-              title="Bold"
+              :title="$t('editor.bold')"
               :class="{ 'active': isActive.bold() }"
               @click="commands.bold"
             >
               <b-icon icon="type-bold" aria-hidden="true" />
             </b-button>
             <b-button
-              title="Italic"
+              :title="$t('editor.italic')"
               :class="{ 'active': isActive.italic() }"
               @click="commands.italic"
             >
               <b-icon icon="type-italic" aria-hidden="true" />
             </b-button>
             <b-button
-              title="Underline"
+              :title="$t('editor.underline')"
               :class="{ 'active': isActive.underline() }"
               @click="commands.underline"
             >
               <b-icon icon="type-underline" aria-hidden="true" />
             </b-button>
             <b-button
-              title="Strikethrough"
+              :title="$t('editor.strikethrough')"
               :class="{ 'active': isActive.strike() }"
               @click="commands.strike"
             >
@@ -75,21 +75,21 @@
 
           <b-button-group class="mr-1">
             <b-button
-              title="Bullet list"
+              :title="$t('editor.bullet-list')"
               :class="{ 'active': isActive.bullet_list() }"
               @click="commands.bullet_list"
             >
               <b-icon icon="list-ul" aria-hidden="true" />
             </b-button>
             <b-button
-              title="Ordered list"
+              :title="$t('editor.numbered-list')"
               :class="{ 'active': isActive.ordered_list() }"
               @click="commands.ordered_list"
             >
               <b-icon icon="list-ol" aria-hidden="true" />
             </b-button>
             <b-button
-              title="Blockquote"
+              :title="$t('editor.blockquote')"
               :class="{ 'active': isActive.blockquote() }"
               @click="commands.blockquote"
             >
@@ -103,7 +103,7 @@
     <EditorContent :editor="editor" class="editor-content" />
 
     <b-button v-if="saving" disabled variant="primary">
-      <b-spinner small /> Saving...
+      <b-spinner small /> {{ $t('editor.saving') }}
     </b-button>
     <b-button
       v-else
@@ -112,11 +112,11 @@
       class="mr-1"
       @click="save"
     >
-      <b-icon icon="check" aria-hidden="true" /> Save
+      <b-icon icon="check" aria-hidden="true" /> {{ $t('editor.save') }}
     </b-button>
 
     <b-button variant="secondary" @click="closeEditor">
-      <b-icon icon="x" aria-hidden="true" /> Close
+      <b-icon icon="x" aria-hidden="true" /> {{ $t('editor.close') }}
     </b-button>
   </div>
 </template>
@@ -203,7 +203,7 @@ export default {
         new ListItem(),
         new OrderedList(),
         new Placeholder({
-          emptyNodeText: 'Enter text here...'
+          emptyNodeText: this.$t('editor.enter-text-here')
         }),
         new Strike(),
         new Underline(),
@@ -214,7 +214,7 @@ export default {
         new Paragraph(),
         new Text(),
         new Placeholder({
-          emptyNodeText: 'Enter text here...'
+          emptyNodeText: this.$t('editor.enter-text-here')
         }),
       ]
     }
@@ -238,7 +238,7 @@ export default {
   },
   methods: {
     confirmLeave() {
-      return window.confirm("You have unsaved changes. Do you want to discard them?")
+      return window.confirm(this.$t('editor.save-unsaved-changes-prompt'))
     },
     closeEditor() {
       if(!this.unsavedEdits || this.confirmLeave()) {
@@ -254,7 +254,7 @@ export default {
         this.closeEditor()
       } catch(error) {
         this.$root.$bvToast.toast(error.toString(), {
-          title: "Saving failed",
+          title: this.$t('editor.saving-failed'),
           variant: 'danger',
           solid: true,
           toaster: 'b-toaster-bottom-right'

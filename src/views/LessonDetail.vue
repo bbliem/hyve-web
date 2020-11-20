@@ -21,11 +21,11 @@
               class="float-left"
               @click="onPrevious"
             >
-              Previous page
+              {{ $t('previous-page') }}
             </b-button>
           </b-col>
           <b-col class="text-center">
-            Page {{ page }} of {{ numPages }}
+            {{ $t('page-i-of-n', { i: page, n: numPages }) }}
           </b-col>
           <b-col>
             <b-button
@@ -34,7 +34,7 @@
               class="float-right"
               @click="onNext"
             >
-              Next page
+              {{ $t('next-page') }}
             </b-button>
             <b-button
               v-else-if="page === numPages"
@@ -43,13 +43,13 @@
               class="float-right"
               @click="onFinish"
             >
-              Finish lesson
+              {{ $t('finish-lesson') }}
             </b-button>
           </b-col>
         </b-row>
       </template>
       <p v-else>
-        This lesson has no content yet.
+        {{ $t('lesson-has-no-content') }}
       </p>
     </template>
     <ErrorMessage v-else-if="error" :message="error" />
@@ -66,23 +66,23 @@ export default {
   name: 'LessonDetail',
   components: {
     ErrorMessage,
-    SectionDetail
+    SectionDetail,
   },
   props: {
     lessonId: {
       type: Number,
-      required: true
+      required: true,
     },
     page: {
       type: Number,
-      default: 1
+      default: 1,
     }
   },
   data() {
     return {
       lesson: null,
       error: null,
-      loading: false
+      loading: false,
     }
   },
   computed: {
@@ -108,7 +108,7 @@ export default {
         this.lesson = response
       })
       .catch(error => {
-        this.error = 'Could not load lesson.'
+        this.error = this.$t('could-not-load-lesson')
         console.error(this.error, error)
       })
       .finally(() => this.loading = false)

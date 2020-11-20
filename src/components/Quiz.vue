@@ -16,11 +16,8 @@
       </b-form-group>
     </div>
 
-    <b-button
-      class="#TODO:float-right"
-      @click="onCheckAnswers"
-    >
-      Check answers
+    <b-button @click="onCheckAnswers">
+      {{ $t('check-answers') }}
     </b-button>
     <p> TODO deactivate "next page" button (with tooltip) until section has been completed (i.e., answers have been checked)? (Also, we may want to mark the section as completed when "check answers" is clicked.)</p>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <b-alert variant="danger" show>
-    Error: {{ message }}
+    {{ $t('error', { msg: message }) }}
   </b-alert>
 </template>
 
