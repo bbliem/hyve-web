@@ -2,10 +2,10 @@
   <b-navbar-nav>
     <b-nav-item-dropdown right>
       <template v-slot:button-content>
-        <b-icon icon="globe" aria-hidden="true" /> {{ $i18n.locale }}
+        <b-icon icon="globe" aria-hidden="true" /> {{ $t('locale-name', $i18n.locale) }}
       </template>
       <b-dropdown-item v-for="locale in locales" :key="locale" @click="setLocale(locale)">
-        <span class="selected">{{ locale }} </span>
+        <span :class="{ 'active-locale': locale === $i18n.locale }">{{ $t('locale-name', locale) }} </span>
       </b-dropdown-item>
     </b-nav-item-dropdown>
   </b-navbar-nav>
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss">
-.selected::before {
+.active-locale::before {
   position: absolute;
   left: .5rem;
   content: '✓';
