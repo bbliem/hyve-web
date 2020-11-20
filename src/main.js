@@ -11,8 +11,10 @@ import { Model } from 'vue-api-query'
 
 import App from './App.vue'
 import ConfigPlugin from './config'
+import LocalizedLink from './components/LocalizedLink'
 import router from './router'
 import { init, onVueCreated } from './store'
+import i18n from './i18n'
 
 // Use trailing slashes for endpoints, as expected by our backend.
 // Unfortunately there is no way to make vue-api-query use trailing slashes, so
@@ -41,7 +43,10 @@ axios.interceptors.request.use((config) => {
 // Inject global axios instance as HTTP client to Model.
 Model.$http = axios
 
-Vue.use(BootstrapVue)
+Vue.component('LocalizedLink', LocalizedLink)
+Vue.use(BootstrapVue, {
+  BLink: { routerComponentName: 'LocalizedLink' },
+})
 Vue.use(BootstrapVueIcons)
 Vue.use(ConfigPlugin)
 Vue.use(VueMeta)
@@ -51,9 +56,12 @@ Vue.config.productionTip = false
 let initPromise = init();
 
 new Vue({
+  i18n,
   router,
+
   created() {
     initPromise.then(onVueCreated)
   },
+
   render: h => h(App)
 }).$mount('#app')

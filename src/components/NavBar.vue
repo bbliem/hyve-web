@@ -9,28 +9,16 @@
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item :to="{ name: 'material-home' }">
-          Material
+          {{ $t('material') }}
         </b-nav-item>
         <!-- TODO create about page and link here-->
         <b-nav-item :to="{ name: 'about' }">
-          About
+          {{ $t('about') }}
         </b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
-      <b-navbar-nav class="ml-auto">
-        <b-nav-item-dropdown right>
-          <template v-slot:button-content>
-            <b-icon icon="globe" aria-hidden="true" /> English
-          </template>
-          <b-dropdown-item href="#">
-            <span class="selected">English</span>
-          </b-dropdown-item>
-          <b-dropdown-item href="#">
-            <span class="">Suomi</span>
-          </b-dropdown-item>
-        </b-nav-item-dropdown>
-      </b-navbar-nav>
+      <LocalePicker class="ml-auto" />
 
       <b-navbar-nav>
         <template v-if="initialized">
@@ -40,17 +28,17 @@
               {{ user.name || user.email }}
             </template>
             <b-dropdown-item href="#">
-              Profile
+              {{ $t('my-profile') }}
             </b-dropdown-item>
             <b-dropdown-item @click="logout">
-              Log Out
+              {{ $t('logout') }}
             </b-dropdown-item>
           </b-nav-item-dropdown>
           <template v-else>
             <b-nav-item :to="{ name: 'login' }">
-              Log in
+              {{ $t('login') }}
             </b-nav-item>
-            <b-nav-item>Register</b-nav-item>
+            <b-nav-item>{{ $t('register') }}</b-nav-item>
           </template>
         </template>
         <b-spinner v-else variant="secondary" />
@@ -62,9 +50,13 @@
 <script>
 import authenticationMixin from '@/mixins/authenticationMixin'
 import { state } from '@/store.js'
+import LocalePicker from './LocalePicker'
 
 export default {
   name: 'NavBar',
+  components: {
+    LocalePicker,
+  },
   mixins: [authenticationMixin],
   props: {
     brandName: {
@@ -74,14 +66,6 @@ export default {
   },
   computed: {
     initialized() { return state.initialized }
-  }
+  },
 }
 </script>
-
-<style lang="scss">
-.selected::before {
-  position: absolute;
-  left: .5rem;
-  content: '✓';
-}
-</style>

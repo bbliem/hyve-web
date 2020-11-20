@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="login-form">
-      <h1>Log in</h1>
+      <h1 v-t="'login'" />
       <b-form @submit.prevent="login(email, password)">
         <b-form-group
           id="form-group-email"
-          label="E-mail address:"
+          :label="$t('email-address-field-label')"
           label-for="email"
         >
           <b-form-input
@@ -13,12 +13,12 @@
             v-model="email"
             required
             type="email"
-            placeholder="Enter your e-mail address"
+            :placeholder="$t('enter-your-email')"
           />
         </b-form-group>
         <b-form-group
           id="form-group-password"
-          label="Password:"
+          :label="$t('password-field-label')"
           label-for="password"
         >
           <b-form-input
@@ -26,26 +26,22 @@
             v-model="password"
             required
             type="password"
-            placeholder="Enter your password"
+            :placeholder="$t('enter-your-password')"
           />
         </b-form-group>
 
-        <b-button type="submit" class="mb-3" block>
-          Login
-        </b-button>
+        <b-button v-t="'login'" type="submit" class="mb-3" block />
 
         <p class="text-center">
-          <a href="#">
+          <a v-t="'forgot-password'" href="#">
             Forgot password?
           </a>
         </p>
       </b-form>
     </div>
     <p class="text-center">
-      No account?
-      <a href="#">
-        To the registration page
-      </a>
+      {{ $t('no-account') }}
+      <a v-t="'to-registration'" href="#" />
     </p>
   </div>
 </template>
