@@ -2,14 +2,19 @@
   <div>
     <!-- Editor for text part -->
     <template v-if="editing">
-      <Editor :content="text" :multi-line="multiLine" :on-save="onSave" @close-editor="closeEditor" />
+      <Editor
+        :content="text"
+        :multi-line="multiLine"
+        :on-save="onSave"
+        @close-editor="closeEditor"
+      />
     </template>
 
     <!-- Text part -->
     <template v-else>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div v-html="text" />
-      <b-button v-if="canEdit" @click="openEditor">
+      <b-button v-if="showEditButton" @click="openEditor">
         <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
       </b-button>
     </template>
@@ -45,8 +50,8 @@ export default {
     }
   },
   computed: {
-    canEdit() {
-      return state.user && state.user.isSuperuser
+    showEditButton() {
+      return state.editMode
     },
   },
   methods: {

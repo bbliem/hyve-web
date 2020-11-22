@@ -10,6 +10,7 @@ export const state = Vue.observable({
   initialized: false,
   fetchingMaterial: false,
   fetchedMaterial: false,
+  editMode: false,
 
   // Authentication
   // cf. https://www.digitalocean.com/community/tutorials/handling-authentication-in-vue-using-vuex

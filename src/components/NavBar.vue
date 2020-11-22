@@ -17,7 +17,10 @@
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
-      <LocalePicker class="ml-auto" />
+      <!-- dummy to make all following items aligned right -->
+      <div class="ml-auto" />
+
+      <LocalePicker />
 
       <b-navbar-nav>
         <template v-if="initialized">
@@ -26,13 +29,24 @@
               <b-avatar variant="info" src="https://placebeard.it/300/300" alt="" />
               {{ user.name || user.email }}
             </template>
+
             <b-dropdown-item href="#">
               {{ $t('my-profile') }}
             </b-dropdown-item>
             <b-dropdown-item @click="logout">
               {{ $t('logout') }}
             </b-dropdown-item>
+
+            <template v-if="canEdit">
+              <b-dropdown-divider />
+              <b-dropdown-form>
+                <b-form-checkbox v-model="editMode">
+                  Edit mode
+                </b-form-checkbox>
+              </b-dropdown-form>
+            </template>
           </b-nav-item-dropdown>
+
           <template v-else>
             <b-nav-item :to="{ name: 'login' }">
               {{ $t('login') }}
@@ -66,7 +80,20 @@ export default {
     }
   },
   computed: {
-    initialized() { return state.initialized }
+    canEdit() {
+      return state.user && state.user.isSuperuser
+    },
+    editMode: {
+      get: function() {
+        return state.editMode
+      },
+      set: function(value) {
+        state.editMode = value
+      }
+    },
+    initialized() {
+      return state.initialized
+    },
   },
 }
 </script>

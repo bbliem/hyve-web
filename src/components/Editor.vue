@@ -1,5 +1,5 @@
 <template>
-  <div class="editor">
+  <div class="editor" @click.prevent>
     <template v-if="multiLine">
       <EditorMenuBar v-slot="{ commands, isActive }" :editor="editor">
         <b-button-toolbar key-nav aria-label="Text editor toolbar">
