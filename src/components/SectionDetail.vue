@@ -59,17 +59,7 @@ export default {
   },
   methods: {
     async onSaveText(text) {
-      const oldText = this.section.text
-      this.section.text = text
-      // Remove question (and answers) that are nested in the section
-      let plainSection = new Section(this.section)
-      plainSection.questions = this.section.questions.map(q => q.id)
-      try {
-        await plainSection.save()
-      } catch(error) {
-        this.section.text = oldText
-        throw error
-      }
+      await this.section.updateFieldAndSave('text', text, ['questions'])
     },
   },
 }

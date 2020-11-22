@@ -50,24 +50,10 @@ export default {
   },
   methods: {
     async onSaveTitle(title) {
-      const oldTitle = this.page.title
-      this.page.title = title
-      try {
-        await this.page.save()
-      } catch(error) {
-        this.page.title = oldTitle
-        throw error
-      }
+      await this.page.updateFieldAndSave('title', title)
     },
     async onSaveContent(content) {
-      const oldContent = this.page.content
-      this.page.content = content
-      try {
-        await this.page.save()
-      } catch(error) {
-        this.page.content = oldContent
-        throw error
-      }
+      await this.page.updateFieldAndSave('content', content)
     },
   },
 }

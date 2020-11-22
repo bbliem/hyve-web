@@ -247,7 +247,6 @@ export default {
     },
     async save() {
       this.saving = true
-      //await new Promise(resolve => setTimeout(resolve, 200))
       try {
         await this.onSave(this.editor.getHTML())
         this.cleanDoc = this.editor.state.doc

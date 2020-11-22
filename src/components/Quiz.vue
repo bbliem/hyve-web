@@ -5,7 +5,7 @@
         <template v-slot:label>
           <EditableText
             :multi-line="false"
-            :on-save="() => onSaveQuestion(question)"
+            :on-save="(newText) => onSaveQuestion(question, newText)"
             :text="question.text"
           />
         </template>
@@ -66,14 +66,16 @@ export default {
     onCheckAnswers() {
       this.revealSolution = true
     },
-    onSaveAnswer(answer) {
-      console.log("save answer", answer)
+    async onSaveAnswer(answer) {
+      console.log("TODO save answer", answer)
     },
-    onSaveExplanation(answer) {
-      console.log("save explanation for answer", answer)
+    async onSaveExplanation(answer) {
+      console.log("TODO save explanation for answer", answer)
     },
-    onSaveQuestion(question) {
-      console.log("save question", question)
+    async onSaveQuestion(question, newText) {
+      console.log("TODO save question", question)
+      console.log("New question text:", newText)
+      await question.updateFieldAndSave('text', newText, ['answers'])
     },
   }
 }
