@@ -1,0 +1,61 @@
+<template>
+  <div>
+    <!-- Editor for text part -->
+    <template v-if="editing">
+      <Editor :content="text" :multi-line="multiLine" :on-save="onSave" @close-editor="closeEditor" />
+    </template>
+
+    <!-- Text part -->
+    <template v-else>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <div v-html="text" />
+      <b-button v-if="canEdit" @click="openEditor">
+        <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
+      </b-button>
+    </template>
+  </div>
+</template>
+
+<script>
+import { state } from '@/store'
+import Editor from '@/components/Editor.vue'
+
+export default {
+  name: 'EditableText',
+  components: {
+    Editor,
+  },
+  props: {
+    multiLine: {
+      type: Boolean,
+      default: true
+    },
+    onSave: {
+      type: Function,
+      required: true
+    },
+    text: {
+      type: String,
+      required: true
+    },
+  },
+  data() {
+    return {
+      editing: false,
+    }
+  },
+  computed: {
+    canEdit() {
+      return state.user && state.user.isSuperuser
+    },
+  },
+  methods: {
+    openEditor() {
+      this.editing = true
+    },
+    closeEditor() {
+      this.editing = false
+    },
+  },
+}
+</script>

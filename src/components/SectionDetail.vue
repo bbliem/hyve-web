@@ -4,19 +4,7 @@
       <b-spinner v-if="loading" />
     </div>
     <div v-if="section">
-      <!-- Editor for text part -->
-      <template v-if="editing">
-        <Editor :content="section.text" :on-save="onSaveText" @close-editor="closeEditor" />
-      </template>
-
-      <!-- Text part -->
-      <template v-else>
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-html="section.text" />
-        <b-button v-if="canEdit" @click="openEditor">
-          <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
-        </b-button>
-      </template>
+      <EditableText :on-save="onSaveText" :text="section.text" />
 
       <!-- Quiz -->
       <p v-if="section.questions.length">
@@ -29,16 +17,15 @@
 </template>
 
 <script>
-import { state } from '@/store'
-import Editor from '@/components/Editor.vue'
 import ErrorMessage from '@/components/ErrorMessage.vue'
+import EditableText from '@/components/EditableText.vue'
 import Quiz from '@/components/Quiz.vue'
 import Section from '@/models/Section'
 
 export default {
   name: 'SectionDetail',
   components: {
-    Editor,
+    EditableText,
     ErrorMessage,
     Quiz,
   },
@@ -56,11 +43,6 @@ export default {
       editing: false,
     }
   },
-  computed: {
-    canEdit() {
-      return state.user && state.user.isSuperuser
-    },
-  },
   created() {
     this.loading = true
     return Section
@@ -76,12 +58,6 @@ export default {
       .finally(() => this.loading = false)
   },
   methods: {
-    openEditor() {
-      this.editing = true
-    },
-    closeEditor() {
-      this.editing = false
-    },
     async onSaveText(text) {
       const oldText = this.section.text
       this.section.text = text
@@ -98,10 +74,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-.collapsed > .when-open,
-.not-collapsed > .when-closed {
-  display: none;
-}
-</style>

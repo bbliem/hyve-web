@@ -4,49 +4,22 @@
       <b-spinner v-if="loading" />
     </div>
     <template v-if="page">
-      <h1>
-        <!-- Editor for title part -->
-        <template v-if="editingTitle">
-          <Editor :content="page.title" :on-save="onSaveTitle" :multi-line="false" @close-editor="closeTitleEditor" />
-        </template>
-
-        <!-- Title part -->
-        <template v-else>
-          {{ page.title }}
-          <b-button v-if="canEdit" @click="openTitleEditor">
-            <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
-          </b-button>
-        </template>
-      </h1>
-
-      <!-- Editor for content part -->
-      <template v-if="editingContent">
-        <Editor :content="page.content" :on-save="onSaveContent" @close-editor="closeContentEditor" />
-      </template>
-
-      <!-- Content part -->
-      <template v-else>
-        <!-- eslint-disable-next-line vue/no-v-html -->
-        <div v-html="page.content" />
-        <b-button v-if="canEdit" @click="openContentEditor">
-          <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
-        </b-button>
-      </template>
+      <h1><EditableText :on-save="onSaveTitle" :multi-line="false" :text="page.title" /></h1>
+      <EditableText :on-save="onSaveContent" :text="page.content" />
     </template>
     <ErrorMessage v-else-if="error" :message="error" />
   </div>
 </template>
 
 <script>
-import { state } from '@/store'
-import Editor from '@/components/Editor.vue'
+import EditableText from '@/components/EditableText.vue'
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import StaticPage from '@/models/StaticPage'
 
 export default {
   name: 'StaticPage',
   components: {
-    Editor,
+    EditableText,
     ErrorMessage,
   },
   props: {
@@ -60,14 +33,7 @@ export default {
       page: null,
       error: null,
       loading: false,
-      editingTitle: false,
-      editingContent: false,
     }
-  },
-  computed: {
-    canEdit() {
-      return state.user && state.user.isSuperuser
-    },
   },
   created() {
     this.loading = true
@@ -83,12 +49,6 @@ export default {
       .finally(() => this.loading = false)
   },
   methods: {
-    openTitleEditor() {
-      this.editingTitle = true
-    },
-    closeTitleEditor() {
-      this.editingTitle = false
-    },
     async onSaveTitle(title) {
       const oldTitle = this.page.title
       this.page.title = title
@@ -98,12 +58,6 @@ export default {
         this.page.title = oldTitle
         throw error
       }
-    },
-    openContentEditor() {
-      this.editingContent = true
-    },
-    closeContentEditor() {
-      this.editingContent = false
     },
     async onSaveContent(content) {
       const oldContent = this.page.content
