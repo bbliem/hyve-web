@@ -2,7 +2,7 @@
   <div>
     <div v-for="question in questions" :key="question.id">
       <b-form-group :label="question.text">
-        <div v-for="answer in question.answers" :key="answer.id">
+        <div v-for="answer in question.answerModels" :key="answer.id">
           <b-form-checkbox
             v-model="answer.selected"
             class="answer"

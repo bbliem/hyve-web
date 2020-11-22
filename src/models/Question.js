@@ -1,9 +1,9 @@
 import Model from './Model'
-import Question from './Question'
+import Answer from './Answer'
 
-export default class Section extends Model {
+export default class Question extends Model {
   resource() {
-    return 'sections'
+    return 'questions'
   }
 
   get text() {
@@ -14,7 +14,7 @@ export default class Section extends Model {
     return this.setLocalizedField('text', value)
   }
 
-  get questionModels() {
-    return this.questions.map(q => new Question(q))
+  get answerModels() {
+    return this.answers.map(a => new Answer(a))
   }
 }

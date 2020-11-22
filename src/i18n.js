@@ -24,8 +24,16 @@ function getFallbackLocaleFromEnv () {
   }
 }
 
-export default new VueI18n({
+var i18n = new VueI18n({
   locale: process.env.VUE_APP_I18N_LOCALE || 'fi',
   fallbackLocale: getFallbackLocaleFromEnv() || 'en',
   messages: loadLocaleMessages()
 })
+
+Object.defineProperty(i18n, 'localeCapitalized', {
+  get: function() {
+    return this.locale.charAt(0).toUpperCase() + this.locale.slice(1)
+  }
+})
+
+export default i18n

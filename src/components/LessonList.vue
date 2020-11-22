@@ -11,7 +11,7 @@
         class="lesson-link"
       >
         <div class="lesson-row">
-          {{ lesson.name }}
+          {{ getLessonModel(lesson).name }}
           <LessonCompletionCheckmark :lesson="lesson" class="checkmark" />
         </div>
       </router-link>
@@ -21,6 +21,7 @@
 
 <script>
 import LessonCompletionCheckmark from '@/components/LessonCompletionCheckmark'
+import Lesson from '@/models/Lesson'
 
 export default {
   name: 'LessonList',
@@ -32,7 +33,12 @@ export default {
       type: Object,
       required: true
     }
-  }
+  },
+  methods: {
+    getLessonModel(data) {
+      return new Lesson(data)
+    }
+  },
 }
 </script>
 

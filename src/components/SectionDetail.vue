@@ -4,25 +4,23 @@
       <b-spinner v-if="loading" />
     </div>
     <div v-if="section">
-      <div v-if="section.text">
-        <!-- Editor for text part -->
-        <template v-if="editing">
-          <Editor :content="section.text" :on-save="onSaveText" @close-editor="closeEditor" />
-        </template>
+      <!-- Editor for text part -->
+      <template v-if="editing">
+        <Editor :content="section.text" :on-save="onSaveText" @close-editor="closeEditor" />
+      </template>
 
-        <!-- Text part -->
-        <template v-else>
-          <!-- eslint-disable-next-line vue/no-v-html -->
-          <div v-html="section.text" />
-          <b-button v-if="canEdit" @click="openEditor">
-            <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
-          </b-button>
-        </template>
-      </div>
+      <!-- Text part -->
+      <template v-else>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <div v-html="section.text" />
+        <b-button v-if="canEdit" @click="openEditor">
+          <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
+        </b-button>
+      </template>
 
       <!-- Quiz -->
       <p v-if="section.questions.length">
-        <Quiz :questions="section.questions" />
+        <Quiz :questions="section.questionModels" />
       </p>
     </div>
 
@@ -87,8 +85,11 @@ export default {
     async onSaveText(text) {
       const oldText = this.section.text
       this.section.text = text
+      // Remove question (and answers) that are nested in the section
+      let plainSection = new Section(this.section)
+      plainSection.questions = this.section.questions.map(q => q.id)
       try {
-        await this.section.save()
+        await plainSection.save()
       } catch(error) {
         this.section.text = oldText
         throw error
