@@ -16,4 +16,20 @@ export default class User extends Model {
         })
     }
   }
+
+  hasCompletedLesson(lesson) {
+    const sectionsInLesson = lesson.contents.map(c => c.section)
+    return sectionsInLesson.every(id => this.completedSections.includes(id))
+  }
+
+  hasCompletedSection(sectionId) {
+    return this.completedSections.includes(sectionId)
+  }
+
+  resetSectionCompletion(sectionId) {
+    if(this.completedSections.includes(sectionId)) {
+      // TODO
+      console.log("TODO: Reset section completion for", sectionId)
+    }
+  }
 }

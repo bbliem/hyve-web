@@ -1,6 +1,6 @@
 <template>
-  <ul v-if="category.lessons.length" class="lesson-list">
-    <li v-for="lesson in category.lessons" :key="lesson.id">
+  <ul v-if="category.lessonModels.length" class="lesson-list">
+    <li v-for="lesson in category.lessonModels" :key="lesson.id">
       <router-link
         :to="{
           name: 'lesson-detail',

@@ -1,4 +1,5 @@
 import Model from './Model'
+import Lesson from './Lesson'
 
 export default class Category extends Model {
   resource() {
@@ -19,5 +20,9 @@ export default class Category extends Model {
 
   set name(value) {
     return this.setLocalizedField('name', value)
+  }
+
+  get lessonModels() {
+    return this.lessons.map(l => new Lesson(l))
   }
 }

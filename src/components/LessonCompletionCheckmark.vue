@@ -22,8 +22,7 @@ export default {
   },
   computed: {
     lessonCompleted() {
-      const sectionsInLesson = this.lesson.contents.map(c => c.section)
-      return state.user && sectionsInLesson.every(id => state.user.completedSections.includes(id))
+      return state.user && state.user.hasCompletedLesson(this.lesson)
     }
   }
 }
