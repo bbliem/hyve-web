@@ -127,6 +127,7 @@ import {
   Editor,
   EditorContent,
   EditorMenuBar,
+  Extension,
   Paragraph,
   Text,
 } from 'tiptap'
@@ -207,6 +208,21 @@ export default {
         }),
         new Strike(),
         new Underline(),
+        // Key handlers
+        new class extends Extension {
+          constructor(component) {
+            super()
+            this.component = component
+          }
+          keys() {
+            return {
+              Escape: () => {
+                this.component.closeEditor()
+                return true // prevents default behaviour
+              },
+            }
+          }
+        }(this),
       ]
     } else {
       extensions = [
@@ -216,6 +232,27 @@ export default {
         new Placeholder({
           emptyNodeText: this.$t('editor.enter-text-here')
         }),
+        // Key handlers
+        new class extends Extension {
+          constructor(component) {
+            super()
+            this.component = component
+          }
+          keys() {
+            return {
+              Enter: () => {
+                if(this.component.unsavedEdits) {
+                  this.component.save()
+                }
+                return true // prevents default behaviour
+              },
+              Escape: () => {
+                this.component.closeEditor()
+                return true // prevents default behaviour
+              },
+            }
+          }
+        }(this),
       ]
     }
     this.editor = new Editor({
