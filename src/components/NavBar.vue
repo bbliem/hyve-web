@@ -40,7 +40,7 @@
             <template v-if="canEdit">
               <b-dropdown-divider />
               <b-dropdown-form>
-                <b-form-checkbox v-model="editMode">
+                <b-form-checkbox v-model="editMode" switch inline>
                   Edit mode
                 </b-form-checkbox>
               </b-dropdown-form>
