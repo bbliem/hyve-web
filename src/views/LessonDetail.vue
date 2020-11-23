@@ -6,7 +6,7 @@
     <template v-if="lesson">
       <div style="display: flex">
         <h1 style="flex-grow: 1">
-          {{ lesson.name }}
+          <EditableText :multi-line="false" :on-save="onSaveName" :text="lesson.name" />
         </h1>
         <b-button
           v-if="someContentCompleted"
@@ -18,7 +18,7 @@
         </b-button>
       </div>
       <p v-if="lesson.description">
-        {{ lesson.description }}
+        <EditableText :on-save="onSaveDescription" :text="lesson.description" />
       </p>
       <template v-if="contents && contents.length">
         <template v-if="contentsOnCurrentPage">
@@ -69,14 +69,16 @@
 </template>
 
 <script>
+import EditableText from '@/components/EditableText.vue'
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import SectionDetail from '@/components/SectionDetail.vue'
 import Lesson from '@/models/Lesson'
-import { state } from '@/store'
+import { onUpdateLesson, state } from '@/store'
 
 export default {
   name: 'LessonDetail',
   components: {
+    EditableText,
     ErrorMessage,
     SectionDetail,
   },
@@ -118,6 +120,8 @@ export default {
   created() {
     this.loading = true
     return Lesson
+      .include('contents')
+      .params({ omit: 'sections' })
       .find(this.lessonId)
       .then(response => {
         this.lesson = response
@@ -144,6 +148,14 @@ export default {
     onFinish() {
       this.completeSectionsOnCurrentPage()
       this.$router.push({ name: 'material-home' })
+    },
+    async onSaveDescription(description) {
+      await this.lesson.updateFieldAndSave('description', description, ['contents'])
+      onUpdateLesson(this.lesson)
+    },
+    async onSaveName(name) {
+      await this.lesson.updateFieldAndSave('name', name, ['contents'])
+      onUpdateLesson(this.lesson)
     },
     async resetProgress() {
       const response = await this.$bvModal.msgBoxConfirm(this.$t('really-reset-lesson-progress'), {

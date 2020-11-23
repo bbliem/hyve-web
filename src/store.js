@@ -82,6 +82,31 @@ export function onVueCreated() {
   }
 }
 
+function updateObjectIfSameId(old, updated) {
+  // Update `old` so that, for all keys in `old`, `old[key]` will be equal to `updated[key]`, but keys in `updated` that are not in `old` will not be added.
+  if(old.id === updated.id) {
+    for(const key of Object.keys(old)) {
+      if(key in updated) {
+        old[key] = updated[key]
+      }
+    }
+  }
+}
+
+export function onUpdateLesson(updatedLesson) {
+  for(const category of state.categories) {
+    for(const lesson of category.lessons) {
+      updateObjectIfSameId(lesson, updatedLesson)
+    }
+  }
+}
+
+export function onUpdateCategory(updatedCategory) {
+  for(const category of state.categories) {
+    updateObjectIfSameId(category, updatedCategory)
+  }
+}
+
 export function login(username, password) {
   const loginData = { username, password }
   return axios({ url: Vue.appConfig.backendApiUrl + '/api-token-auth/', data: loginData, method: 'POST' })

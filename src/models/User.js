@@ -30,7 +30,7 @@ export default class User extends Model {
   }
 
   hasCompletedLesson(lesson) {
-    const sectionsInLesson = lesson.contents.map(c => c.section)
+    const sectionsInLesson = lesson.sections.map(c => c.section)
     return sectionsInLesson.every(id => this.hasCompletedSection(id))
   }
 

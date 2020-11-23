@@ -1,8 +1,10 @@
 <template>
   <div v-if="category">
-    <h1>{{ category.name }}</h1>
+    <h1>
+      <EditableText :multi-line="false" :on-save="onSaveName" :text="category.name" />
+    </h1>
     <p v-if="category.description">
-      {{ category.description }}
+      <EditableText :on-save="onSaveDescription" :text="category.description" />
     </p>
     <h2>{{ $t('lessons-in-this-category') }}</h2>
     <div class="d-flex flex-wrap">
@@ -38,13 +40,15 @@
 </template>
 
 <script>
-import { state } from '@/store'
+import { onUpdateCategory, state } from '@/store'
+import EditableText from '@/components/EditableText.vue'
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import LessonCompletionCheckmark from '@/components/LessonCompletionCheckmark'
 
 export default {
   name: 'CategoryDetail',
   components: {
+    EditableText,
     ErrorMessage,
     LessonCompletionCheckmark
   },
@@ -66,6 +70,16 @@ export default {
     return {
       title: this.category ? this.category.name : undefined
     }
+  },
+  methods: {
+    async onSaveDescription(description) {
+      await this.category.updateFieldAndSave('description', description, ['lessons'])
+      onUpdateCategory(this.category)
+    },
+    async onSaveName(name) {
+      await this.category.updateFieldAndSave('name', name, ['lessons'])
+      onUpdateCategory(this.category)
+    },
   },
 }
 </script>
