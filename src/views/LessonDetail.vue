@@ -4,12 +4,13 @@
       <b-spinner v-if="loading" />
     </div>
     <template v-if="lesson">
-      <div style="display: flex">
-        <h1 style="flex-grow: 1">
+      <div class="d-flex align-items-start">
+        <h1>
           <EditableText :multi-line="false" :on-save="onSaveName" :text="lesson.name" />
         </h1>
         <b-button
           v-if="someContentCompleted"
+          class="ml-auto"
           variant="light"
           :title="$t('mark-lesson-sections-uncompleted')"
           @click="resetProgress"

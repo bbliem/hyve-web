@@ -11,7 +11,7 @@
     </template>
 
     <!-- Text part -->
-    <div v-else style="display: flex">
+    <div v-else class="d-flex align-items-start">
       <b-button v-if="showEditButton" style="margin-right: 0.5em" variant="light" @click="openEditor">
         <b-icon icon="pencil" aria-hidden="true" :title="$t('edit')" />
       </b-button>

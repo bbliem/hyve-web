@@ -16,9 +16,8 @@
         class="m-2"
         :title="lesson.name"
       >
-        <b-card-text v-if="lesson.description">
-          {{ lesson.description }}
-        </b-card-text>
+        <!-- eslint-disable-next-line vue/no-v-html -->
+        <b-card-text v-if="lesson.description" v-html="lesson.description" />
         <b-button
           :to="{
             name: 'lesson-detail',
