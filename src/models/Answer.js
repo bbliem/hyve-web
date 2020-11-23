@@ -5,6 +5,14 @@ export default class Answer extends Model {
     return 'answers'
   }
 
+  get explanation() {
+    return this.getLocalizedField('explanation')
+  }
+
+  set explanation(value) {
+    return this.setLocalizedField('explanation', value)
+  }
+
   get text() {
     return this.getLocalizedField('text')
   }

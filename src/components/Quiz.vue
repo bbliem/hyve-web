@@ -9,22 +9,22 @@
             :text="question.text"
           />
         </template>
-        <div v-for="answer in question.answerModels" :key="answer.id">
+        <div v-for="answer in question.answers" :key="answer.id">
           <b-form-checkbox
             v-model="selected[answer.id]"
             class="answer"
           >
             <EditableText
               :multi-line="false"
-              :on-save="() => onSaveAnswer(answer)"
+              :on-save="(newText) => onSaveAnswer(answer, newText)"
               :text="answer.text"
             />
           </b-form-checkbox>
           <p v-if="revealSolution && !answerCorrect(answer)">
             <EditableText
               :multi-line="false"
-              :on-save="() => onSaveExplanation(answer)"
-              :text="'TODO explain why this is wrong'"
+              :on-save="(newExplanation) => onSaveExplanation(answer, newExplanation)"
+              :text="answer.explanation"
             />
           </p>
         </div>
@@ -67,15 +67,13 @@ export default {
     onCheckAnswers() {
       this.revealSolution = true
     },
-    async onSaveAnswer(answer) {
-      console.log("TODO save answer", answer)
+    async onSaveAnswer(answer, newText) {
+      await answer.updateFieldAndSave('text', newText)
     },
-    async onSaveExplanation(answer) {
-      console.log("TODO save explanation for answer", answer)
+    async onSaveExplanation(answer, newExplanation) {
+      await answer.updateFieldAndSave('explanation', newExplanation)
     },
     async onSaveQuestion(question, newText) {
-      console.log("TODO save question", question)
-      console.log("New question text:", newText)
       await question.updateFieldAndSave('text', newText, ['answers'])
       // Note that due to the top-down flow of information, the questions that have been passed as props will not be pdated. If we need this, we could, e.g., emit an event.
     },

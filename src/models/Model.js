@@ -28,6 +28,13 @@ export default class Model extends BaseModel {
     return this[field + i18n.localeCapitalized]
   }
 
+  nestedObjectsToModels(field, ModelClass) {
+    // Turn nested objects having an "id" field into instances of a Model subclass
+    if(Array.isArray(this[field])) {
+      this[field] = this[field].map(obj => obj.id ? new ModelClass(obj) : obj);
+    }
+  }
+
   setLocalizedField(field, value) {
     this[field + i18n.localeCapitalized] = value
   }

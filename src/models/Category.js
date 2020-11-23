@@ -2,6 +2,11 @@ import Model from './Model'
 import Lesson from './Lesson'
 
 export default class Category extends Model {
+  constructor(...attributes) {
+    super(...attributes)
+    this.nestedObjectsToModels('lessons', Lesson)
+  }
+
   resource() {
     return 'categories'
   }
@@ -20,9 +25,5 @@ export default class Category extends Model {
 
   set name(value) {
     return this.setLocalizedField('name', value)
-  }
-
-  get lessonModels() {
-    return this.lessons.map(l => new Lesson(l))
   }
 }

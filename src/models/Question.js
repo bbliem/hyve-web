@@ -2,6 +2,11 @@ import Model from './Model'
 import Answer from './Answer'
 
 export default class Question extends Model {
+  constructor(...attributes) {
+    super(...attributes)
+    this.nestedObjectsToModels('answers', Answer)
+  }
+
   resource() {
     return 'questions'
   }
@@ -12,9 +17,5 @@ export default class Question extends Model {
 
   set text(value) {
     return this.setLocalizedField('text', value)
-  }
-
-  get answerModels() {
-    return this.answers.map(a => new Answer(a))
   }
 }
