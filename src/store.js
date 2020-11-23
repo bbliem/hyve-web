@@ -68,7 +68,7 @@ export var initPromise;
 
 export function init() {
   // Called before Vue is created, returns Promise
-  state.editMode = localStorage.getItem('editMode')
+  state.editMode = JSON.parse(localStorage.getItem('editMode')) // JSON.parse since localStorage only stores strings at the moment
   initPromise = restoreLogin()
     .then(() => { state.initialized = true })
     .catch(error => { state.error = error })
@@ -131,5 +131,5 @@ export function onVueCreated() {
 
 export function setEditMode(value) {
   state.editMode = value
-  localStorage.setItem('editMode', value)
+  localStorage.setItem('editMode', JSON.stringify(value)) // JSON.stringify since localStorage only stores strings at the moment, and we use JSON.parse to load the value.
 }
