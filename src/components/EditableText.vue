@@ -11,13 +11,13 @@
     </template>
 
     <!-- Text part -->
-    <template v-else>
+    <div v-else style="display: flex">
+      <b-button v-if="showEditButton" style="margin-right: 0.5em" variant="light" @click="openEditor">
+        <b-icon icon="pencil" aria-hidden="true" :title="$t('edit')" />
+      </b-button>
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div v-html="text" />
-      <b-button v-if="showEditButton" @click="openEditor">
-        <b-icon icon="pencil" aria-hidden="true" /> {{ $t('edit') }}
-      </b-button>
-    </template>
+    </div>
   </div>
 </template>
 
