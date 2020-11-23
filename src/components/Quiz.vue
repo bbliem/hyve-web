@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="question in questions" :key="question.id">
+    <div v-for="question in reactiveQuestions" :key="question.id">
       <b-form-group>
         <template v-slot:label>
           <EditableText
@@ -55,8 +55,9 @@ export default {
   },
   data() {
     return {
-      selected: new Object(),
-      revealSolution: false
+      reactiveQuestions: this.questions, // If we used this.questions directly, they would not update on changes
+      revealSolution: false,
+      selected: {},
     }
   },
   methods: {
@@ -76,6 +77,7 @@ export default {
       console.log("TODO save question", question)
       console.log("New question text:", newText)
       await question.updateFieldAndSave('text', newText, ['answers'])
+      // Note that due to the top-down flow of information, the questions that have been passed as props will not be pdated. If we need this, we could, e.g., emit an event.
     },
   }
 }
