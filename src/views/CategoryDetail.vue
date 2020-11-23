@@ -7,7 +7,7 @@
     <h2>{{ $t('lessons-in-this-category') }}</h2>
     <div class="d-flex flex-wrap">
       <b-card
-        v-for="lesson in category.lessons"
+        v-for="lesson in category.lessonModels"
         :key="lesson.id"
         :img-src="`https://picsum.photos/seed/${lesson.id}/400/200/`"
         style="max-width: 25rem"
