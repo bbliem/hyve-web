@@ -149,6 +149,7 @@ export default {
       for(const { section } of this.contents) {
         this.user.resetSectionCompletion(section)
       }
+      this.$router.push({ query: { page: 1 }})
     },
   },
   metaInfo() {

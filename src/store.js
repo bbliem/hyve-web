@@ -38,6 +38,8 @@ function restoreLogin() {
     setAuthorizationHeader(token)
     // Get user data
     return User
+      .include('section_completions')
+      .params({ omit: 'completed_sections' })
       .find(userId)
       .then(response => { state.user = response })
       .catch(clearCredentials)
