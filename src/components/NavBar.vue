@@ -64,7 +64,7 @@
 
 <script>
 import authenticationMixin from '@/mixins/authenticationMixin'
-import { state } from '@/store.js'
+import { setEditMode, state } from '@/store.js'
 import LocalePicker from './LocalePicker'
 
 export default {
@@ -88,7 +88,7 @@ export default {
         return state.editMode
       },
       set: function(value) {
-        state.editMode = value
+        setEditMode(value)
       }
     },
     initialized() {

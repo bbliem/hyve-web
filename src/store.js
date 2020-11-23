@@ -5,19 +5,16 @@ import axios from 'axios'
 
 export const state = Vue.observable({
   categories: [],
+  editMode: false,
   error: null,
-  // Use the state only once initialized is true.
-  initialized: false,
   fetchingMaterial: false,
   fetchedMaterial: false,
-  editMode: false,
-
+  // Use the state only once initialized is true.
+  initialized: false,
   // Authentication
   // cf. https://www.digitalocean.com/community/tutorials/handling-authentication-in-vue-using-vuex
   user: null,
 })
-
-export var initPromise;
 
 function clearCredentials() {
   state.user = null
@@ -26,8 +23,11 @@ function clearCredentials() {
   delete axios.defaults.headers.common['Authorization']
 }
 
-function setAuthorizationHeader(token) {
-  axios.defaults.headers.common['Authorization'] = 'Token ' + token
+function fetchMaterial() {
+  return Category
+    .include('lessons')
+    .get()
+    .then(response => { state.categories = response })
 }
 
 function restoreLogin() {
@@ -49,37 +49,8 @@ function restoreLogin() {
   }
 }
 
-function fetchMaterial() {
-  return Category
-    .include('lessons')
-    .get()
-    .then(response => { state.categories = response })
-}
-
-export function init() {
-  // Called before Vue is created, returns Promise
-  initPromise = restoreLogin()
-    .then(() => { state.initialized = true })
-    .catch(error => { state.error = error })
-  return initPromise
-}
-
-export function onVueCreated() {
-  // To be called after Vue has been created and after init() has completed, returns Promise
-  if(!state.error) {
-    state.fetchingMaterial = true
-    return fetchMaterial()
-      .finally(() => {
-        state.fetchingMaterial = false
-        state.fetchedMaterial = true
-      })
-      .catch(error => {
-        state.error = this.$t('could-not-load-material')
-        console.error(state.error, error)
-      })
-  } else {
-    return Promise.resolve()
-  }
+function setAuthorizationHeader(token) {
+  axios.defaults.headers.common['Authorization'] = 'Token ' + token
 }
 
 function updateObjectIfSameId(old, updated) {
@@ -93,18 +64,15 @@ function updateObjectIfSameId(old, updated) {
   }
 }
 
-export function onUpdateLesson(updatedLesson) {
-  for(const category of state.categories) {
-    for(const lesson of category.lessons) {
-      updateObjectIfSameId(lesson, updatedLesson)
-    }
-  }
-}
+export var initPromise;
 
-export function onUpdateCategory(updatedCategory) {
-  for(const category of state.categories) {
-    updateObjectIfSameId(category, updatedCategory)
-  }
+export function init() {
+  // Called before Vue is created, returns Promise
+  state.editMode = localStorage.getItem('editMode')
+  initPromise = restoreLogin()
+    .then(() => { state.initialized = true })
+    .catch(error => { state.error = error })
+  return initPromise
 }
 
 export function login(username, password) {
@@ -127,4 +95,41 @@ export function login(username, password) {
 export function logout() {
   clearCredentials();
   return Promise.resolve()
+}
+
+export function onUpdateCategory(updatedCategory) {
+  for(const category of state.categories) {
+    updateObjectIfSameId(category, updatedCategory)
+  }
+}
+
+export function onUpdateLesson(updatedLesson) {
+  for(const category of state.categories) {
+    for(const lesson of category.lessons) {
+      updateObjectIfSameId(lesson, updatedLesson)
+    }
+  }
+}
+
+export function onVueCreated() {
+  // To be called after Vue has been created and after init() has completed, returns Promise
+  if(!state.error) {
+    state.fetchingMaterial = true
+    return fetchMaterial()
+      .finally(() => {
+        state.fetchingMaterial = false
+        state.fetchedMaterial = true
+      })
+      .catch(error => {
+        state.error = this.$t('could-not-load-material')
+        console.error(state.error, error)
+      })
+  } else {
+    return Promise.resolve()
+  }
+}
+
+export function setEditMode(value) {
+  state.editMode = value
+  localStorage.setItem('editMode', value)
 }
