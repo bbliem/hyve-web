@@ -1,5 +1,6 @@
 {
   "about": "About",
+  "are-you-sure": "Are you sure?",
   "category-not-found": "Category not found",
   "check-answers": "Check answers",
   "check-email-and-password": "Please check your e-mail address and password.",
@@ -49,11 +50,13 @@
   "my-profile": "My profile",
   "no-account": "No account?",
   "next-page": "Next page",
+  "no": "No",
   "page-i-of-n": "Page {i} of {n}",
   "page-not-found": "Page not found",
   "password-field-label": "Password:",
   "previous-page": "Previous page",
   "register": "Register",
+  "really-reset-lesson-progress": "Do you really want to reset your progress on this lesson and restart it?",
   "reset-progress": "Reset progress",
   "see-you-again-soon": "See you again soon",
   "see-you-again-soon-name": "See you again soon, {name}!",
@@ -62,5 +65,6 @@
   "unexpected-error": "An unexpected error occurred.",
   "view-category": "View category",
   "welcome-back": "Welcome back",
-  "welcome-back-name": "Welcome back, {name}!"
+  "welcome-back-name": "Welcome back, {name}!",
+  "yes": "Yes"
 }

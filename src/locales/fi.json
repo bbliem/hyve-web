@@ -1,5 +1,6 @@
 {
   "about": "About",
+  "are-you-sure": "Oletko varma?",
   "category-not-found": "Kategoriaa ei löydy",
   "check-answers": "Tarkista vastaukset",
   "check-email-and-password": "Tarkista sähköpostiosoitteesi ja salasanasi.",
@@ -48,6 +49,7 @@
   "mark-lesson-sections-uncompleted": "Merkitse kaikki tämän kappaleen osiot keskeneräisiksi",
   "material": "Materiaali",
   "my-profile": "Profiilini",
+  "no": "Ei",
   "no-account": "Ei tiliä?",
   "next-page": "Seuraava sivu",
   "page-i-of-n": "Sivu {i}/{n}",
@@ -55,6 +57,7 @@
   "password-field-label": "Salasana:",
   "previous-page": "Edellinen sivu",
   "register": "Rekisteröidy",
+  "really-reset-lesson-progress": "Haluatko varmasti nollata tämän kappaleen edistymisen ja aloittaa kappaleen uudelleen?",
   "reset-progress": "Nollaa edistyminen",
   "see-you-again-soon": "Nähdään pian!",
   "see-you-again-soon-name": "Nähdään pian, {name}!",
@@ -63,5 +66,6 @@
   "unexpected-error": "Tapahtui odottamaton virhe.",
   "view-category": "Näytä kategoria",
   "welcome-back": "Tervetuloa takaisin!",
-  "welcome-back-name": "Tervetuloa takaisin, {name}!"
+  "welcome-back-name": "Tervetuloa takaisin, {name}!",
+  "yes": "Kyllä"
 }

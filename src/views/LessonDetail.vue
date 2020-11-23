@@ -145,11 +145,18 @@ export default {
       this.completeSectionsOnCurrentPage()
       this.$router.push({ name: 'material-home' })
     },
-    resetProgress() {
-      for(const { section } of this.contents) {
-        this.user.resetSectionCompletion(section)
+    async resetProgress() {
+      const response = await this.$bvModal.msgBoxConfirm(this.$t('really-reset-lesson-progress'), {
+        title: this.$t('are-you-sure'),
+        okTitle: this.$t('yes'),
+        cancelTitle: this.$t('no'),
+      })
+      if(response) {
+        for(const { section } of this.contents) {
+          this.user.resetSectionCompletion(section)
+        }
+        this.$router.push({ query: { page: 1 }})
       }
-      this.$router.push({ query: { page: 1 }})
     },
   },
   metaInfo() {
