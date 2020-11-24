@@ -12,6 +12,7 @@
         <div v-for="answer in question.answers" :key="answer.id">
           <b-form-checkbox
             v-model="selected[answer.id]"
+            :disabled="revealSolution"
             class="answer"
           >
             <EditableText
@@ -31,8 +32,7 @@
       </b-form-group>
     </div>
 
-    <p>TODO Only show "check answers" button if section not completed yet.</p>
-    <b-button @click="onCheckAnswers">
+    <b-button :disabled="revealSolution" @click="onCheckAnswers">
       {{ $t('check-answers') }}
     </b-button>
     <p> TODO deactivate "next page" button (with tooltip) until section has been completed (i.e., answers have been checked)? (Also, we may want to mark the section as completed when "check answers" is clicked.)</p>
@@ -41,6 +41,7 @@
 
 <script>
 import EditableText from './EditableText'
+import { state } from '@/store'
 
 export default {
   name: 'Quiz',
@@ -51,21 +52,29 @@ export default {
     questions: {
       type: Array,
       required: true
-    }
+    },
+    sectionId: {
+      type: Number,
+      required: true
+    },
   },
   data() {
     return {
       reactiveQuestions: this.questions, // If we used this.questions directly, they would not update on changes
-      revealSolution: false,
       selected: {},
     }
+  },
+  computed: {
+    revealSolution() {
+      return state.user.hasCompletedSection(this.sectionId)
+    },
   },
   methods: {
     answerCorrect(answer) {
       return this.selected[answer.id] === answer.correct || (this.selected[answer.id] === undefined && answer.correct === false)
     },
     onCheckAnswers() {
-      this.revealSolution = true
+      state.user.completeSection(this.sectionId)
     },
     async onSaveAnswer(answer, newText) {
       await answer.updateFieldAndSave('text', newText)

@@ -8,9 +8,8 @@
       class="m-2"
       :title="category.name"
     >
-      <b-card-text v-if="category.description">
-        {{ category.description }}
-      </b-card-text>
+      <!-- eslint-disable-next-line vue/no-v-html -->
+      <b-card-text v-if="category.description" v-html="category.description" />
       <b-button
         :to="{
           name: 'category-detail',

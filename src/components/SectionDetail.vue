@@ -8,7 +8,7 @@
 
       <!-- Quiz -->
       <p v-if="section.questions.length">
-        <Quiz :questions="section.questions" />
+        <Quiz :questions="section.questions" :section-id="sectionId" />
       </p>
     </div>
 

@@ -23,7 +23,7 @@
       </p>
       <template v-if="contents && contents.length">
         <template v-if="contentsOnCurrentPage">
-          <SectionDetail v-for="content in contentsOnCurrentPage" :key="content.section" :section-id="content.section" />
+          <SectionDetail v-for="content in contentsOnCurrentPage" :key="`${content.section}-${ timesProgressReset}`" :section-id="content.section" />
         </template>
         <!-- Page navigation -->
         <b-row class="m-3">
@@ -98,6 +98,7 @@ export default {
       lesson: null,
       error: null,
       loading: false,
+      timesProgressReset: 0, // to force re-rendering of interactive components upon progress reset
     }
   },
   computed: {
@@ -168,7 +169,12 @@ export default {
         for(const { section } of this.contents) {
           this.user.resetSectionCompletion(section)
         }
-        this.$router.push({ query: { page: 1 }})
+        if(this.page === 1) {
+          // Force refresh of components since we're not changing the route
+          this.timesProgressReset += 1
+        } else {
+          this.$router.push({ query: { page: 1 }})
+        }
       }
     },
   },
