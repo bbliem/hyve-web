@@ -1,8 +1,5 @@
 <template>
-  <div>
-    <div class="text-center">
-      <b-spinner v-if="loading" />
-    </div>
+  <FetchedContent :fetch="fetch" :error-message="$t('could-not-load-lesson')">
     <template v-if="lesson">
       <div class="d-flex align-items-start">
         <h1>
@@ -65,13 +62,12 @@
         {{ $t('lesson-has-no-content') }}
       </p>
     </template>
-    <ErrorMessage v-else-if="error" :message="error" />
-  </div>
+  </FetchedContent>
 </template>
 
 <script>
 import EditableText from '@/components/EditableText.vue'
-import ErrorMessage from '@/components/ErrorMessage.vue'
+import FetchedContent from '@/components/FetchedContent.vue'
 import SectionDetail from '@/components/SectionDetail.vue'
 import Lesson from '@/models/Lesson'
 import { onUpdateLesson, state } from '@/store'
@@ -80,7 +76,7 @@ export default {
   name: 'LessonDetail',
   components: {
     EditableText,
-    ErrorMessage,
+    FetchedContent,
     SectionDetail,
   },
   props: {
@@ -96,8 +92,6 @@ export default {
   data() {
     return {
       lesson: null,
-      error: null,
-      loading: false,
       timesProgressReset: 0, // to force re-rendering of interactive components upon progress reset
     }
   },
@@ -119,26 +113,17 @@ export default {
       return state.user
     },
   },
-  created() {
-    this.loading = true
-    return Lesson
-      .include('contents')
-      .params({ omit: 'sections' })
-      .find(this.lessonId)
-      .then(response => {
-        this.lesson = response
-      })
-      .catch(error => {
-        this.error = this.$t('could-not-load-lesson')
-        console.error(this.error, error)
-      })
-      .finally(() => this.loading = false)
-  },
   methods: {
     completeSectionsOnCurrentPage() {
       for(const { section } of this.contentsOnCurrentPage) {
         this.user.completeSection(section)
       }
+    },
+    async fetch() {
+      this.lesson = await Lesson
+        .include('contents')
+        .params({ omit: 'sections' })
+        .find(this.lessonId)
     },
     onPrevious() {
       this.$router.push({ query: { page: this.page - 1 } })
