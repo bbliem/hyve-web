@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="reactiveQuestions.length">
     <div v-for="question in reactiveQuestions" :key="question.id">
       <b-form-group>
         <template v-slot:label>
@@ -38,7 +38,6 @@
     <b-button :disabled="revealSolution" @click="onCheckAnswers">
       {{ $t('check-answers') }}
     </b-button>
-    <p> TODO deactivate "next page" button (with tooltip) until section has been completed (i.e., answers have been checked)? (Also, we may want to mark the section as completed when "check answers" is clicked.)</p>
   </div>
 </template>
 
@@ -72,12 +71,18 @@ export default {
       return state.user.hasCompletedSection(this.sectionId)
     },
   },
+  created() {
+    if(!this.questions.length || this.revealSolution) {
+      this.$emit('quiz-interaction-done', this.sectionId)
+    }
+  },
   methods: {
     answerCorrect(answer) {
       return this.selected[answer.id] === answer.correct || (this.selected[answer.id] === undefined && answer.correct === false)
     },
     onCheckAnswers() {
       state.user.completeSection(this.sectionId)
+      this.$emit('quiz-interaction-done', this.sectionId)
     },
     async onSaveAnswer(answer, newText) {
       await answer.updateFieldAndSave('text', newText)

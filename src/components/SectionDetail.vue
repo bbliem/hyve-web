@@ -1,13 +1,13 @@
 <template>
   <b-card>
     <FetchedContent :fetch="fetch" :error-message="$t('could-not-load-section')">
-      <template v-if="section">
+      <template v-slot="{}">
         <EditableText :on-save="onSaveText" :text="section.text" />
-
-        <!-- Quiz -->
-        <p v-if="section.questions.length">
-          <Quiz :questions="section.questions" :section-id="sectionId" />
-        </p>
+        <Quiz
+          :questions="section.questions"
+          :section-id="sectionId"
+          @quiz-interaction-done="$emit('section-interaction-done', sectionId)"
+        />
       </template>
     </FetchedContent>
   </b-card>

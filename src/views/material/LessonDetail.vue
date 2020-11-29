@@ -20,7 +20,12 @@
       </p>
       <template v-if="contents && contents.length">
         <template v-if="contentsOnCurrentPage">
-          <SectionDetail v-for="content in contentsOnCurrentPage" :key="`${content.section}-${ timesProgressReset}`" :section-id="content.section" />
+          <SectionDetail
+            v-for="content in contentsOnCurrentPage"
+            :key="`${content.section}-${timesProgressReset}`"
+            :section-id="content.section"
+            @section-interaction-done="onSectionInteractionDone($event)"
+          />
         </template>
         <!-- Page navigation -->
         <b-row class="m-3">
@@ -42,6 +47,7 @@
               v-if="page < numPages"
               size="lg"
               class="float-right"
+              :disabled="nextDisabled"
               @click="onNext"
             >
               {{ $t('next-page') }}
@@ -51,6 +57,7 @@
               variant="primary"
               size="lg"
               class="float-right"
+              :disabled="nextDisabled"
               @click="onFinish"
             >
               {{ $t('finish-lesson') }}
@@ -96,19 +103,33 @@ export default {
   },
   data() {
     return {
+      blockingContents: {}, // Map section ID to Boolean; for reactivity issues see https://vuejs.org/v2/guide/reactivity.html#For-Objects
       lesson: null,
       timesProgressReset: 0, // to force re-rendering of interactive components upon progress reset
     }
   },
   computed: {
+    numBlockingContentsOnCurrentPage() {
+      return Object.keys(this.blockingContents).filter(sectionId => {
+        if(this.blockingContents[sectionId]) {
+          const content = this.lesson.contents.find(({ section }) => section == sectionId)
+          return content.page === this.page
+        }
+        return false
+      }).length
+    },
     someContentCompleted() {
       return state.user && this.contents.some(({section}) => state.user.hasCompletedSection(section))
     },
     contents() {
-      return this.lesson === null ? [] : this.lesson.contents
+      return this.lesson.contents
     },
     contentsOnCurrentPage() {
       return this.contents.filter(({ page }) => page === this.page)
+    },
+    nextDisabled() {
+      // Disable the next/finish button until we have heard from all sections on the page that they are done
+      return this.numBlockingContentsOnCurrentPage > 0
     },
     numPages() {
       const pageNumbers = this.contents.map(({ page }) => page)
@@ -125,10 +146,12 @@ export default {
       }
     },
     async fetch() {
+      console.log("Fetching lesson... If we are doing this once for every page, it's too often.")
       this.lesson = await Lesson
         .include('contents')
         .params({ omit: 'sections' })
         .find(this.lessonId)
+      this.setAllContentsBlocking()
     },
     onPrevious() {
       this.$router.push({ query: { page: this.page - 1 } })
@@ -149,6 +172,9 @@ export default {
       await this.lesson.updateFieldAndSave('name', name, ['contents'])
       this.updateLessonList()
     },
+    onSectionInteractionDone(sectionId) {
+      this.$set(this.blockingContents, sectionId, false)
+    },
     async resetProgress() {
       const response = await this.$bvModal.msgBoxConfirm(this.$t('really-reset-lesson-progress'), {
         title: this.$t('are-you-sure'),
@@ -162,9 +188,15 @@ export default {
         if(this.page === 1) {
           // Force refresh of components since we're not changing the route
           this.timesProgressReset += 1
+          this.setAllContentsBlocking()
         } else {
           this.$router.push({ query: { page: 1 }})
         }
+      }
+    },
+    setAllContentsBlocking() {
+      for(const content of this.lesson.contents) {
+        this.$set(this.blockingContents, content.section, true)
       }
     },
     updateLessonList() {
