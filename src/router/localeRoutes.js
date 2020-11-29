@@ -42,7 +42,7 @@ export default [
             // route level code-splitting
             // this generates a separate chunk (about.[hash].js) for this route
             // which is lazy-loaded when the route is visited.
-            component: () => import(/* webpackChunkName: "category-detail" */ '../views/CategoryDetail.vue')
+            component: () => import(/* webpackChunkName: "category-detail" */ '../views/material/CategoryDetail.vue')
           },
           {
             name: 'lesson-detail',
@@ -51,12 +51,12 @@ export default [
               lessonId: toIntOrUndefined(route.params.lessonId),
               page: toIntOrUndefined(route.query.page)
             }),
-            component: () => import(/* webpackChunkName: "lesson-detail" */ '../views/LessonDetail.vue')
+            component: () => import(/* webpackChunkName: "lesson-detail" */ '../views/material/LessonDetail.vue')
           },
           {
             name: 'material-home',
             path: '',
-            component: () => import(/* webpackChunkName: "material-home" */ '../views/MaterialHome.vue')
+            component: () => import(/* webpackChunkName: "material-home" */ '../views/material/MaterialHome.vue')
           },
         ],
       },

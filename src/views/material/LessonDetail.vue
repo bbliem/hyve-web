@@ -66,9 +66,9 @@
 </template>
 
 <script>
-import EditableText from '@/components/EditableText.vue'
-import FetchedContent from '@/components/FetchedContent.vue'
-import SectionDetail from '@/components/SectionDetail.vue'
+import EditableText from '@/components/EditableText'
+import FetchedContent from '@/components/FetchedContent'
+import SectionDetail from '@/components/SectionDetail'
 import Lesson from '@/models/Lesson'
 import { state } from '@/store'
 
