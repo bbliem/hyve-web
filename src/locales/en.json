@@ -57,6 +57,10 @@
   "page-not-found": "Page not found",
   "password-field-label": "Password:",
   "previous-page": "Previous page",
+  "quiz": {
+    "correct": "Correct!",
+    "incorrect": "Incorrect!"
+  },
   "register": "Register",
   "really-reset-lesson-progress": "Do you really want to reset your progress on this lesson and restart it?",
   "reset-progress": "Reset progress",

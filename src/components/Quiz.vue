@@ -21,13 +21,16 @@
               :text="answer.text"
             />
           </b-form-checkbox>
-          <p v-if="revealSolution && !answerCorrect(answer)">
+          <div v-if="revealSolution">
+            <b-badge :variant="answerCorrect(answer) ? 'success' : 'danger'">
+              {{ answerCorrect(answer) ? $t('quiz.correct') : $t('quiz.incorrect') }}
+            </b-badge>
             <EditableText
               :multi-line="false"
               :on-save="(newExplanation) => onSaveExplanation(answer, newExplanation)"
               :text="answer.explanation"
             />
-          </p>
+          </div>
         </div>
       </b-form-group>
     </div>

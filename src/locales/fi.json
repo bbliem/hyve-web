@@ -57,6 +57,10 @@
   "page-not-found": "Sivua ei löydy",
   "password-field-label": "Salasana:",
   "previous-page": "Edellinen sivu",
+  "quiz": {
+    "correct": "Oikea!",
+    "incorrect": "Väärä!"
+  },
   "register": "Rekisteröidy",
   "really-reset-lesson-progress": "Haluatko varmasti nollata tämän kappaleen edistymisen ja aloittaa kappaleen uudelleen?",
   "reset-progress": "Nollaa edistyminen",
