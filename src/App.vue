@@ -4,9 +4,9 @@
 
     <div id="page">
       <!-- If global state is loading or has an error, show this here. -->
-      <b-overlay :show="fetchingMaterial" variant="white" no-wrap />
+      <b-overlay :show="fetching" variant="white" no-wrap />
       <ErrorMessage v-if="error" :message="error" />
-      <router-view v-else :key="$route.fullPath" />
+      <router-view :key="$route.name" />
     </div>
   </div>
 </template>
@@ -27,7 +27,7 @@ export default {
     }
   },
   computed: {
-    fetchingMaterial() { return state.fetchingMaterial },
+    fetching() { return state.fetching },
     error() { return state.error },
   },
   metaInfo() {

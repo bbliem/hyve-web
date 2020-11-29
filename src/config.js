@@ -2,6 +2,7 @@
 const config = {
   appTitle: parse(process.env.VUE_APP_TITLE, 'Unnamed App'),
   backendApiUrl: parse(process.env.VUE_APP_BACKEND_API_URL, 'http://127.0.0.1:8000'),
+  organization: parse(process.env.VUE_APP_ORGANIZATION_ID),
   features: {
     // ...
   }

@@ -50,6 +50,7 @@ export default class Model extends BaseModel {
     let unexpandedModel = new this.constructor(this)
     unexpandedModel[field] = newValue
     for(const f of unexpandFields) {
+      console.assert(unexpandedModel[f].every(obj => obj.id), `Object in ${this.constructor.name}.${f} lacks ID`)
       unexpandedModel[f] = unexpandedModel[f].map(obj => obj.id)
     }
     await unexpandedModel.save()

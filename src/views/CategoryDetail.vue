@@ -9,7 +9,7 @@
     <h2>{{ $t('lessons-in-this-category') }}</h2>
     <div class="d-flex flex-wrap">
       <b-card
-        v-for="lesson in category.lessons"
+        v-for="lesson in lessonsInCategory(category)"
         :key="lesson.id"
         :img-src="`https://picsum.photos/seed/${lesson.id}/400/200/`"
         style="max-width: 25rem"
@@ -35,11 +35,10 @@
       </b-card>
     </div>
   </div>
-  <ErrorMessage v-else-if="fetchedMaterial" :message="$t('category-not-found')" />
+  <ErrorMessage v-else :message="$t('category-not-found')" />
 </template>
 
 <script>
-import { onUpdateCategory, state } from '@/store'
 import EditableText from '@/components/EditableText.vue'
 import ErrorMessage from '@/components/ErrorMessage.vue'
 import LessonCompletionCheckmark from '@/components/LessonCompletionCheckmark'
@@ -52,6 +51,14 @@ export default {
     LessonCompletionCheckmark
   },
   props: {
+    categories: {
+      type: Array,
+      required: true
+    },
+    lessons: {
+      type: Array,
+      required: true
+    },
     categoryId: {
       type: Number,
       required: true
@@ -59,11 +66,8 @@ export default {
   },
   computed: {
     category() {
-      return state.categories.find(c => c.id === this.categoryId)
+      return this.categories.find(c => c.id === this.categoryId)
     },
-    fetchedMaterial() {
-      return state.fetchedMaterial
-    }
   },
   metaInfo() {
     return {
@@ -71,13 +75,14 @@ export default {
     }
   },
   methods: {
+    lessonsInCategory(category) {
+      return this.lessons.filter(l => category.lessons.includes(l.id))
+    },
     async onSaveDescription(description) {
-      await this.category.updateFieldAndSave('description', description, ['lessons'])
-      onUpdateCategory(this.category)
+      await this.category.updateFieldAndSave('description', description)
     },
     async onSaveName(name) {
-      await this.category.updateFieldAndSave('name', name, ['lessons'])
-      onUpdateCategory(this.category)
+      await this.category.updateFieldAndSave('name', name)
     },
   },
 }

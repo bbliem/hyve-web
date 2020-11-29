@@ -24,12 +24,13 @@
 </template>
 
 <script>
-import { state } from '@/store'
-
 export default {
   name: 'CategoryList',
-  computed: {
-    categories() { return state.categories }
-  }
+  props: {
+    categories: {
+      type: Array,
+      required: true
+    },
+  },
 }
 </script>

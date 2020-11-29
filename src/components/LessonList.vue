@@ -1,6 +1,6 @@
 <template>
-  <ul v-if="category.lessons.length" class="lesson-list">
-    <li v-for="lesson in category.lessons" :key="lesson.id">
+  <ul v-if="lessons.length" class="lesson-list">
+    <li v-for="lesson in lessons" :key="lesson.id">
       <router-link
         :to="{
           name: 'lesson-detail',
@@ -11,7 +11,7 @@
         class="lesson-link"
       >
         <div class="lesson-row">
-          {{ getLessonModel(lesson).name }}
+          {{ lesson.name }}
           <LessonCompletionCheckmark :lesson="lesson" class="checkmark" />
         </div>
       </router-link>
@@ -21,7 +21,6 @@
 
 <script>
 import LessonCompletionCheckmark from '@/components/LessonCompletionCheckmark'
-import Lesson from '@/models/Lesson'
 
 export default {
   name: 'LessonList',
@@ -32,12 +31,11 @@ export default {
     category: {
       type: Object,
       required: true
-    }
-  },
-  methods: {
-    getLessonModel(data) {
-      return new Lesson(data)
-    }
+    },
+    lessons: {
+      type: Array,
+      required: true
+    },
   },
 }
 </script>

@@ -70,7 +70,7 @@ import EditableText from '@/components/EditableText.vue'
 import FetchedContent from '@/components/FetchedContent.vue'
 import SectionDetail from '@/components/SectionDetail.vue'
 import Lesson from '@/models/Lesson'
-import { onUpdateLesson, state } from '@/store'
+import { state } from '@/store'
 
 export default {
   name: 'LessonDetail',
@@ -82,6 +82,11 @@ export default {
   props: {
     lessonId: {
       type: Number,
+      required: true,
+    },
+    lessons: {
+      // This is an array of all lessons. This component fetches the requested lesson (given by lessonId) instead of taking it from this array because we need the lesson contents. Still, this array is used when the user updates the lesson.
+      type: Array,
       required: true,
     },
     page: {
@@ -138,11 +143,11 @@ export default {
     },
     async onSaveDescription(description) {
       await this.lesson.updateFieldAndSave('description', description, ['contents'])
-      onUpdateLesson(this.lesson)
+      this.updateLessonList()
     },
     async onSaveName(name) {
       await this.lesson.updateFieldAndSave('name', name, ['contents'])
-      onUpdateLesson(this.lesson)
+      this.updateLessonList()
     },
     async resetProgress() {
       const response = await this.$bvModal.msgBoxConfirm(this.$t('really-reset-lesson-progress'), {
@@ -159,6 +164,14 @@ export default {
           this.timesProgressReset += 1
         } else {
           this.$router.push({ query: { page: 1 }})
+        }
+      }
+    },
+    updateLessonList() {
+      let lesson = this.lessons.find(l => l.id === this.lessonId)
+      for(const key of Object.keys(lesson)) {
+        if(key in this.lesson) {
+          lesson[key] = this.lesson[key]
         }
       }
     },

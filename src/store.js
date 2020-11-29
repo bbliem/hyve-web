@@ -1,14 +1,16 @@
 import Vue from 'vue'
-import Category from '@/models/Category'
-import User from '@/models/User'
 import axios from 'axios'
 
+import Organization from '@/models/Organization'
+import User from '@/models/User'
+import i18n from '@/i18n'
+
 export const state = Vue.observable({
-  categories: [],
+  organization: null,
   editMode: false,
   error: null,
-  fetchingMaterial: false,
-  fetchedMaterial: false,
+  fetching: false,
+  fetched: false,
   // Use the state only once initialized is true.
   initialized: false,
   // Authentication
@@ -23,11 +25,10 @@ function clearCredentials() {
   delete axios.defaults.headers.common['Authorization']
 }
 
-function fetchMaterial() {
-  return Category
+async function fetchOrganization() {
+  state.organization = await Organization
     .include('lessons')
-    .get()
-    .then(response => { state.categories = response })
+    .find(Vue.appConfig.organization)
 }
 
 function restoreLogin() {
@@ -51,17 +52,6 @@ function restoreLogin() {
 
 function setAuthorizationHeader(token) {
   axios.defaults.headers.common['Authorization'] = 'Token ' + token
-}
-
-function updateObjectIfSameId(old, updated) {
-  // Update `old` so that, for all keys in `old`, `old[key]` will be equal to `updated[key]`, but keys in `updated` that are not in `old` will not be added.
-  if(old.id === updated.id) {
-    for(const key of Object.keys(old)) {
-      if(key in updated) {
-        old[key] = updated[key]
-      }
-    }
-  }
 }
 
 export var initPromise;
@@ -97,31 +87,17 @@ export function logout() {
   return Promise.resolve()
 }
 
-export function onUpdateCategory(updatedCategory) {
-  for(const category of state.categories) {
-    updateObjectIfSameId(category, updatedCategory)
-  }
-}
-
-export function onUpdateLesson(updatedLesson) {
-  for(const category of state.categories) {
-    for(const lesson of category.lessons) {
-      updateObjectIfSameId(lesson, updatedLesson)
-    }
-  }
-}
-
 export function onVueCreated() {
   // To be called after Vue has been created and after init() has completed, returns Promise
   if(!state.error) {
-    state.fetchingMaterial = true
-    return fetchMaterial()
+    state.fetching = true
+    return fetchOrganization()
       .finally(() => {
-        state.fetchingMaterial = false
-        state.fetchedMaterial = true
+        state.fetching = false
+        state.fetched = true
       })
       .catch(error => {
-        state.error = this.$t('could-not-load-material')
+        state.error = i18n.t('could-not-load-organization')
         console.error(state.error, error)
       })
   } else {

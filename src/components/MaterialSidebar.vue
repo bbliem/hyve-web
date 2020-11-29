@@ -12,14 +12,17 @@
       >
         {{ category.name }}
       </router-link>
-      <LessonList v-if="activeCategoryId === category.id" :category="category" />
+      <LessonList
+        v-if="activeCategoryId === category.id"
+        :category="category"
+        :lessons="lessonsInCategory(category)"
+      />
     </div>
   </div>
 </template>
 
 <script>
 import LessonList from './LessonList.vue'
-import { state } from '@/store'
 
 export default {
   name: 'MaterialSidebar',
@@ -31,10 +34,20 @@ export default {
       type: Number,
       default: undefined,
     },
+    categories: {
+      type: Array,
+      required: true,
+    },
+    lessons: {
+      type: Array,
+      required: true,
+    },
   },
-  computed: {
-    categories() { return state.categories }
-  }
+  methods: {
+    lessonsInCategory(category) {
+      return this.lessons.filter(l => l.categories.includes(category.id))
+    },
+  },
 }
 </script>
 

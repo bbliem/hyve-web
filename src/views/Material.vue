@@ -1,27 +1,53 @@
 <template>
-  <div>
-    <nav id="sidebar">
-      <MaterialSidebar :active-category-id="activeCategoryId" />
-    </nav>
+  <FetchedContent :fetch="fetch" :error-message="$t('could-not-load-categories')">
+    <!-- v-slot="{}" is a hack to wait with rendering the content until fetching is done -->
+    <template v-slot="{}">
+      <nav id="sidebar">
+        <MaterialSidebar :active-category-id="activeCategoryId" :categories="categories" :lessons="lessons" />
+      </nav>
 
-    <main id="content">
-      <router-view :key="$route.fullPath" />
-    </main>
-  </div>
+      <main id="content">
+        <router-view
+          :key="$route.fullPath"
+          :categories="categories"
+          :lessons="lessons"
+        />
+      </main>
+    </template>
+  </FetchedContent>
 </template>
 
 <script>
-import MaterialSidebar from '@/components/MaterialSidebar.vue'
+import Category from '@/models/Category'
+import FetchedContent from '@/components/FetchedContent'
+import MaterialSidebar from '@/components/MaterialSidebar'
+import { state } from '@/store'
 
 export default {
   name: 'Material',
   components: {
+    FetchedContent,
     MaterialSidebar,
   },
   props: {
     activeCategoryId: {
       type: Number,
       default: undefined,
+    },
+  },
+  data() {
+    return {
+      categories: null,
+    }
+  },
+  computed: {
+    lessons() {
+      return state.organization.lessons
+    },
+  },
+  methods: {
+    async fetch() {
+      this.categories = await Category.get()
     },
   },
 }
