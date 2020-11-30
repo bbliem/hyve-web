@@ -1,32 +1,34 @@
 <template>
   <b-navbar toggleable="sm" type="dark" variant="info" sticky>
-    <b-navbar-brand :to="{ name: 'home' }">
-      {{ brandName }}
-    </b-navbar-brand>
+    <b-container fluid="lg">
+      <b-navbar-brand :to="{ name: 'home' }">
+        {{ brandName }}
+      </b-navbar-brand>
 
-    <b-navbar-toggle target="nav-collapse" />
+      <b-navbar-toggle target="nav-collapse" />
 
-    <b-collapse id="nav-collapse" is-nav>
-      <b-navbar-nav>
-        <b-nav-item :to="{ name: 'material-home' }">
-          {{ $t('material') }}
-        </b-nav-item>
-        <b-nav-item :to="{ name: 'about' }">
-          {{ $t('about') }}
-        </b-nav-item>
-      </b-navbar-nav>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item :to="{ name: 'material-home' }">
+            {{ $t('material') }}
+          </b-nav-item>
+          <b-nav-item :to="{ name: 'about' }">
+            {{ $t('about') }}
+          </b-nav-item>
+        </b-navbar-nav>
 
-      <!-- Right aligned nav items -->
-      <!-- dummy to make all following items aligned right -->
-      <div class="ml-auto" />
+        <!-- Right aligned nav items -->
+        <!-- dummy to make all following items aligned right -->
+        <div class="ml-auto" />
 
-      <LocalePicker />
+        <LocalePicker />
 
-      <UserDropdown v-if="initialized" />
-      <b-navbar-nav v-else>
-        <b-spinner variant="secondary" />
-      </b-navbar-nav>
-    </b-collapse>
+        <UserDropdown v-if="initialized" />
+        <b-navbar-nav v-else>
+          <b-spinner variant="secondary" />
+        </b-navbar-nav>
+      </b-collapse>
+    </b-container>
   </b-navbar>
 </template>
 
