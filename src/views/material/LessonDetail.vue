@@ -146,7 +146,6 @@ export default {
       }
     },
     async fetch() {
-      console.log("Fetching lesson... If we are doing this once for every page, it's too often.")
       this.lesson = await Lesson
         .include('contents')
         .params({ omit: 'sections' })

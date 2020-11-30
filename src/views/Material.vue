@@ -8,7 +8,7 @@
 
       <main id="content">
         <router-view
-          :key="$route.fullPath"
+          :key="$route.path"
           :categories="categories"
           :lessons="lessons"
         />
