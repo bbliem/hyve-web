@@ -2,12 +2,12 @@
   <div id="app">
     <NavBar :brand-name="title" />
 
-    <div id="page">
+    <b-container id="page" fluid="lg">
       <!-- If global state is loading or has an error, show this here. -->
       <b-overlay :show="fetching" variant="white" no-wrap />
       <ErrorMessage v-if="error" :message="error" />
       <router-view :key="$route.name" />
-    </div>
+    </b-container>
   </div>
 </template>
 
