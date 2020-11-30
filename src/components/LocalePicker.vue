@@ -27,6 +27,7 @@ export default {
         const newParams = { locale }
         const mergedParams = { ...currentParams, ...newParams };
         this.$router.push({ params: mergedParams });
+        localStorage.setItem('locale', locale)
       }
     },
   },

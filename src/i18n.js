@@ -25,7 +25,7 @@ function getFallbackLocaleFromEnv () {
 }
 
 var i18n = new VueI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || 'fi',
+  locale: localStorage.getItem('locale') || process.env.VUE_APP_I18N_LOCALE || 'fi',
   fallbackLocale: getFallbackLocaleFromEnv() || 'en',
   messages: loadLocaleMessages()
 })
