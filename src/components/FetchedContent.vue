@@ -1,4 +1,7 @@
 <template>
+  <!-- If you use this component, consider wrapping its content in
+    <template v-slot="{}">...</template>
+    See https://stackoverflow.com/a/50761804/14595546 -->
   <div>
     <div v-if="loading" class="text-center">
       <b-spinner />
@@ -9,7 +12,7 @@
 </template>
 
 <script>
-import ErrorMessage from '@/components/ErrorMessage.vue'
+import ErrorMessage from '@/components/ErrorMessage'
 
 export default {
   name: 'FetchedContent',
