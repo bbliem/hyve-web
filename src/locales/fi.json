@@ -11,6 +11,7 @@
   "could-not-load-page": "Sivun lataaminen epäonnistui.",
   "could-not-load-section": "Osion lataaminen epäonnistui.",
   "edit": "Muokkaa",
+  "edit-mode": "Muokkausmoodi",
   "editor": {
     "blockquote": "Lohkolainaus",
     "bold": "Lihavoitu",
@@ -49,6 +50,7 @@
   "logged-out": "Kirjautunut ulos",
   "mark-lesson-sections-uncompleted": "Merkitse kaikki tämän kappaleen osiot keskeneräisiksi",
   "material": "Materiaali",
+  "my-organization": "Organisaationi",
   "my-profile": "Profiilini",
   "next-page": "Seuraava sivu",
   "no": "Ei",

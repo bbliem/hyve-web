@@ -6,9 +6,14 @@
         {{ user.name || user.email }}
       </template>
 
-      <b-dropdown-item href="#">
+      <b-dropdown-item :to="{ name: 'profile' }">
         {{ $t('my-profile') }}
       </b-dropdown-item>
+
+      <b-dropdown-item :to="{ name: 'organization' }">
+        {{ $t('my-organization') }}
+      </b-dropdown-item>
+
       <b-dropdown-item @click="logout">
         {{ $t('logout') }}
       </b-dropdown-item>
@@ -17,7 +22,7 @@
         <b-dropdown-divider />
         <b-dropdown-form>
           <b-form-checkbox v-model="editMode" switch inline>
-            Edit mode
+            {{ $t('edit-mode') }}
           </b-form-checkbox>
         </b-dropdown-form>
       </template>

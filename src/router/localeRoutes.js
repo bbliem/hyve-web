@@ -60,6 +60,16 @@ export default [
           },
         ],
       },
+      {
+        name: 'organization',
+        path: 'organization',
+        component: () => import(/* webpackChunkName: "organization" */ '../views/Organization.vue')
+      },
+      {
+        name: 'profile',
+        path: 'profile',
+        component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue')
+      },
     ],
   },
 ]
