@@ -1,7 +1,21 @@
 import Model from './Model'
+import QuestionResponse from './QuestionResponse'
 import SectionCompletion from './SectionCompletion'
 
 export default class User extends Model {
+  constructor(...attributes) {
+    super(...attributes)
+    if(this.questionResponses) {
+      // Backend omits user in question responses
+      for(let response of this.questionResponses) {
+        if(response.user === undefined) {
+          response.user = this.id
+        }
+      }
+      this.nestedObjectsToModels('questionResponses', QuestionResponse)
+    }
+  }
+
   resource() {
     return 'users'
   }
@@ -33,21 +47,48 @@ export default class User extends Model {
     return lesson.sections.every(id => this.hasCompletedSection(id))
   }
 
-  async resetSectionCompletion(sectionId) {
-    const index = this.sectionCompletions.findIndex(({ section }) => section === sectionId)
+  async resetRelation(array, key, idToRemove, ModelConstructor) {
+    const index = array.findIndex(obj => obj[key] === idToRemove)
     if(index > -1) {
-      const completion = new SectionCompletion(this.sectionCompletions[index])
+      const existingModel = new ModelConstructor(array[index])
       // If we put the following line after the "await", we might get a race condition.
-      this.sectionCompletions.splice(index, 1)
-      await completion.delete()
-      console.log("Removed section completion", JSON.stringify(completion))
-      // Remove from completedSections
-      if(this.completedSections !== undefined) {
-        const index = this.completedSections.indexOf(sectionId)
+      array.splice(index, 1)
+      await existingModel.delete()
+      console.log(`Removed ${ModelConstructor.name}`, JSON.stringify(existingModel))
+      // Remove from array
+      if(array !== undefined) {
+        const index = array.indexOf(idToRemove)
         if(index > -1) {
-          this.completedSections.splice(index, 1)
+          array.splice(index, 1)
         }
       }
+    }
+  }
+
+  async resetSectionCompletion(sectionId) {
+    this.resetRelation(this.sectionCompletions, 'section', sectionId, SectionCompletion)
+  }
+
+  async resetQuestionResponse(answerId) {
+    this.resetRelation(this.questionResponses, 'answer', answerId, QuestionResponse)
+  }
+
+  async respondToQuestion(answer, response) {
+    const existingModel = this.questionResponses.find(model => model.answer == answer.id)
+    if(existingModel === undefined) {
+      // Create
+      const createdModel = await new QuestionResponse({
+        user: this.id,
+        answer: answer.id,
+        response
+      }).save()
+      console.log(`Created response to question by answering ${answer.id} with ${response}`)
+      this.questionResponses.push(createdModel)
+    } else {
+      // Update
+      existingModel.response = response
+      await existingModel.save()
+      console.log(`Updated response to question by answering ${answer.id} with ${response}`)
     }
   }
 }

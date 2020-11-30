@@ -22,9 +22,16 @@
             />
           </b-form-checkbox>
           <div v-if="revealSolution">
-            <b-badge :variant="answerCorrect(answer) ? 'success' : 'danger'">
-              {{ answerCorrect(answer) ? $t('quiz.correct') : $t('quiz.incorrect') }}
-            </b-badge>
+            <template v-if="answerCorrect(answer)">
+              <b-badge variant="success">
+                {{ $t('quiz.correct') }}
+              </b-badge>
+            </template>
+            <template v-else-if="answerIncorrect(answer)">
+              <b-badge variant="danger">
+                {{ $t('quiz.incorrect') }}
+              </b-badge>
+            </template>
             <EditableText
               :multi-line="false"
               :on-save="(newExplanation) => onSaveExplanation(answer, newExplanation)"
@@ -72,16 +79,32 @@ export default {
     },
   },
   created() {
+    // Set selected checkboxes according to question responses in User object
+    for(const question of this.questions) {
+      for(const answer of question.answers) {
+        const existingModel = state.user.questionResponses.find(model => model.answer == answer.id)
+        this.selected[answer.id] = existingModel ? existingModel.response : false
+      }
+    }
     if(!this.questions.length || this.revealSolution) {
       this.$emit('quiz-interaction-done', this.sectionId)
     }
   },
   methods: {
     answerCorrect(answer) {
-      return this.selected[answer.id] === answer.correct || (this.selected[answer.id] === undefined && answer.correct === false)
+      return this.selected[answer.id] === answer.correct
+    },
+    answerIncorrect(answer) {
+      // Responses can also be undefined, so incorrect is not the negation of correct
+      return this.selected[answer.id] === !answer.correct
     },
     onCheckAnswers() {
       state.user.completeSection(this.sectionId)
+      for(const question of this.questions) {
+        for(const answer of question.answers) {
+          state.user.respondToQuestion(answer, this.selected[answer.id])
+        }
+      }
       this.$emit('quiz-interaction-done', this.sectionId)
     },
     async onSaveAnswer(answer, newText) {
