@@ -8,7 +8,6 @@
             categoryId: category.id,
             lessonId: lesson.id
           }}"
-        class="lesson-link"
       >
         <div class="lesson-row">
           {{ lesson.name }}

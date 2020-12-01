@@ -33,7 +33,7 @@ $large-screen-width: 600px;
     padding: 10px;
     /*overflow-x: hidden; [> Disable horizontal scroll <]*/
 
-    ul.lesson-list {
+    ul {
       list-style-type: none;
       padding: 0;
       margin: 0;
@@ -41,6 +41,7 @@ $large-screen-width: 600px;
 
     a {
       display: block;
+      font-size: 1.1rem;
       padding: 16px;
       color: $shadow;
       border-left: .25rem solid transparent;
@@ -57,13 +58,9 @@ $large-screen-width: 600px;
       }
     }
 
-    .category-link {
+    .sidebar-headline {
       font-size: 1.5rem;
       font-weight: 700;
-    }
-
-    .lesson-link {
-      font-size: 1.1rem;
     }
   }
 }

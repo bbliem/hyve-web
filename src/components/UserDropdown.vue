@@ -10,7 +10,7 @@
         {{ $t('my-profile') }}
       </b-dropdown-item>
 
-      <b-dropdown-item :to="{ name: 'organization' }">
+      <b-dropdown-item :to="{ name: 'organization-home' }">
         {{ $t('my-organization') }}
       </b-dropdown-item>
 

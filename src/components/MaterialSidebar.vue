@@ -8,7 +8,7 @@
             categoryId: category.id
           }
         }"
-        class="category-link"
+        class="sidebar-headline"
       >
         {{ category.name }}
       </router-link>

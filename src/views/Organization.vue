@@ -1,25 +1,33 @@
 <template>
   <div v-if="organization && user">
-    <h1>TODO My Organization</h1>
-    <h2>{{ organization.name }}</h2>
-    <p v-if="membership.isSupervisor">
-      I'm a supervisor!
-    </p>
-    <p v-else>
-      I'm not a supervisor.
-    </p>
+    <PageWithSidebar>
+      <template #sidebar>
+        <router-link class="sidebar-headline" :to="{ name: 'organization-home' }">
+          {{ $t('my-organization') }}
+        </router-link>
+        <router-link :to="{ name: 'organization-profile' }">
+          {{ $t('organization-profile') }}
+        </router-link>
+        <router-link :to="{ name: 'organization-members' }">
+          {{ $t('members') }}
+        </router-link>
+      </template>
+
+      <router-view :key="$route.path" />
+    </PageWithSidebar>
   </div>
 </template>
 
 <script>
+import PageWithSidebar from '@/components/PageWithSidebar'
 import { state } from '@/store'
 
 export default {
   name: 'Organization',
+  components: {
+    PageWithSidebar,
+  },
   computed: {
-    membership() {
-      return state.user.memberships.find(({ organization }) => organization === this.organization.id)
-    },
     organization() {
       return state.organization
     },
