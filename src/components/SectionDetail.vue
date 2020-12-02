@@ -4,7 +4,7 @@
       <template v-slot="{}">
         <EditableText :on-save="onSaveText" :text="section.text" />
         <Quiz
-          :questions="section.questions"
+          :questions="section.multipleChoiceQuestions"
           :section-id="sectionId"
           @quiz-interaction-done="$emit('section-interaction-done', sectionId)"
         />
@@ -41,11 +41,11 @@ export default {
   methods: {
     async fetch() {
       this.section = await Section
-        .include('questions.answers')
+        .include('multiple_choice_questions.answers')
         .find(this.sectionId)
     },
     async onSaveText(text) {
-      await this.section.updateFieldAndSave('text', text, ['questions'])
+      await this.section.updateFieldAndSave('text', text, ['multiple_choice_questions'])
     },
   },
 }

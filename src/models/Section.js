@@ -1,10 +1,10 @@
 import Model from './Model'
-import Question from './Question'
+import MultipleChoiceQuestion from './MultipleChoiceQuestion'
 
 export default class Section extends Model {
   constructor(...attributes) {
     super(...attributes)
-    this.nestedObjectsToModels('questions', Question)
+    this.nestedObjectsToModels('multipleChoiceQuestions', MultipleChoiceQuestion)
   }
 
   resource() {

@@ -1,14 +1,14 @@
 import Model from './Model'
-import Answer from './Answer'
+import MultipleChoiceAnswer from './MultipleChoiceAnswer'
 
-export default class Question extends Model {
+export default class MultipleChoiceQuestion extends Model {
   constructor(...attributes) {
     super(...attributes)
-    this.nestedObjectsToModels('answers', Answer)
+    this.nestedObjectsToModels('answers', MultipleChoiceAnswer)
   }
 
   resource() {
-    return 'questions'
+    return 'multiple-choice-questions'
   }
 
   get text() {

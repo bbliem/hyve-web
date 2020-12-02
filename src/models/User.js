@@ -1,18 +1,18 @@
 import Model from './Model'
-import QuestionResponse from './QuestionResponse'
+import MultipleChoiceResponse from './MultipleChoiceResponse'
 import SectionCompletion from './SectionCompletion'
 
 export default class User extends Model {
   constructor(...attributes) {
     super(...attributes)
-    if(this.questionResponses) {
-      // Backend omits user in question responses
-      for(let response of this.questionResponses) {
+    if(this.multipleChoiceResponses) {
+      // Backend omits user in multiple-choice responses
+      for(let response of this.multipleChoiceResponses) {
         if(response.user === undefined) {
           response.user = this.id
         }
       }
-      this.nestedObjectsToModels('questionResponses', QuestionResponse)
+      this.nestedObjectsToModels('multipleChoiceResponses', MultipleChoiceResponse)
     }
   }
 
@@ -69,26 +69,26 @@ export default class User extends Model {
     this.resetRelation(this.sectionCompletions, 'section', sectionId, SectionCompletion)
   }
 
-  async resetQuestionResponse(answerId) {
-    this.resetRelation(this.questionResponses, 'answer', answerId, QuestionResponse)
+  async resetMultipleChoiceResponse(answerId) {
+    this.resetRelation(this.multipleChoiceResponses, 'answer', answerId, MultipleChoiceResponse)
   }
 
-  async respondToQuestion(answer, response) {
-    const existingModel = this.questionResponses.find(model => model.answer == answer.id)
+  async respondToMultipleChoiceQuestion(answer, response) {
+    const existingModel = this.multipleChoiceResponses.find(model => model.answer == answer.id)
     if(existingModel === undefined) {
       // Create
-      const createdModel = await new QuestionResponse({
+      const createdModel = await new MultipleChoiceResponse({
         user: this.id,
         answer: answer.id,
         response
       }).save()
-      console.log(`Created response to question by answering ${answer.id} with ${response}`)
-      this.questionResponses.push(createdModel)
+      console.log(`Created response to multiple-choice question by answering ${answer.id} with ${response}`)
+      this.multipleChoiceResponses.push(createdModel)
     } else {
       // Update
       existingModel.response = response
       await existingModel.save()
-      console.log(`Updated response to question by answering ${answer.id} with ${response}`)
+      console.log(`Updated response to multiple-choice question by answering ${answer.id} with ${response}`)
     }
   }
 }

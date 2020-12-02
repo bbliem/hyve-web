@@ -1,6 +1,6 @@
 import Model from './Model'
 
-export default class Answer extends Model {
+export default class MultipleChoiceAnswer extends Model {
   resource() {
     return 'answers'
   }

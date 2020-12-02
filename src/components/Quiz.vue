@@ -79,10 +79,10 @@ export default {
     },
   },
   created() {
-    // Set selected checkboxes according to question responses in User object
+    // Set selected checkboxes according to multiple-choice responses in User object
     for(const question of this.questions) {
       for(const answer of question.answers) {
-        const existingModel = state.user.questionResponses.find(model => model.answer == answer.id)
+        const existingModel = state.user.multipleChoiceResponses.find(model => model.answer == answer.id)
         this.selected[answer.id] = existingModel ? existingModel.response : false
       }
     }
@@ -102,7 +102,7 @@ export default {
       state.user.completeSection(this.sectionId)
       for(const question of this.questions) {
         for(const answer of question.answers) {
-          state.user.respondToQuestion(answer, this.selected[answer.id])
+          state.user.respondToMultipleChoiceQuestion(answer, this.selected[answer.id])
         }
       }
       this.$emit('quiz-interaction-done', this.sectionId)
