@@ -1,18 +1,25 @@
 import Model from './Model'
 import MultipleChoiceResponse from './MultipleChoiceResponse'
+import OpenQuestionResponse from './OpenQuestionResponse'
 import SectionCompletion from './SectionCompletion'
 
 export default class User extends Model {
   constructor(...attributes) {
     super(...attributes)
     if(this.multipleChoiceResponses) {
-      // Backend omits user in multiple-choice responses
+      // Backend omits user in responses to multiple-choice and open questions
       for(let response of this.multipleChoiceResponses) {
         if(response.user === undefined) {
           response.user = this.id
         }
       }
+      for(let response of this.openQuestionResponses) {
+        if(response.user === undefined) {
+          response.user = this.id
+        }
+      }
       this.nestedObjectsToModels('multipleChoiceResponses', MultipleChoiceResponse)
+      this.nestedObjectsToModels('openQuestionResponses', OpenQuestionResponse)
     }
   }
 
@@ -89,6 +96,25 @@ export default class User extends Model {
       existingModel.response = response
       await existingModel.save()
       console.log(`Updated response to multiple-choice question by answering ${answer.id} with ${response}`)
+    }
+  }
+
+  async respondToOpenQuestion(question, response) {
+    const existingModel = this.openQuestionResponses.find(model => model.question == question.id)
+    if(existingModel === undefined) {
+      // Create
+      const createdModel = await new OpenQuestionResponse({
+        user: this.id,
+        question: question.id,
+        response
+      }).save()
+      console.log(`Created response to open question ${question.id}`)
+      this.openQuestionResponses.push(createdModel)
+    } else {
+      // Update
+      existingModel.response = response
+      await existingModel.save()
+      console.log(`Updated response to open question ${question.id}`)
     }
   }
 }

@@ -6,7 +6,12 @@
         <Quiz
           :questions="section.multipleChoiceQuestions"
           :section-id="sectionId"
-          @quiz-interaction-done="$emit('section-interaction-done', sectionId)"
+          @quiz-interaction-done="onQuizInteractionDone"
+        />
+        <OpenQuestions
+          :questions="section.openQuestions"
+          :section-id="sectionId"
+          @open-questions-interaction-done="onOpenQuestionsInteractionDone"
         />
       </template>
     </FetchedContent>
@@ -14,8 +19,9 @@
 </template>
 
 <script>
-import FetchedContent from '@/components/FetchedContent.vue'
 import EditableText from '@/components/EditableText.vue'
+import FetchedContent from '@/components/FetchedContent.vue'
+import OpenQuestions from '@/components/OpenQuestions.vue'
 import Quiz from '@/components/Quiz.vue'
 import Section from '@/models/Section'
 
@@ -24,6 +30,7 @@ export default {
   components: {
     EditableText,
     FetchedContent,
+    OpenQuestions,
     Quiz,
   },
   props: {
@@ -36,13 +43,32 @@ export default {
     return {
       section: null,
       editing: false,
+      quizInteractionDone: false,
+      openQuestionsInteractionDone: false,
+    }
+  },
+  computed: {
+    sectionInteractionDone() {
+      return this.quizInteractionDone && this.openQuestionsInteractionDone
     }
   },
   methods: {
     async fetch() {
       this.section = await Section
-        .include('multiple_choice_questions.answers')
+        .include('multiple_choice_questions.answers', 'open_questions')
         .find(this.sectionId)
+    },
+    onQuizInteractionDone() {
+      this.quizInteractionDone = true
+      if(this.sectionInteractionDone) {
+        this.$emit('section-interaction-done', this.sectionId)
+      }
+    },
+    onOpenQuestionsInteractionDone() {
+      this.openQuestionsInteractionDone = true
+      if(this.sectionInteractionDone) {
+        this.$emit('section-interaction-done', this.sectionId)
+      }
     },
     async onSaveText(text) {
       await this.section.updateFieldAndSave('text', text, ['multiple_choice_questions'])
