@@ -184,10 +184,10 @@ export default {
         for(const { section } of this.contents) {
           this.user.resetSectionCompletion(section)
         }
+        this.setAllContentsBlocking()
         if(this.page === 1) {
           // Force refresh of components since we're not changing the route
           this.timesProgressReset += 1
-          this.setAllContentsBlocking()
         } else {
           this.$router.push({ query: { page: 1 }})
         }
