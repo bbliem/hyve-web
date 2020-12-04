@@ -71,7 +71,7 @@ export default {
       }
     },
     async onSaveText(text) {
-      await this.section.updateFieldAndSave('text', text, ['multiple_choice_questions'])
+      await this.section.updateFieldAndSave('text', text, ['multipleChoiceQuestions', 'openQuestions'])
     },
   },
 }

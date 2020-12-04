@@ -25,15 +25,13 @@
     "numbered-list": "Numeerinen luettelo",
     "undo": "Kumoa",
     "redo": "Tee uudelleen",
-    "save": "Tallenna",
     "save-unsaved-changes-prompt": "Sinulla on tallentamattomia muutoksia. Haluatko hylätä ne?",
-    "saving": "Tallennetaan...",
-    "saving-failed": "Tallennus epäonnistui",
     "strikethrough": "Yliviivattu",
     "underline": "Alleviivattu"
   },
   "email-address-field-label": "Sähköpostiosoite:",
   "enter-your-email": "Syötä sähköpostiosoitteesi",
+  "enter-your-name": "Syötä nimesi",
   "enter-your-password": "Syötä salasanasi",
   "error": "Virhe: {msg}",
   "finish-lesson": "Lopeta kappale",
@@ -53,6 +51,7 @@
   "members": "Jäsenet",
   "my-organization": "Organisaationi",
   "my-profile": "Profiilini",
+  "name-field-label": "Nimi:",
   "next-page": "Seuraava sivu",
   "no": "Ei",
   "no-account": "Ei tiliä?",
@@ -61,6 +60,7 @@
   "page-not-found": "Sivua ei löydy",
   "password-field-label": "Salasana:",
   "previous-page": "Edellinen sivu",
+  "profile-updated": "Profiili päivitetty",
   "quiz": {
     "correct": "Oikea!",
     "incorrect": "Väärä!"
@@ -68,13 +68,18 @@
   "register": "Rekisteröidy",
   "really-reset-lesson-progress": "Haluatko varmasti nollata tämän kappaleen edistymisen ja aloittaa kappaleen uudelleen?",
   "reset-progress": "Nollaa edistyminen",
+  "save": "Tallenna",
+  "saving": "Tallennetaan...",
+  "saving-failed": "Tallennus epäonnistui",
   "see-you-again-soon": "Nähdään pian!",
   "see-you-again-soon-name": "Nähdään pian, {name}!",
   "start-lesson": "Aloita kappale",
+  "submit": "Lähetä",
   "to-registration": "Rekisteröintiin",
   "unexpected-error": "Tapahtui odottamaton virhe.",
   "view-category": "Näytä kategoria",
   "welcome-back": "Tervetuloa takaisin!",
   "welcome-back-name": "Tervetuloa takaisin, {name}!",
-  "yes": "Kyllä"
+  "yes": "Kyllä",
+  "your-changes-have-been-saved": "Muokkauksesi ovat tallennetut."
 }

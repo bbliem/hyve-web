@@ -102,20 +102,13 @@
 
     <EditorContent :editor="editor" class="editor-content" />
 
-    <b-button v-if="saving" disabled variant="primary">
-      <b-spinner small /> {{ $t('editor.saving') }}
-    </b-button>
-    <b-button
-      v-else
-      variant="primary"
+    <SaveButton
+      :on-save="saveAndClose"
       :disabled="!unsavedEdits"
       class="mr-1"
-      @click="save"
-    >
-      <b-icon icon="check" aria-hidden="true" /> {{ $t('editor.save') }}
-    </b-button>
+    />
 
-    <b-button variant="secondary" @click="closeEditor">
+    <b-button v-if="showCloseButton" variant="secondary" @click="closeEditor">
       <b-icon icon="x" aria-hidden="true" /> {{ $t('editor.close') }}
     </b-button>
   </div>
@@ -144,6 +137,7 @@ import {
   Strike,
   Underline,
 } from 'tiptap-extensions'
+import SaveButton from './SaveButton'
 
 // Replacement for tiptap Doc so that the document is only a single text node -- no HTML tags
 // Resources:
@@ -163,6 +157,7 @@ export default {
   components: {
     EditorMenuBar,
     EditorContent,
+    SaveButton,
   },
   props: {
     content: {
@@ -177,12 +172,15 @@ export default {
       type: Boolean,
       default: true,
     },
+    showCloseButton: {
+      type: Boolean,
+      default: true,
+    },
   },
   data() {
     return {
       cleanDoc: null, // when the current document is equal to this, it is considered "clean"
       editor: null,
-      saving: false,
     }
   },
   computed: {
@@ -278,26 +276,14 @@ export default {
       return window.confirm(this.$t('editor.save-unsaved-changes-prompt'))
     },
     closeEditor() {
-      if(!this.unsavedEdits || this.confirmLeave()) {
+      if(this.showCloseButton && (!this.unsavedEdits || this.confirmLeave())) {
         this.$emit('close-editor')
       }
     },
-    async save() {
-      this.saving = true
-      try {
-        await this.onSave(this.editor.getHTML())
-        this.cleanDoc = this.editor.state.doc
-        this.closeEditor()
-      } catch(error) {
-        this.$root.$bvToast.toast(error.toString(), {
-          title: this.$t('editor.saving-failed'),
-          variant: 'danger',
-          solid: true,
-          toaster: 'b-toaster-bottom-right'
-        })
-      } finally {
-        this.saving = false
-      }
+    async saveAndClose() {
+      await this.onSave(this.editor.getHTML())
+      this.cleanDoc = this.editor.state.doc
+      this.closeEditor()
     },
     preventNavIfEditing(event) {
       if(this.unsavedEdits && !this.confirmLeave()) {

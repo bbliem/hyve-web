@@ -11,6 +11,7 @@
         :content="responses[question.id]"
         :multi-line="true"
         :on-save="(response) => onSubmitResponse(question, response)"
+        :show-close-button="false"
       />
     </div>
   </div>
@@ -53,8 +54,8 @@ export default {
     this.$emit('open-questions-interaction-done', this.sectionId)
   },
   methods: {
-    onSubmitResponse(question, response) {
-      state.user.respondToOpenQuestion(question, response)
+    async onSubmitResponse(question, response) {
+      await state.user.respondToOpenQuestion(question, response)
     },
     async onSaveQuestion(question, newText) {
       await question.updateFieldAndSave('text', newText)

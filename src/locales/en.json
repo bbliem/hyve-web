@@ -25,15 +25,13 @@
     "numbered-list": "Numbered list",
     "undo": "Undo",
     "redo": "Redo",
-    "save": "Save",
     "save-unsaved-changes-prompt": "You have unsaved changes. Do you want to discard them?",
-    "saving": "Saving...",
-    "saving-failed": "Saving failed",
     "strikethrough": "Strikethrough",
     "underline": "Underline"
   },
   "email-address-field-label": "E-mail address:",
   "enter-your-email": "Enter your e-mail address",
+  "enter-your-name": "Enter your name",
   "enter-your-password": "Enter your password",
   "error": "Error: {msg}",
   "finish-lesson": "Finish lesson",
@@ -53,6 +51,7 @@
   "members": "Members",
   "my-organization": "My organization",
   "my-profile": "My profile",
+  "name-field-label": "Name:",
   "next-page": "Next page",
   "no": "No",
   "no-account": "No account?",
@@ -61,6 +60,7 @@
   "page-not-found": "Page not found",
   "password-field-label": "Password:",
   "previous-page": "Previous page",
+  "profile-updated": "Profile updated",
   "quiz": {
     "correct": "Correct!",
     "incorrect": "Incorrect!"
@@ -68,13 +68,18 @@
   "register": "Register",
   "really-reset-lesson-progress": "Do you really want to reset your progress on this lesson and restart it?",
   "reset-progress": "Reset progress",
+  "save": "Save",
+  "saving": "Saving...",
+  "saving-failed": "Saving failed",
   "see-you-again-soon": "See you again soon",
   "see-you-again-soon-name": "See you again soon, {name}!",
   "start-lesson": "Start lesson",
+  "submit": "Submit",
   "to-registration": "To the registration page",
   "unexpected-error": "An unexpected error occurred.",
   "view-category": "View category",
   "welcome-back": "Welcome back",
   "welcome-back-name": "Welcome back, {name}!",
-  "yes": "Yes"
+  "yes": "Yes",
+  "your-changes-have-been-saved": "Your changes have been saved."
 }

@@ -39,21 +39,30 @@ export default class Model extends BaseModel {
     this[field + i18n.localeCapitalized] = value
   }
 
-  async updateFieldAndSave(field, newValue, unexpandFields=[]) {
-    // Update the given field with the given value and save this model. If
-    // saving fails, all changes are reverted. `unexpandFields` contains names
-    // of fields whose values are assumed to be objects having a key `id`.
-    // Before saving, these objects will be replaced by their respective `id`
-    // field, and the changes are reverted after saving (no matter whether
-    // saving succeeded or not). The purpose of this is to remove
-    // included/expanded resources that are nested in this object.
+  async updateFieldsAndSave(newValues, unexpandFields=[]) {
+    // Update the fields whose keys are the keys in in newValues with the
+    // values in newValues and save this model. If saving fails, all changes
+    // are reverted. `unexpandFields` contains names of fields whose values are
+    // assumed to be objects having a key `id`. Before saving, these objects
+    // will be replaced by their respective `id` field, and the changes are
+    // reverted after saving (no matter whether saving succeeded or not). The
+    // purpose of this is to remove included/expanded resources that are nested
+    // in this object.
     let unexpandedModel = new this.constructor(this)
-    unexpandedModel[field] = newValue
+    for(const field in newValues) {
+      unexpandedModel[field] = newValues[field]
+    }
     for(const f of unexpandFields) {
       console.assert(unexpandedModel[f].every(obj => obj.id), `Object in ${this.constructor.name}.${f} lacks ID`)
       unexpandedModel[f] = unexpandedModel[f].map(obj => obj.id)
     }
     await unexpandedModel.save()
-    this[field] = newValue
+    for(const field in newValues) {
+      this[field] = newValues[field]
+    }
+  }
+
+  async updateFieldAndSave(field, newValue, unexpandFields=[]) {
+    await this.updateFieldsAndSave({[field]: newValue}, unexpandFields)
   }
 }
