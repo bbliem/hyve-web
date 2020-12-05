@@ -268,12 +268,14 @@ export default {
     this.editor.destroy()
   },
   beforeRouteLeave(to, from, next) {
-    if(!this.preventNavIfEditing())
+    // FIXME this isn't triggered since it only works on route components
+    if(!this.preventNavIfEditing()) {
       next()
+    }
   },
   methods: {
     confirmLeave() {
-      return window.confirm(this.$t('editor.save-unsaved-changes-prompt'))
+      return window.confirm(this.$t('discard-unsaved-changes-prompt'))
     },
     closeEditor() {
       if(this.showCloseButton && (!this.unsavedEdits || this.confirmLeave())) {
@@ -287,8 +289,10 @@ export default {
     },
     preventNavIfEditing(event) {
       if(this.unsavedEdits && !this.confirmLeave()) {
-        event.preventDefault()
-        event.returnValue = ''
+        if(event) {
+          event.preventDefault()
+          event.returnValue = ''
+        }
         return true
       }
       return false

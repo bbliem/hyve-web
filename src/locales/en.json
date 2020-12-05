@@ -2,6 +2,7 @@
   "about": "About",
   "are-you-sure": "Are you sure?",
   "category-not-found": "Category not found",
+  "changing-profile-picture-failed": "Changing profile picture failed",
   "check-answers": "Check answers",
   "check-email-and-password": "Please check your e-mail address and password.",
   "could-not-load-categories": "Could not load categories.",
@@ -10,6 +11,7 @@
   "could-not-load-organization": "Could not load organization.",
   "could-not-load-page": "Could not load page.",
   "could-not-load-section": "Could not load section.",
+  "discard-unsaved-changes-prompt": "You have unsaved changes. Do you want to discard them?",
   "edit": "Edit",
   "edit-mode": "Edit mode",
   "editor": {
@@ -25,7 +27,6 @@
     "numbered-list": "Numbered list",
     "undo": "Undo",
     "redo": "Redo",
-    "save-unsaved-changes-prompt": "You have unsaved changes. Do you want to discard them?",
     "strikethrough": "Strikethrough",
     "underline": "Underline"
   },
@@ -60,6 +61,7 @@
   "page-not-found": "Page not found",
   "password-field-label": "Password:",
   "previous-page": "Previous page",
+  "profile-picture": "Profile picture",
   "profile-updated": "Profile updated",
   "quiz": {
     "correct": "Correct!",
@@ -73,8 +75,11 @@
   "saving-failed": "Saving failed",
   "see-you-again-soon": "See you again soon",
   "see-you-again-soon-name": "See you again soon, {name}!",
+  "select-only-one-file": "Please select only one file.",
+  "select-picture": "Select picture",
   "start-lesson": "Start lesson",
   "submit": "Submit",
+  "the-file-is-too-large": "The file is too large.",
   "to-registration": "To the registration page",
   "unexpected-error": "An unexpected error occurred.",
   "view-category": "View category",

@@ -2,6 +2,7 @@
   "about": "About",
   "are-you-sure": "Oletko varma?",
   "category-not-found": "Kategoriaa ei löydy",
+  "changing-profile-picture-failed": "Profiilikuvan muuttaminen epäonnistui",
   "check-answers": "Tarkista vastaukset",
   "check-email-and-password": "Tarkista sähköpostiosoitteesi ja salasanasi.",
   "could-not-load-categories": "Kategorioiden lataaminen epäonnistui.",
@@ -10,6 +11,7 @@
   "could-not-load-organization": "Organisaation lataaminen epäonnistui.",
   "could-not-load-page": "Sivun lataaminen epäonnistui.",
   "could-not-load-section": "Osion lataaminen epäonnistui.",
+  "discard-unsaved-changes-prompt": "Sinulla on tallentamattomia muutoksia. Haluatko hylätä ne?",
   "edit": "Muokkaa",
   "edit-mode": "Muokkausmoodi",
   "editor": {
@@ -25,7 +27,6 @@
     "numbered-list": "Numeerinen luettelo",
     "undo": "Kumoa",
     "redo": "Tee uudelleen",
-    "save-unsaved-changes-prompt": "Sinulla on tallentamattomia muutoksia. Haluatko hylätä ne?",
     "strikethrough": "Yliviivattu",
     "underline": "Alleviivattu"
   },
@@ -60,6 +61,7 @@
   "page-not-found": "Sivua ei löydy",
   "password-field-label": "Salasana:",
   "previous-page": "Edellinen sivu",
+  "profile-picture": "Profiilikuva",
   "profile-updated": "Profiili päivitetty",
   "quiz": {
     "correct": "Oikea!",
@@ -73,8 +75,11 @@
   "saving-failed": "Tallennus epäonnistui",
   "see-you-again-soon": "Nähdään pian!",
   "see-you-again-soon-name": "Nähdään pian, {name}!",
+  "select-only-one-file": "Valitse vain yksi kuva.",
+  "select-picture": "Valitse kuva",
   "start-lesson": "Aloita kappale",
   "submit": "Lähetä",
+  "the-file-is-too-large": "Tiedosto on liian iso.",
   "to-registration": "Rekisteröintiin",
   "unexpected-error": "Tapahtui odottamaton virhe.",
   "view-category": "Näytä kategoria",

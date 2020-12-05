@@ -3,6 +3,7 @@ const config = {
   appTitle: parse(process.env.VUE_APP_TITLE, 'Unnamed App'),
   backendApiUrl: parse(process.env.VUE_APP_BACKEND_API_URL, 'http://127.0.0.1:8000'),
   organization: parse(process.env.VUE_APP_ORGANIZATION_ID),
+  avatarMaxSize: parse(process.env.VUE_APP_AVATAR_MAX_FILESIZE, 1024*1024),
   features: {
     // ...
   }
