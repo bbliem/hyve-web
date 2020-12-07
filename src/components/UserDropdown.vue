@@ -2,7 +2,7 @@
   <b-navbar-nav>
     <b-nav-item-dropdown v-if="user" right>
       <template v-slot:button-content>
-        <b-avatar variant="info" src="https://placebeard.it/300/300" alt="" />
+        <b-avatar variant="info" :src="user.avatar" alt="" />
         {{ user.name || user.email }}
       </template>
 

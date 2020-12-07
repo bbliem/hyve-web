@@ -8,7 +8,7 @@
           :alt="$t('profile-picture')"
           class="avatar"
           size="8rem"
-          :src="avatarUrl"
+          :src="avatar"
           variant="info"
           :username="name"
           @click="showFilePicker"
@@ -73,26 +73,21 @@ export default {
   },
   data() {
     return {
-      avatarChanged: false,
-      avatarUrl: '',
+      avatar: '',
       email: '',
       name: '',
     }
   },
   computed: {
     unsavedChanges() {
-      return this.avatarChanged || this.email !== state.user.email || this.name !== state.user.name
+      return this.avatar !== state.user.avatar || this.email !== state.user.email || this.name !== state.user.name
     },
   },
   created() {
-    this.email = state.user.email
-    this.name = state.user.name
+    this.getDataFromStore()
     window.addEventListener('beforeunload', this.preventNavIfUnsavedChanges)
   },
   beforeDestroy() {
-    if(this.avatarChanged && this.avatarUrl) {
-      URL.revokeObjectURL(this.avatarUrl)
-    }
     window.removeEventListener('beforeunload', this.preventNavIfUnsavedChanges)
   },
   beforeRouteLeave(to, from, next) {
@@ -114,7 +109,9 @@ export default {
       await state.user.updateFieldsAndSave({
         email: this.email,
         name: this.name,
+        avatar: this.avatar,
       }, unexpandFields)
+      this.getDataFromStore()
       this.$bvToast.toast(this.$t('your-changes-have-been-saved'), {
         title: this.$t('profile-updated'),
         variant: 'success',
@@ -123,21 +120,20 @@ export default {
       })
     },
     onFileChange(files) {
-      if(files.length === 1) {
+      try {
+        if(files.length !== 1) {
+          throw new Error(this.$t('select-only-one-file'))
+        }
         const file = files[0]
         if(file.size > this.$appConfig.avatarMaxSize) {
-          this.$bvToast.toast(this.$t('the-file-is-too-large'), {
-            title: this.$t('changing-profile-picture-failed'),
-            variant: 'danger',
-            solid: true,
-            toaster: 'b-toaster-bottom-right'
-          })
-        } else {
-          this.avatarChanged = true
-          this.avatarUrl = URL.createObjectURL(file)
+          throw new Error(this.$t('the-file-is-too-large'))
         }
-      } else {
-        this.$bvToast.toast(this.$t('select-only-one-file'), {
+        this.avatarChanged = true
+        const fileReader = new FileReader()
+        fileReader.onload = (e) => { this.avatar = e.target.result }
+        fileReader.readAsDataURL(file)
+      } catch(error) {
+        this.$bvToast.toast(error.message, {
           title: this.$t('changing-profile-picture-failed'),
           variant: 'danger',
           solid: true,
@@ -157,7 +153,12 @@ export default {
     },
     showFilePicker() {
       this.$refs.file.click()
-    }
+    },
+    getDataFromStore() {
+      this.email = state.user.email
+      this.name = state.user.name
+      this.avatar = state.user.avatar
+    },
   },
 }
 </script>
