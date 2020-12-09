@@ -32,13 +32,13 @@ export default {
       if(state.user) {
         var name = state.user.name
       }
+      // Ignoring errors because if we are already at the target there will be an error
+      this.$router.push({ name: 'home' }).catch(() => {})
       storeLogout()
         .then(() => {
           console.log("Logged out.")
           const personalizedMessage = name ? this.$t('see-you-again-soon-name', { name }) : this.$t('see-you-again-soon')
           this.showToast(this.$t('logged-out'), personalizedMessage, 'info')
-          // Ignoring errors because if we are already at the target there will be an error
-          this.$router.push({ name: 'home' }).catch(() => {})
         })
     },
 
