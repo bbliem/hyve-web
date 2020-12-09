@@ -25,7 +25,7 @@
           :username="name"
           @click="showFilePicker"
         >
-          <template #badge>
+          <template v-if="avatar" #badge>
             <button class="text-button">
               <b-icon
                 icon="trash"
