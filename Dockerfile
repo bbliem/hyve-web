@@ -3,7 +3,8 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY ./ .
-RUN npm run build
+ARG BUILD_MODE=production
+RUN npx vue-cli-service build --mode $BUILD_MODE
 
 FROM nginx:stable-alpine as production-stage
 RUN mkdir /app
