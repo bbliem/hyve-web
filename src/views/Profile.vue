@@ -2,20 +2,39 @@
   <div>
     <h1>{{ $t('my-profile') }}</h1>
     <b-form @submit.prevent>
+      <!-- The following is a hidden dummy button. If it were not here, the first button occurring in the form would be treated as the submit button (when the user presses enter). When you update this one, also update the SaveButton below. See https://stackoverflow.com/questions/1963245/multiple-submit-buttons-on-html-form-designate-one-button-as-default -->
+      <SaveButton
+        class="dummy-save-button"
+        type="submit"
+        :on-save="onSubmit"
+        :disabled="!unsavedChanges"
+      />
+
       <div class="avatar-box">
         <b-avatar
           button
+          badge-variant="danger"
+          badge-top
+          badge-offset="-0.75em"
           :alt="$t('profile-picture')"
           class="avatar"
           size="8rem"
           :src="avatar"
+          :title="$t('select-profile-picture')"
           variant="info"
           :username="name"
           @click="showFilePicker"
-        />
-        <b-button variant="light" @click="showFilePicker">
-          {{ $t('select-picture') }}
-        </b-button>
+        >
+          <template #badge>
+            <button class="text-button">
+              <b-icon
+                icon="trash"
+                :title="$t('delete-profile-picture')"
+                @click.stop="deleteAvatar"
+              />
+            </button>
+          </template>
+        </b-avatar>
         <input
           ref="file"
           accept="image/*"
@@ -53,6 +72,7 @@
 
       <p>TODO: Password</p>
 
+      <!-- At the top of the form, there is a hidden dummy button copying this one. See comment above. When you update this button, also update the dummy SaveButton above. -->
       <SaveButton
         type="submit"
         :on-save="onSubmit"
@@ -73,7 +93,7 @@ export default {
   },
   data() {
     return {
-      avatar: '',
+      avatar: null,
       email: '',
       name: '',
     }
@@ -98,6 +118,9 @@ export default {
   methods: {
     confirmLeave() {
       return window.confirm(this.$t('discard-unsaved-changes-prompt'))
+    },
+    deleteAvatar() {
+      this.avatar = null
     },
     async onSubmit() {
       const unexpandFields = [
@@ -173,5 +196,19 @@ export default {
   flex-direction: column;
   align-items: center;
   align-content: space-between;
+}
+
+.text-button {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: auto;
+  padding: 0;
+  z-index: 9999;
+}
+
+.dummy-save-button {
+   position: absolute;
+   left: -100%;
 }
 </style>
