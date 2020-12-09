@@ -23,6 +23,8 @@ function clearCredentials() {
   localStorage.removeItem('userId')
   localStorage.removeItem('token')
   delete axios.defaults.headers.common['Authorization']
+  state.editMode = false
+  localStorage.removeItem('editMode')
 }
 
 async function fetchOrganization() {
