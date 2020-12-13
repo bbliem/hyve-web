@@ -15,10 +15,9 @@
           button
           badge-variant="danger"
           badge-top
-          badge-offset="-0.75em"
           :alt="$t('profile-picture')"
           class="avatar"
-          size="8rem"
+          size="16rem"
           :src="avatar"
           :title="$t('select-profile-picture')"
           variant="info"
@@ -189,6 +188,10 @@ export default {
 <style scoped lang="scss">
 .avatar {
   margin: 10px;
+  /* Unfortunately bootstrap-vue doesn't allow us to set the avatar badge size */
+  ::v-deep & > .b-avatar-badge {
+    font-size: 2rem !important;
+  }
 }
 
 .avatar-box {
