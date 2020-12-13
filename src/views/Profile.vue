@@ -148,7 +148,7 @@ export default {
           throw new Error(this.$t('select-only-one-file'))
         }
         const file = files[0]
-        if(file.size > this.$appConfig.avatarMaxSize) {
+        if(file.size > this.$appConfig.avatarMaxFileSize) {
           throw new Error(this.$t('the-file-is-too-large'))
         }
         this.avatarChanged = true

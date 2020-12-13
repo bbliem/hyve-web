@@ -2,7 +2,7 @@
   <b-navbar-nav>
     <b-nav-item-dropdown v-if="user" right>
       <template v-slot:button-content>
-        <b-avatar variant="info" :src="user.avatar" alt="" />
+        <b-avatar variant="info" :src="user.avatar" :size="$appConfig.avatarSize" alt="" />
         {{ user.name || user.email }}
       </template>
 

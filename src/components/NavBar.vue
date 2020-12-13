@@ -2,7 +2,7 @@
   <b-navbar toggleable="sm" type="dark" variant="info" sticky>
     <b-container fluid="lg">
       <b-navbar-brand :to="{ name: 'home' }">
-        {{ brandName }}
+        <img v-if="logoUrl" :src="logoUrl" :alt="brandName" :height="logoHeight">
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse" />
@@ -47,7 +47,15 @@ export default {
     brandName: {
       type: String,
       required: true
-    }
+    },
+    logoHeight: {
+      type: Number,
+      default: null
+    },
+    logoUrl: {
+      type: String,
+      default: ''
+    },
   },
   computed: {
     initialized() {

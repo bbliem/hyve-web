@@ -1,9 +1,14 @@
 // Taken from https://medium.com/dzangolab/vue-js-environment-variables-799fc080d736
 const config = {
   appTitle: parse(process.env.VUE_APP_TITLE, 'Unnamed App'),
+  avatarMaxFileSize: parse(process.env.VUE_APP_AVATAR_MAX_FILE_SIZE, 4024*1024),
+  avatarSize: parse(process.env.VUE_APP_AVATAR_SIZE, '4rem'),
   backendApiUrl: parse(process.env.VUE_APP_BACKEND_API_URL, 'http://127.0.0.1:8000'),
+  logoExtension: parse(process.env.VUE_APP_LOGO_EXTENSION, '.png'),
+  logoHeight: parse(process.env.VUE_APP_LOGO_HEIGHT, '70'),
   organization: parse(process.env.VUE_APP_ORGANIZATION_ID),
-  avatarMaxSize: parse(process.env.VUE_APP_AVATAR_MAX_FILESIZE, 4024*1024),
+  showLogo: parse(process.env.VUE_APP_SHOW_LOGO, true),
+
   features: {
     // ...
   }

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <NavBar :brand-name="title" />
+    <NavBar :brand-name="title" :logo-url="logoUrl" :logo-height="$appConfig.logoHeight" />
 
     <b-container id="page" fluid="lg">
       <!-- If global state is loading or has an error, show this here. -->
@@ -23,12 +23,16 @@ export default {
   },
   data() {
     return {
-      title: this.$appConfig.appTitle
+      title: this.$appConfig.appTitle,
     }
   },
   computed: {
-    fetching() { return state.fetching },
     error() { return state.error },
+    fetching() { return state.fetching },
+    logoUrl() {
+      const c = this.$appConfig
+      return c.showLogo ? `${c.backendApiUrl}/media/logos/${c.organization}${c.logoExtension}` : ''
+    },
   },
   metaInfo() {
     return {
