@@ -1,4 +1,5 @@
-import RootComponent from './RootComponent.vue'
+import RootComponent from './RootComponent'
+import { config } from '@/config'
 
 function toIntOrUndefined(value) {
   return Number.parseInt(value, 10) || undefined
@@ -15,12 +16,12 @@ export default [
         props: { staticPageId: 1 }, // FIXME think of something better than hard-coding a PK
         component: () => import(/* webpackChunkName: "static-page" */ '../views/StaticPage.vue')
       },
-      {
-        name: 'about',
-        path: 'about',
-        props: { staticPageId: 2 }, // FIXME think of something better than hard-coding a PK
+      ...config.staticPages.map(({name, id}) => ({
+        name,
+        path: `/${name}`,
+        props: { staticPageId: id },
         component: () => import(/* webpackChunkName: "static-page" */ '../views/StaticPage.vue')
-      },
+      })),
       {
         name: 'login',
         path: 'login',

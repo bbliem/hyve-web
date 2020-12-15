@@ -69,7 +69,7 @@
     "incorrect": "Incorrect!"
   },
   "register": "Register",
-  "really-reset-lesson-progress": "Do you really want to reset your progress on this lesson and restart it?",
+  "really-reset-lesson-progress": "Do you really want to reset your progress on this lesson and restart it? Texts you have written and responses to questions will not be erased, but you can then change them if you want.",
   "reset-progress": "Reset progress",
   "save": "Save",
   "saving": "Saving...",

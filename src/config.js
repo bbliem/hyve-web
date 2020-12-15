@@ -4,10 +4,13 @@ const config = {
   avatarMaxFileSize: parse(process.env.VUE_APP_AVATAR_MAX_FILE_SIZE, 4024*1024),
   avatarSize: parse(process.env.VUE_APP_AVATAR_SIZE, '4rem'),
   backendApiUrl: parse(process.env.VUE_APP_BACKEND_API_URL, 'http://127.0.0.1:8000'),
+  i18nFallbackLocale: parse(process.env.VUE_APP_I18N_FALLBACK_LOCALE, 'en'),
+  i18nLocale: parse(process.env.VUE_APP_I18N_LOCALE, 'fi'),
   logoExtension: parse(process.env.VUE_APP_LOGO_EXTENSION, '.png'),
-  logoHeight: parse(process.env.VUE_APP_LOGO_HEIGHT, '70'),
-  organization: parse(process.env.VUE_APP_ORGANIZATION_ID),
+  logoHeight: parse(process.env.VUE_APP_LOGO_HEIGHT, 70),
+  organization: parse(process.env.VUE_APP_ORGANIZATION_ID, ''),
   showLogo: parse(process.env.VUE_APP_SHOW_LOGO, true),
+  staticPages: parse(process.env.VUE_APP_STATIC_PAGES, []),
 
   features: {
     // ...
@@ -19,18 +22,10 @@ function feature(name) {
 }
 
 function parse(value, fallback) {
-  if (typeof value === 'undefined') {
+  if(typeof value === 'undefined') {
     return fallback
   }
-
-  switch (typeof fallback) {
-    case 'boolean':
-      return !!JSON.parse(value)
-    case 'number':
-      return JSON.parse(value)
-    default:
-      return value
-  }
+  return typeof fallback === 'string' ? value : JSON.parse(value)
 }
 
 export {

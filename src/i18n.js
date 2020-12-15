@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueI18n from 'vue-i18n'
+import { config } from './config'
 
 Vue.use(VueI18n)
 
@@ -16,17 +17,9 @@ function loadLocaleMessages () {
   return messages
 }
 
-function getFallbackLocaleFromEnv () {
-  try {
-    return JSON.parse(process.env.VUE_APP_I18N_FALLBACK_LOCALE)
-  } catch(e) {
-    return process.env.VUE_APP_I18N_FALLBACK_LOCALE
-  }
-}
-
 var i18n = new VueI18n({
-  locale: localStorage.getItem('locale') || process.env.VUE_APP_I18N_LOCALE || 'fi',
-  fallbackLocale: getFallbackLocaleFromEnv() || 'en',
+  locale: localStorage.getItem('locale') || config.i18nLocale,
+  fallbackLocale: config.i18nFallbackLocale,
   messages: loadLocaleMessages()
 })
 

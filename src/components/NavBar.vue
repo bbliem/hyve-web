@@ -12,8 +12,10 @@
           <b-nav-item :to="{ name: 'material-home' }">
             {{ $t('material') }}
           </b-nav-item>
-          <b-nav-item :to="{ name: 'about' }">
-            {{ $t('about') }}
+
+          <!-- Static pages defined in environment -->
+          <b-nav-item v-for="page in $appConfig.staticPages" :key="page.path" :to="{ name: page.name }">
+            {{ page.title[$i18n.locale] }}
           </b-nav-item>
         </b-navbar-nav>
 

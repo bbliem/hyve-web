@@ -69,7 +69,7 @@
     "incorrect": "Väärä!"
   },
   "register": "Rekisteröidy",
-  "really-reset-lesson-progress": "Haluatko varmasti nollata tämän kappaleen edistymisen ja aloittaa kappaleen uudelleen?",
+  "really-reset-lesson-progress": "Haluatko varmasti nollata tämän kappaleen edistymisen ja aloittaa kappaleen uudelleen? Kirjoittamasi tekstejä ja vastauksia kysymyksiin ei poisteta, mutta voit muokata niitä sitten jos haluat.",
   "reset-progress": "Nollaa edistyminen",
   "save": "Tallenna",
   "saving": "Tallennetaan...",
