@@ -32,7 +32,7 @@
       <b-nav-item :to="{ name: 'login' }">
         {{ $t('login') }}
       </b-nav-item>
-      <b-nav-item>
+      <b-nav-item :to="{ name: 'register' }">
         {{ $t('register') }}
       </b-nav-item>
     </template>

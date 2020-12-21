@@ -89,6 +89,11 @@ export default [
         component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue'),
         meta: { requiresAuth: true },
       },
+      {
+        name: 'register',
+        path: 'register',
+        component: () => import(/* webpackChunkName: "register" */ '../views/Register.vue')
+      },
     ],
   },
 ]

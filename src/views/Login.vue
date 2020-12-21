@@ -43,9 +43,9 @@
     </div>
     <p class="text-center">
       {{ $t('no-account') }}
-      <a href="#">
+      <router-link :to="{ name: 'register' }">
         {{ $t('to-registration') }}
-      </a>
+      </router-link>
     </p>
   </div>
 </template>
@@ -56,10 +56,10 @@ import authenticationMixin from '@/mixins/authenticationMixin'
 export default {
   name: 'Login',
   mixins: [authenticationMixin],
-  data(){
+  data() {
     return {
       email : '',
-      password : ''
+      password : '',
     }
   }
 }

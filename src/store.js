@@ -33,22 +33,24 @@ async function fetchOrganization() {
     .find(Vue.appConfig.organization)
 }
 
-function restoreLogin() {
+async function fetchUserData(userId) {
+  state.user = await User
+    .include('memberships', 'multiple_choice_responses', 'open_question_responses', 'section_completions')
+    .params({ omit: 'completed_sections' })
+    .find(userId)
+}
+
+async function restoreLogin() {
   // Restore user data and token from the last visit
   const userId = localStorage.getItem('userId')
   const token = localStorage.getItem('token')
   if(token && userId) {
     setAuthorizationHeader(token)
     // Get user data
-    return User
-      .include('memberships', 'multiple_choice_responses', 'open_question_responses', 'section_completions')
-      .params({ omit: 'completed_sections' })
-      .find(userId)
-      .then(response => { state.user = response })
-      .catch(clearCredentials)
+    await fetchUserData(userId)
+    return state.user
   } else {
     clearCredentials()
-    return Promise.resolve()
   }
 }
 
@@ -67,26 +69,30 @@ export function init() {
   return initPromise
 }
 
-export function login(username, password) {
-  const loginData = { username, password }
-  return axios({ url: Vue.appConfig.backendApiUrl + '/api-token-auth/', data: loginData, method: 'POST' })
-    .then(response => {
-      state.user = new User(response.data.user)
-      const token = response.data.token
-      localStorage.setItem('userId', state.user.id)
-      localStorage.setItem('token', token)
-      setAuthorizationHeader(token)
-      return state.user
-    })
-    .catch((error) => {
-      clearCredentials()
-      throw error
-    })
+export async function login(email, password) {
+  const loginData = { email, password }
+  try {
+    // Get a token
+    const loginResponse = await axios({ url: Vue.appConfig.backendApiUrl + '/auth/token/login/', data: loginData, method: 'POST' })
+    const token = loginResponse.data.authToken
+    localStorage.setItem('token', token)
+    setAuthorizationHeader(token)
+    // Get user id
+    const userDataResponse = await axios({ url: Vue.appConfig.backendApiUrl + '/auth/users/me/' })
+    const userId = userDataResponse.data.id
+    localStorage.setItem('userId', userId)
+    // Get user details
+    await fetchUserData(userId)
+    return state.user
+  } catch(error) {
+    clearCredentials()
+    throw error
+  }
 }
 
-export function logout() {
+export async function logout() {
+  await axios({ url: Vue.appConfig.backendApiUrl + '/auth/token/logout', method: 'POST' })
   clearCredentials();
-  return Promise.resolve()
 }
 
 export function onVueCreated() {
