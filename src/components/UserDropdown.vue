@@ -2,7 +2,7 @@
   <b-navbar-nav>
     <b-nav-item-dropdown v-if="user" right>
       <template v-slot:button-content>
-        <b-avatar variant="info" :src="user.avatar" :size="$appConfig.avatarSize" alt="" />
+        <b-avatar variant="info" :src="user.avatar" :size="avatarSize" alt="" />
         {{ user.name || user.email }}
       </template>
 
@@ -47,6 +47,9 @@ export default {
   name: 'UserDropdown',
   mixins: [authenticationMixin],
   computed: {
+    avatarSize() {
+      return this.user.avatar ? this.$appConfig.avatarSize : '2.5em'
+    },
     canEdit() {
       return this.user && this.user.isSuperuser
     },
