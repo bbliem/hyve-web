@@ -18,7 +18,7 @@ export default [
       },
       ...config.staticPages.map(({name, id}) => ({
         name,
-        path: `/${name}`,
+        path: name,
         props: { staticPageId: id },
         component: () => import(/* webpackChunkName: "static-page" */ '../views/StaticPage.vue')
       })),

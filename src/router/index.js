@@ -33,7 +33,7 @@ router.beforeEach((to, from, next) => {
       if(state.user) {
         next()
       } else {
-        next({ name: 'login', query: { redirect: to.fullPath }})
+        next({ name: 'login', params: {locale: i18n.locale}, query: { redirect: to.fullPath }})
       }
     })
   } else {
