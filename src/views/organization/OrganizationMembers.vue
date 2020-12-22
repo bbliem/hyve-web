@@ -12,9 +12,6 @@ import { state } from '@/store'
 export default {
   name: 'OrganizationMembers',
   computed: {
-    membership() {
-      return state.user.memberships.find(({ organization }) => organization === this.organization.id)
-    },
     organization() {
       return state.organization
     },

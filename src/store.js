@@ -35,7 +35,7 @@ async function fetchOrganization() {
 
 async function fetchUserData(userId) {
   state.user = await User
-    .include('memberships', 'multiple_choice_responses', 'open_question_responses', 'section_completions')
+    .include('multiple_choice_responses', 'open_question_responses', 'section_completions')
     .params({ omit: 'completed_sections' })
     .find(userId)
 }
@@ -47,7 +47,12 @@ async function restoreLogin() {
   if(token && userId) {
     setAuthorizationHeader(token)
     // Get user data
-    await fetchUserData(userId)
+    try {
+      await fetchUserData(userId)
+    } catch(error) {
+      clearCredentials()
+      throw error
+    }
     return state.user
   } else {
     clearCredentials()
@@ -70,7 +75,8 @@ export function init() {
 }
 
 export async function login(email, password) {
-  const loginData = { email, password }
+  const username = `${email}:${Vue.appConfig.organization}`
+  const loginData = { username, password }
   try {
     // Get a token
     const loginResponse = await axios({ url: Vue.appConfig.backendApiUrl + '/auth/token/login/', data: loginData, method: 'POST' })

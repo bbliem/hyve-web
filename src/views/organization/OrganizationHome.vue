@@ -3,7 +3,7 @@
     <h1>{{ $t('my-organization') }}</h1>
     <h2>{{ organization.name }}</h2>
     <p>TBT Choose from the sidebar.</p>
-    <p v-if="membership.isSupervisor">
+    <p v-if="user.isSupervisor">
       I'm a supervisor!
     </p>
     <p v-else>
@@ -18,8 +18,8 @@ import { state } from '@/store'
 export default {
   name: 'OrganizationHome',
   computed: {
-    membership() {
-      return state.user.memberships.find(({ organization }) => organization === this.organization.id)
+    user() {
+      return state.user
     },
     organization() {
       return state.organization

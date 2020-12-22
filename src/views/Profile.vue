@@ -123,7 +123,6 @@ export default {
     },
     async onSubmit() {
       const unexpandFields = [
-        'memberships',
         'multipleChoiceResponses',
         'openQuestionResponses',
         'sectionCompletions',
