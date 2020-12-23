@@ -20,7 +20,6 @@
 <script>
 import EditableText from './EditableText'
 import Editor from './Editor'
-import { state } from '@/store'
 
 export default {
   name: 'OpenQuestions',
@@ -46,7 +45,7 @@ export default {
   },
   created() {
     for(const question of this.questions) {
-      const existingModel = state.user.openQuestionResponses.find(model => model.question == question.id)
+      const existingModel = this.$state.user.openQuestionResponses.find(model => model.question == question.id)
       this.responses[question.id] = existingModel ? existingModel.response : ''
     }
 
@@ -55,7 +54,7 @@ export default {
   },
   methods: {
     async onSubmitResponse(question, response) {
-      await state.user.respondToOpenQuestion(question, response)
+      await this.$state.user.respondToOpenQuestion(question, response)
     },
     async onSaveQuestion(question, newText) {
       await question.updateFieldAndSave('text', newText)

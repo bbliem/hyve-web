@@ -2,9 +2,6 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import i18n from '@/i18n'
 import localeRoutes from './localeRoutes'
-import { state, initPromise as storeInitialized } from '@/store'
-
-Vue.use(VueRouter)
 
 const routes = [
   {
@@ -28,9 +25,9 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   if(to.matched.some(record => record.meta.requiresAuth)) {
     // This route requires auth, check if logged in; if not, redirect to login page.
-    // We need to wait until the state is initialized before we can use `state.user`.
-    storeInitialized.then(() => {
-      if(state.user) {
+    // We need to wait until the store is initialized before we can use `state.user`.
+    Vue.storeInitialized.then(() => {
+      if(Vue.state.user) {
         next()
       } else {
         next({ name: 'login', params: {locale: i18n.locale}, query: { redirect: to.fullPath }})

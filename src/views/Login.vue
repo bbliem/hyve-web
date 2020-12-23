@@ -43,7 +43,7 @@
     </div>
     <p class="text-center">
       {{ $t('no-account') }}
-      <router-link :to="{ name: 'register' }">
+      <router-link :to="{ name: 'register', query: $route.query }">
         {{ $t('to-registration') }}
       </router-link>
     </p>

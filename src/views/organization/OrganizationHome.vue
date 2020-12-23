@@ -13,16 +13,14 @@
 </template>
 
 <script>
-import { state } from '@/store'
-
 export default {
   name: 'OrganizationHome',
   computed: {
     user() {
-      return state.user
+      return this.$state.user
     },
     organization() {
-      return state.organization
+      return this.$state.organization
     },
   },
 }

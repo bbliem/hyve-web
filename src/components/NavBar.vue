@@ -35,7 +35,6 @@
 </template>
 
 <script>
-import { state } from '@/store.js'
 import LocalePicker from './LocalePicker'
 import UserDropdown from './UserDropdown'
 
@@ -61,7 +60,7 @@ export default {
   },
   computed: {
     initialized() {
-      return state.initialized
+      return this.$state.initialized
     },
   },
 }

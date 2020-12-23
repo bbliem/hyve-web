@@ -77,7 +77,6 @@ import EditableText from '@/components/EditableText'
 import FetchedContent from '@/components/FetchedContent'
 import SectionDetail from '@/components/SectionDetail'
 import Lesson from '@/models/Lesson'
-import { state } from '@/store'
 
 export default {
   name: 'LessonDetail',
@@ -119,7 +118,7 @@ export default {
       }).length
     },
     someContentCompleted() {
-      return state.user && this.contents.some(({section}) => state.user.hasCompletedSection(section))
+      return this.$state.user && this.contents.some(({section}) => this.$state.user.hasCompletedSection(section))
     },
     contents() {
       return this.lesson.contents
@@ -136,7 +135,7 @@ export default {
       return pageNumbers.length ? Math.max(...pageNumbers) : 0
     },
     user() {
-      return state.user
+      return this.$state.user
     },
   },
   methods: {

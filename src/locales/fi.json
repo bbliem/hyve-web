@@ -11,6 +11,7 @@
   "could-not-load-organization": "Organisaation lataaminen epäonnistui.",
   "could-not-load-page": "Sivun lataaminen epäonnistui.",
   "could-not-load-section": "Osion lataaminen epäonnistui.",
+  "delete-account": "Poista tili",
   "delete-profile-picture": "Poista profiilikuva",
   "discard-unsaved-changes-prompt": "Sinulla on tallentamattomia muutoksia. Haluatko hylätä ne?",
   "edit": "Muokkaa",
@@ -73,6 +74,7 @@
     "incorrect": "Väärä!"
   },
   "register": "Rekisteröidy",
+  "really-delete-account": "Haluatko varmasti poistaa tilisi ja kaikki tietosi?",
   "really-reset-lesson-progress": "Haluatko varmasti nollata tämän kappaleen edistymisen ja aloittaa kappaleen uudelleen? Kirjoittamasi tekstejä ja vastauksia kysymyksiin ei poisteta, mutta voit muokata niitä sitten jos haluat.",
   "registration-failed": "Rekisteröinti epäonnistui",
   "registration-successful": "Rekisteröinti onnistui",

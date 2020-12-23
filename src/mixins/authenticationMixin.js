@@ -1,6 +1,5 @@
-import axios from 'axios'
-
-import { login as storeLogin, logout as storeLogout, state } from '@/store'
+import { login, logout, register } from '@/auth'
+import { fetchUser, resetUser } from '@/store'
 
 function isClientErrorResponse(response) {
   return response && response.status >= 400 && response.status < 500
@@ -8,56 +7,54 @@ function isClientErrorResponse(response) {
 
 export default {
   computed: {
-    user() { return state.user }
+    user() { return this.$state.user }
   },
   methods: {
-    login(email, password) {
-      storeLogin(email, password)
-        .then(user => {
-          console.log(`Sucessfully logged in as ${user.email}.`)
-          const greeting = user.name ? this.$t('welcome-back-name', { name: user.name }) : this.$t('welcome-back')
-          this.showToast(this.$t('login-successful'), greeting, 'success')
-          // Ignoring errors because if we are already at the target there will be an error
-          const to = this.$route.query.redirect || { name: 'home' }
-          this.$router.push(to).catch(() => {})
-        })
-        .catch(error => {
-          let errorMessage;
-          if(isClientErrorResponse(error.response)) {
-            errorMessage = this.$t('check-email-and-password')
-          } else {
-            errorMessage = this.$t('unexpected-error')
-            console.error(error)
-          }
-          this.showToast(this.$t('login-failed'), errorMessage, 'danger')
-          console.error("Login failed.")
-        })
+    async login(email, password) {
+      try {
+        const userId = await login(email, password)
+        await fetchUser(userId)
+        console.log(`Sucessfully logged in as user ${this.$state.user.name}.`)
+        const greeting = this.$state.user.name ? this.$t('welcome-back-name', { name: this.$state.user.name }) : this.$t('welcome-back')
+        this.showToast(this.$t('login-successful'), greeting, 'success')
+        // Ignoring errors because if we are already at the target there will be an error
+        const to = this.$route.query.redirect || { name: 'home' }
+        this.$router.push(to).catch(() => {})
+      } catch(error) {
+        let errorMessage;
+        if(error.response && isClientErrorResponse(error.response)) {
+          errorMessage = this.$t('check-email-and-password')
+        } else {
+          errorMessage = this.$t('unexpected-error')
+          console.error(error)
+        }
+        this.showToast(this.$t('login-failed'), errorMessage, 'danger')
+        console.error("Login failed.")
+      }
     },
 
-    logout() {
-      if(state.user) {
-        var name = state.user.name
-      }
+    async logout() {
       // Ignoring errors because if we are already at the target there will be an error
       this.$router.push({ name: 'home' }).catch(() => {})
-      storeLogout()
-        .then(() => {
-          console.log("Logged out.")
-          const personalizedMessage = name ? this.$t('see-you-again-soon-name', { name }) : this.$t('see-you-again-soon')
-          this.showToast(this.$t('logged-out'), personalizedMessage, 'info')
-        })
+      var name = this.$state.user ? this.$state.user.name : undefined
+      const personalizedMessage = name ? this.$t('see-you-again-soon-name', { name }) : this.$t('see-you-again-soon')
+      resetUser()
+      await logout()
+      console.log("Logged out.")
+      this.showToast(this.$t('logged-out'), personalizedMessage, 'info')
     },
 
     async register(email, password) {
       // Register the user with the given data, return an object that contains validation errors (empty object if there were none)
       let errorReasons = {}
-      const data = { email, password }
       try {
-        await axios({ url: this.$appConfig.backendApiUrl + '/auth/users/', data, method: 'POST' })
+        await register(email, password)
         console.log(`Registered as ${email}.`)
-        await storeLogin(email, password)
+        const userId = await login(email, password)
+        await fetchUser(userId)
         this.showToast(this.$t('registration-successful'), this.$t('welcome'), 'success')
-        this.$router.push({ name: 'home' }).catch(() => {})
+        const to = this.$route.query.redirect || { name: 'home' }
+        this.$router.push(to).catch(() => {})
       } catch(error) {
         let errorMessage;
         if(isClientErrorResponse(error.response)) {

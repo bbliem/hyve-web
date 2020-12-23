@@ -41,7 +41,7 @@
 
 <script>
 import authenticationMixin from '@/mixins/authenticationMixin'
-import { setEditMode, state } from '@/store.js'
+import { setEditMode } from '@/store.js'
 
 export default {
   name: 'UserDropdown',
@@ -55,7 +55,7 @@ export default {
     },
     editMode: {
       get: function() {
-        return state.editMode
+        return this.$state.editMode
       },
       set: function(value) {
         setEditMode(value)

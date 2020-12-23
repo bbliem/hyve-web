@@ -78,12 +78,17 @@
         :disabled="!unsavedChanges"
       />
     </b-form>
+
+    <b-button variant="danger" class="mt-3" @click="onDelete">
+      {{ $t('delete-account') }}
+    </b-button>
   </div>
 </template>
 
 <script>
 import SaveButton from '@/components/SaveButton'
-import { state } from '@/store'
+import { clearCredentials } from '@/auth'
+import { resetUser } from '@/store'
 
 export default {
   name: 'Profile',
@@ -99,7 +104,7 @@ export default {
   },
   computed: {
     unsavedChanges() {
-      return this.avatar !== state.user.avatar || this.email !== state.user.email || this.name !== state.user.name
+      return this.avatar !== this.$state.user.avatar || this.email !== this.$state.user.email || this.name !== this.$state.user.name
     },
   },
   created() {
@@ -121,13 +126,27 @@ export default {
     deleteAvatar() {
       this.avatar = null
     },
+    async onDelete() {
+      const response = await this.$bvModal.msgBoxConfirm(this.$t('really-delete-account'), {
+        title: this.$t('are-you-sure'),
+        okVariant: 'danger',
+        okTitle: this.$t('yes'),
+        cancelTitle: this.$t('no'),
+      })
+      if(response) {
+        this.$router.push({ name: 'home' })
+        this.$state.user.delete()
+        resetUser()
+        clearCredentials()
+      }
+    },
     async onSubmit() {
       const unexpandFields = [
         'multipleChoiceResponses',
         'openQuestionResponses',
         'sectionCompletions',
       ]
-      await state.user.updateFieldsAndSave({
+      await this.$state.user.updateFieldsAndSave({
         email: this.email,
         name: this.name,
         avatar: this.avatar,
@@ -176,9 +195,9 @@ export default {
       this.$refs.file.click()
     },
     getDataFromStore() {
-      this.email = state.user.email
-      this.name = state.user.name
-      this.avatar = state.user.avatar
+      this.email = this.$state.user.email
+      this.name = this.$state.user.name
+      this.avatar = this.$state.user.avatar
     },
   },
 }

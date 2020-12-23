@@ -10,8 +10,6 @@
 </template>
 
 <script>
-import { state } from '@/store'
-
 export default {
   name: 'LessonCompletionCheckmark',
   props: {
@@ -22,7 +20,7 @@ export default {
   },
   computed: {
     lessonCompleted() {
-      return state.user && state.user.hasCompletedLesson(this.lesson)
+      return this.$state.user && this.$state.user.hasCompletedLesson(this.lesson)
     }
   }
 }

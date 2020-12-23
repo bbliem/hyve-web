@@ -11,6 +11,7 @@
   "could-not-load-organization": "Could not load organization.",
   "could-not-load-page": "Could not load page.",
   "could-not-load-section": "Could not load section.",
+  "delete-account": "Delete account",
   "delete-profile-picture": "Delete profile picture",
   "discard-unsaved-changes-prompt": "You have unsaved changes. Do you want to discard them?",
   "edit": "Edit",
@@ -73,6 +74,7 @@
     "incorrect": "Incorrect!"
   },
   "register": "Register",
+  "really-delete-account": "Do you really want to delete your account and all your data?",
   "really-reset-lesson-progress": "Do you really want to reset your progress on this lesson and restart it? Texts you have written and responses to questions will not be erased, but you can then change them if you want.",
   "registration-failed": "Registration failed",
   "registration-successful": "Registration successful",

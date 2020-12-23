@@ -7,13 +7,11 @@
 </template>
 
 <script>
-import { state } from '@/store'
-
 export default {
   name: 'OrganizationMembers',
   computed: {
     organization() {
-      return state.organization
+      return this.$state.organization
     },
   },
 }

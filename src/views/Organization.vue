@@ -20,7 +20,6 @@
 
 <script>
 import PageWithSidebar from '@/components/PageWithSidebar'
-import { state } from '@/store'
 
 export default {
   name: 'Organization',
@@ -29,10 +28,10 @@ export default {
   },
   computed: {
     organization() {
-      return state.organization
+      return this.$state.organization
     },
     user() {
-      return state.user
+      return this.$state.user
     },
   },
 }

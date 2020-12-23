@@ -22,7 +22,6 @@ import Category from '@/models/Category'
 import FetchedContent from '@/components/FetchedContent'
 import PageWithSidebar from '@/components/PageWithSidebar'
 import MaterialSidebar from '@/components/MaterialSidebar'
-import { state } from '@/store'
 
 export default {
   name: 'Material',
@@ -44,7 +43,7 @@ export default {
   },
   computed: {
     lessons() {
-      return state.organization.lessons
+      return this.$state.organization.lessons
     },
   },
   methods: {

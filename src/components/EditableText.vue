@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import { state } from '@/store'
 import Editor from '@/components/Editor.vue'
 
 export default {
@@ -51,7 +50,7 @@ export default {
   },
   computed: {
     showEditButton() {
-      return state.editMode
+      return this.$state.editMode
     },
   },
   methods: {

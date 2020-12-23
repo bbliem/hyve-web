@@ -6,13 +6,11 @@
 </template>
 
 <script>
-import { state } from '@/store'
-
 export default {
   name: 'OrganizationProfile',
   computed: {
     organization() {
-      return state.organization
+      return this.$state.organization
     },
   },
 }

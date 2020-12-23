@@ -2,6 +2,7 @@ import '@babel/polyfill'
 import 'mutationobserver-shim'
 import Vue from 'vue'
 import VueMeta from 'vue-meta'
+import VueRouter from 'vue-router'
 
 import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import './styles/bootstrap-vue.scss'
@@ -12,9 +13,9 @@ import { Model } from 'vue-api-query'
 import App from './App.vue'
 import ConfigPlugin from './config'
 import LocalizedLink from './components/LocalizedLink'
-import router from './router'
-import { init, onVueCreated } from './store'
+import StorePlugin from './store'
 import i18n from './i18n'
+import router from './router'
 
 // Use trailing slashes for endpoints, as expected by our backend.
 // Unfortunately there is no way to make vue-api-query use trailing slashes, so
@@ -49,19 +50,14 @@ Vue.use(BootstrapVue, {
 })
 Vue.use(BootstrapVueIcons)
 Vue.use(ConfigPlugin)
+Vue.use(StorePlugin)
 Vue.use(VueMeta)
+Vue.use(VueRouter)
 
 Vue.config.productionTip = false
-
-let initPromise = init();
 
 new Vue({
   i18n,
   router,
-
-  created() {
-    initPromise.then(onVueCreated)
-  },
-
   render: h => h(App)
 }).$mount('#app')
