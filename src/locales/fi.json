@@ -1,6 +1,7 @@
 {
   "are-you-sure": "Oletko varma?",
   "category-not-found": "Kategoriaa ei löydy",
+  "change-email": "Vaihda sähköpostiosoite",
   "changing-profile-picture-failed": "Profiilikuvan muuttaminen epäonnistui",
   "check-all-fields-valid": "Tarkista, että kaikki kentät ovat kelvollisia.",
   "check-answers": "Tarkista vastaukset",
@@ -91,6 +92,7 @@
   "the-file-is-too-large": "Tiedosto on liian iso.",
   "to-registration": "Rekisteröintiin",
   "unexpected-error": "Tapahtui odottamaton virhe.",
+  "value-invalid": "Tämä arvo on virheellinen.",
   "view-category": "Näytä kategoria",
   "welcome": "Tervetuloa!",
   "welcome-back": "Tervetuloa takaisin!",

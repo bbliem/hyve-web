@@ -1,6 +1,7 @@
 {
   "are-you-sure": "Are you sure?",
   "category-not-found": "Category not found",
+  "change-email": "Change e-mail address",
   "changing-profile-picture-failed": "Changing profile picture failed",
   "check-all-fields-valid": "Please check that all fields are valid.",
   "check-answers": "Check answers",
@@ -33,7 +34,7 @@
     "underline": "Underline"
   },
   "email-address-field-label": "E-mail address:",
-  "email-address-invalid": "The email address is invalid.",
+  "email-address-invalid": "The e-mail address is invalid.",
   "enter-your-email": "Enter your e-mail address",
   "enter-your-name": "Enter your name",
   "enter-your-password": "Enter your password",
@@ -91,6 +92,7 @@
   "the-file-is-too-large": "The file is too large.",
   "to-registration": "To the registration page",
   "unexpected-error": "An unexpected error occurred.",
+  "value-invalid": "This value is invalid.",
   "view-category": "View category",
   "welcome": "Welcome!",
   "welcome-back": "Welcome back!",

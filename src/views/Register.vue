@@ -116,10 +116,14 @@ export default {
   },
   methods: {
     async onSubmit() {
-      // returns an object that maps (backend) field names to arrays of validation errors
-      const validationErrors = await this.register(this.email, this.password)
-      this.emailValidationError = validationErrors.email ? validationErrors.email[0] : null
-      this.passwordValidationError = validationErrors.password ? validationErrors.password[0] : null
+      try {
+        await this.register(this.email, this.password)
+        this.emailValidationError = null
+        this.passwordValidationError = null
+      } catch(error) {
+        this.emailValidationError = error.validationErrors.email ? error.validationErrors.email[0] : null
+        this.passwordValidationError = error.validationErrors.password ? error.validationErrors.password[0] : null
+      }
     },
   },
 }

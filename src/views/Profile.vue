@@ -47,6 +47,8 @@
       <b-form-group
         :label="$t('email-address-field-label')"
         label-for="email"
+        :state="emailState"
+        :invalid-feedback="emailInvalidFeedback"
       >
         <b-form-input
           id="email"
@@ -54,18 +56,23 @@
           type="email"
           required
           :placeholder="$t('enter-your-email')"
+          :state="emailState"
+          @input="emailValidationError = null"
         />
       </b-form-group>
 
       <b-form-group
         :label="$t('name-field-label')"
         label-for="name"
+        :state="nameState"
+        :invalid-feedback="nameInvalidFeedback"
       >
         <b-form-input
           id="name"
           v-model="name"
-          required
           :placeholder="$t('enter-your-name')"
+          :state="nameState"
+          @input="nameValidationError = null"
         />
       </b-form-group>
 
@@ -87,11 +94,13 @@
 
 <script>
 import SaveButton from '@/components/SaveButton'
+import authenticationMixin from '@/mixins/authenticationMixin'
 import { clearCredentials } from '@/auth'
 import { resetUser } from '@/store'
 
 export default {
   name: 'Profile',
+  mixins: [authenticationMixin],
   components: {
     SaveButton,
   },
@@ -99,10 +108,30 @@ export default {
     return {
       avatar: null,
       email: '',
+      emailValidationError: null,
       name: '',
+      nameValidationError: null,
     }
   },
   computed: {
+    emailInvalidFeedback() {
+      return this.emailValidationError || this.$t('email-address-invalid')
+    },
+    emailState() {
+      if(this.emailValidationError) {
+        return false
+      }
+      return this.email ? true : null
+    },
+    nameInvalidFeedback() {
+      return this.nameValidationError || this.$t('value-invalid')
+    },
+    nameState() {
+      if(this.nameValidationError) {
+        return false
+      }
+      return this.name ? true : null
+    },
     unsavedChanges() {
       return this.avatar !== this.$state.user.avatar || this.email !== this.$state.user.email || this.name !== this.$state.user.name
     },
@@ -135,29 +164,22 @@ export default {
       })
       if(response) {
         this.$router.push({ name: 'home' })
+        // FIXME This doesn't work like that. Need to use DELETE to /auth/users/me/ with current_password in payload.
         this.$state.user.delete()
         resetUser()
         clearCredentials()
       }
     },
     async onSubmit() {
-      const unexpandFields = [
-        'multipleChoiceResponses',
-        'openQuestionResponses',
-        'sectionCompletions',
-      ]
-      await this.$state.user.updateFieldsAndSave({
-        email: this.email,
-        name: this.name,
-        avatar: this.avatar,
-      }, unexpandFields)
-      this.getDataFromStore()
-      this.$bvToast.toast(this.$t('your-changes-have-been-saved'), {
-        title: this.$t('profile-updated'),
-        variant: 'success',
-        solid: true,
-        toaster: 'b-toaster-bottom-right'
-      })
+      try {
+        await this.updateProfile(this.email, this.name, this.avatar)
+        this.emailValidationError = null
+        this.nameValidationError = null
+        this.getDataFromStore()
+      } catch(error) {
+        this.emailValidationError = error.validationErrors.email ? error.validationErrors.email[0] : null
+        this.nameValidationError = error.validationErrors.name ? error.validationErrors.name[0] : null
+      }
     },
     onFileChange(files) {
       try {

@@ -1,8 +1,17 @@
-import { login, logout, register } from '@/auth'
+import { emailToUsername, login, logout, register } from '@/auth'
 import { fetchUser, resetUser } from '@/store'
 
 function isClientErrorResponse(response) {
   return response && response.status >= 400 && response.status < 500
+}
+
+function getValidationErrors(error) {
+  // Return object with validation errors according to the given exception,
+  // return null if there were none.
+  // If there were validation errors, error.response.data is (hopefully) an
+  // object mapping a field name to an explanation why there was a validation
+  // error with that field.
+  return isClientErrorResponse(error.response) ? error.response.data : null
 }
 
 export default {
@@ -21,15 +30,9 @@ export default {
         const to = this.$route.query.redirect || { name: 'home' }
         this.$router.push(to).catch(() => {})
       } catch(error) {
-        let errorMessage;
-        if(error.response && isClientErrorResponse(error.response)) {
-          errorMessage = this.$t('check-email-and-password')
-        } else {
-          errorMessage = this.$t('unexpected-error')
-          console.error(error)
-        }
+        console.error("Login failed:", error)
+        const errorMessage = isClientErrorResponse(error.response) ? this.$t('check-email-and-password') : this.$t('unexpected-error')
         this.showToast(this.$t('login-failed'), errorMessage, 'danger')
-        console.error("Login failed.")
       }
     },
 
@@ -44,9 +47,35 @@ export default {
       this.showToast(this.$t('logged-out'), personalizedMessage, 'info')
     },
 
+    async updateProfile(email, name, avatar) {
+      const unexpandFields = [
+        'multipleChoiceResponses',
+        'openQuestionResponses',
+        'sectionCompletions',
+      ]
+      try {
+        await this.$state.user.updateFieldsAndSave({
+          username: emailToUsername(email),
+          email: email,
+          name: name,
+          avatar: avatar,
+        }, unexpandFields)
+        //this.getDataFromStore()
+        this.showToast(this.$t('profile-updated'), this.$t('your-changes-have-been-saved'), 'success')
+      } catch(error) {
+        error.validationErrors = getValidationErrors(error)
+        const errorMessage = error.validationErrors ? this.$t('check-all-fields-valid') : this.$t('unexpected-error')
+        this.showToast(this.$t('saving-failed'), errorMessage, 'danger')
+        console.error("Updating profile failed:", error)
+        throw error
+      }
+    },
+
     async register(email, password) {
-      // Register the user with the given data, return an object that contains validation errors (empty object if there were none)
-      let errorReasons = {}
+      // Register the user with the given data. Throws an error if it failed.
+      // If there were validation errors, the thrown object `error` will have a
+      // property called `validationErrors` so that `error.validationErrors`
+      // maps backend field names to errors.
       try {
         await register(email, password)
         console.log(`Registered as ${email}.`)
@@ -56,20 +85,12 @@ export default {
         const to = this.$route.query.redirect || { name: 'home' }
         this.$router.push(to).catch(() => {})
       } catch(error) {
-        let errorMessage;
-        if(isClientErrorResponse(error.response)) {
-          // error.response.data is (hopefully) an object mapping a field name to an explanation why there was a validation error with that field
-          errorReasons = error.response.data
-          errorMessage = this.$t('check-all-fields-valid')
-          console.error(error)
-        } else {
-          errorMessage = this.$t('unexpected-error')
-          console.error(error)
-        }
+        error.validationErrors = getValidationErrors(error)
+        const errorMessage = error.validationErrors ? this.$t('check-all-fields-valid') : this.$t('unexpected-error')
         this.showToast(this.$t('registration-failed'), errorMessage, 'danger')
-        console.error("Registration failed.")
+        console.error("Registration failed:", error)
+        throw error
       }
-      return errorReasons
     },
 
     showToast(title, message, variant) {

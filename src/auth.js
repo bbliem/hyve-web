@@ -3,6 +3,7 @@ import axios from 'axios'
 
 // Owns localStorage entries 'userId' and 'token'
 
+
 function clearAuthorizationHeader() {
   delete axios.defaults.headers.common['Authorization']
 }
@@ -13,7 +14,7 @@ export function clearCredentials() {
   clearAuthorizationHeader()
 }
 
-function emailToUsername(email) {
+export function emailToUsername(email) {
   return `${email}:${Vue.appConfig.organization}`
 }
 
