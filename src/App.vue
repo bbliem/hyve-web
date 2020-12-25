@@ -30,7 +30,7 @@ export default {
     fetching() { return this.$state.fetching },
     logoUrl() {
       const c = this.$appConfig
-      return c.showLogo ? `${c.backendApiUrl}/media/logos/${c.organization}${c.logoExtension}` : ''
+      return c.showLogo ? `${c.mediaUrl}/logos/${c.organization}${c.logoExtension}` : ''
     },
   },
   metaInfo() {

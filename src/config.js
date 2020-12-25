@@ -4,6 +4,7 @@ const config = {
   avatarMaxFileSize: parse(process.env.VUE_APP_AVATAR_MAX_FILE_SIZE, 4024*1024),
   avatarSize: parse(process.env.VUE_APP_AVATAR_SIZE, '4rem'),
   backendApiUrl: parse(process.env.VUE_APP_BACKEND_API_URL, 'http://127.0.0.1:8000'),
+  mediaUrl: parse(process.env.VUE_APP_MEDIA_URL, 'http://127.0.0.1:8000/media'),
   i18nFallbackLocale: parse(process.env.VUE_APP_I18N_FALLBACK_LOCALE, 'en'),
   i18nLocale: parse(process.env.VUE_APP_I18N_LOCALE, 'fi'),
   logoExtension: parse(process.env.VUE_APP_LOGO_EXTENSION, '.png'),
