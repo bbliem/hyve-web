@@ -14,7 +14,6 @@
 <script>
 import ErrorMessage from './components/ErrorMessage.vue'
 import NavBar from './components/NavBar.vue'
-import { state } from '@/store'
 
 export default {
   components: {
@@ -27,8 +26,8 @@ export default {
     }
   },
   computed: {
-    error() { return state.error },
-    fetching() { return state.fetching },
+    error() { return this.$state.error },
+    fetching() { return this.$state.fetching },
     logoUrl() {
       const c = this.$appConfig
       return c.showLogo ? `${c.backendApiUrl}/media/logos/${c.organization}${c.logoExtension}` : ''

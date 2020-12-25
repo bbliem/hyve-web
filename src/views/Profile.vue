@@ -100,10 +100,10 @@ import { resetUser } from '@/store'
 
 export default {
   name: 'Profile',
-  mixins: [authenticationMixin],
   components: {
     SaveButton,
   },
+  mixins: [authenticationMixin],
   data() {
     return {
       avatar: null,
