@@ -20,4 +20,8 @@ export default class Section extends Model {
   set text(value) {
     return this.setLocalizedField('text', value)
   }
+
+  get video() {
+    return this.getLocalizedField('video')
+  }
 }

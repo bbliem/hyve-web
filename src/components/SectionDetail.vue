@@ -3,6 +3,13 @@
     <FetchedContent :fetch="fetch" :error-message="$t('could-not-load-section')">
       <template v-slot="{}">
         <EditableText :on-save="onSaveText" :text="section.text" />
+        <b-embed
+          v-if="section.video"
+          type="video"
+          controls
+          preload="metadata"
+          :src="section.video"
+        />
         <Quiz
           :questions="section.multipleChoiceQuestions"
           :section-id="sectionId"
