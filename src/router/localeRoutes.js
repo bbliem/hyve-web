@@ -84,6 +84,11 @@ export default [
         ],
       },
       {
+        name: 'reset-password',
+        path: 'reset-password',
+        component: () => import(/* webpackChunkName: "reset-password" */ '../views/ResetPassword.vue')
+      },
+      {
         name: 'profile',
         path: 'profile',
         component: () => import(/* webpackChunkName: "profile" */ '../views/Profile.vue'),

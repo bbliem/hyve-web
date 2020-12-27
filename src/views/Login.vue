@@ -1,82 +1,90 @@
 <template>
-  <div>
-    <div class="login-form">
-      <h1>{{ $t('login') }}</h1>
-      <b-form @submit.prevent="login(email, password)">
-        <b-form-group
-          id="form-group-email"
-          :label="$t('email-address-field-label')"
-          label-for="email"
-        >
-          <b-form-input
-            id="email"
-            v-model="email"
-            required
-            type="email"
-            :placeholder="$t('enter-your-email')"
-          />
-        </b-form-group>
-        <b-form-group
-          id="form-group-password"
-          :label="$t('password-field-label')"
-          label-for="password"
-        >
-          <b-form-input
-            id="password"
-            v-model="password"
-            required
-            type="password"
-            :placeholder="$t('enter-your-password')"
-          />
-        </b-form-group>
+  <SimpleForm
+    :title="$t('login')"
+    :submit-button-text="$t('login')"
+    :disable-submit="!isFormValid"
+    @submit="onSubmit"
+  >
+    <SimpleFormInput
+      id="email"
+      v-model="email"
+      :label="$t('email-address-field-label')"
+      :fallback-invalid-feedback="this.$t('email-address-invalid')"
+      :placeholder="$t('enter-your-email')"
+      type="email"
+      :valid="isEmailValid"
+      :validation-error="emailValidationError"
+      @input="emailValidationError = null"
+    />
+    <SimpleFormInput
+      id="password"
+      v-model="password"
+      :label="$t('password-field-label')"
+      :fallback-invalid-feedback="this.$t('password-invalid')"
+      :placeholder="$t('enter-your-password')"
+      type="password"
+      :validation-error="passwordValidationError"
+      @input="passwordValidationError = null"
+    />
 
-        <b-button type="submit" class="mb-3" block>
-          {{ $t('login') }}
-        </b-button>
+    <template #after-button>
+      <p class="text-center">
+        <router-link :to="{ name: 'reset-password' }">
+          {{ $t('forgot-password') }}
+        </router-link>
+      </p>
+    </template>
 
-        <p class="text-center">
-          <a href="#">
-            {{ $t('forgot-password') }}
-          </a>
-        </p>
-      </b-form>
-    </div>
-    <p class="text-center">
-      {{ $t('no-account') }}
-      <router-link :to="{ name: 'register', query: $route.query }">
-        {{ $t('to-registration') }}
-      </router-link>
-    </p>
-  </div>
+    <template #footer>
+      <p class="text-center">
+        {{ $t('no-account') }}
+        <router-link :to="{ name: 'register', query: $route.query }">
+          {{ $t('to-registration') }}
+        </router-link>
+      </p>
+    </template>
+  </SimpleForm>
 </template>
 
 <script>
-import authenticationMixin from '@/mixins/authenticationMixin'
+import authenticationMixin, { isValidEmail } from '@/mixins/authenticationMixin'
+import SimpleForm from '@/components/SimpleForm'
+import SimpleFormInput from '@/components/SimpleFormInput'
 
 export default {
   name: 'Login',
+  components: {
+    SimpleForm,
+    SimpleFormInput,
+  },
   mixins: [authenticationMixin],
   data() {
     return {
       email : '',
+      emailValidationError: null,
       password : '',
+      passwordValidationError: null,
     }
-  }
+  },
+  computed: {
+    isEmailValid() {
+      return isValidEmail(this.email)
+    },
+    isFormValid() {
+      return this.isEmailValid && !this.emailValidationError && this.password && !this.passwordValidationError
+    },
+  },
+  methods: {
+    async onSubmit() {
+      try {
+        await this.login(this.email, this.password)
+        this.emailValidationError = null
+        this.passwordValidationError = null
+      } catch(error) {
+        this.emailValidationError = error.validationErrors.email ? error.validationErrors.email[0] : null
+        this.passwordValidationError = error.validationErrors.password ? error.validationErrors.password[0] : null
+      }
+    }
+  },
 }
 </script>
-
-<style lang="scss">
-.login-form {
-  max-width: 340px;
-  align: center;
-  margin: 20px auto;
-}
-.login-form form {
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  padding: 20px;
-}
-.login-form h1 {
-  margin: 0 0 15px;
-  text-align: center;
-}
-</style>

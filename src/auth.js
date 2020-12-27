@@ -51,6 +51,12 @@ export async function register(email, password) {
   await axios({ url: Vue.appConfig.backendApiUrl + '/auth/users/', data, method: 'POST' })
 }
 
+export async function requestPasswordReset(email) {
+  const organization = Vue.appConfig.organization
+  const data = { email, organization }
+  await axios({ url: Vue.appConfig.backendApiUrl + '/auth/users/reset_password/', data, method: 'POST' })
+}
+
 export function restoreLogin() {
   // return userId (and set auth header) or null
   const userId = localStorage.getItem('userId')

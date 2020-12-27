@@ -1,4 +1,4 @@
-import { emailToUsername, login, logout, register } from '@/auth'
+import { emailToUsername, login, logout, register, requestPasswordReset } from '@/auth'
 import { fetchUser, resetUser } from '@/store'
 
 function isClientErrorResponse(response) {
@@ -12,6 +12,11 @@ function getValidationErrors(error) {
   // object mapping a field name to an explanation why there was a validation
   // error with that field.
   return isClientErrorResponse(error.response) ? error.response.data : null
+}
+
+export function isValidEmail(email) {
+  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+  return re.test(email)
 }
 
 export default {
@@ -30,9 +35,11 @@ export default {
         const to = this.$route.query.redirect || { name: 'home' }
         this.$router.push(to).catch(() => {})
       } catch(error) {
-        console.error("Login failed:", error)
-        const errorMessage = isClientErrorResponse(error.response) ? this.$t('check-email-and-password') : this.$t('unexpected-error')
+        error.validationErrors = getValidationErrors(error)
+        const errorMessage = error.validationErrors ? this.$t('check-email-and-password') : this.$t('unexpected-error')
         this.showToast(this.$t('login-failed'), errorMessage, 'danger')
+        console.error("Login failed:", error)
+        throw error
       }
     },
 
@@ -89,6 +96,26 @@ export default {
         const errorMessage = error.validationErrors ? this.$t('check-all-fields-valid') : this.$t('unexpected-error')
         this.showToast(this.$t('registration-failed'), errorMessage, 'danger')
         console.error("Registration failed:", error)
+        throw error
+      }
+    },
+
+    async requestPasswordReset(email) {
+      // Request a password reset for the given email. Throws an error if it failed.
+      // If there were validation errors, the thrown object `error` will have a
+      // property called `validationErrors` so that `error.validationErrors`
+      // maps backend field names to errors.
+      try {
+        await requestPasswordReset(email)
+        console.log(`Requested password reset for ${email}.`)
+        this.showToast(this.$t('email-sent'), this.$t('check-your-mailbox'), 'success')
+        const to = this.$route.query.redirect || { name: 'home' }
+        this.$router.push(to).catch(() => {})
+      } catch(error) {
+        error.validationErrors = getValidationErrors(error)
+        const errorMessage = error.validationErrors ? this.$t('check-all-fields-valid') : this.$t('unexpected-error')
+        this.showToast(this.$t('could-not-request-password-reset'), errorMessage, 'danger')
+        console.error("Requesting password reset failed:", error)
         throw error
       }
     },
