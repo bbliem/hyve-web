@@ -40,7 +40,14 @@ axios.interceptors.request.use((config) => {
     }
   }
   return config;
-});
+})
+
+// Add axios interceptor to always use the current locale for the Accept-Language header
+axios.interceptors.request.use((config) => {
+  config.headers['Accept-Language'] = i18n.locale
+  return config
+})
+
 // Inject global axios instance as HTTP client to Model.
 Model.$http = axios
 

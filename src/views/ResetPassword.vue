@@ -6,21 +6,29 @@
     @submit="onSubmit"
   >
     <SimpleFormInput
-      id="email"
-      v-model="email"
-      :label="$t('email-address-field-label')"
-      :fallback-invalid-feedback="this.$t('email-address-invalid')"
-      :placeholder="$t('enter-your-email')"
-      type="email"
-      :valid="isEmailValid"
-      :validation-error="emailValidationError"
-      @input="emailValidationError = null"
+      id="password"
+      v-model="password"
+      type="password"
+      :label="$t('new-password-field-label')"
+      :fallback-invalid-feedback="this.$t('password-invalid')"
+      :placeholder="$t('enter-your-password')"
+      :validation-error="passwordValidationError"
+      @input="passwordValidationError = null"
+    />
+    <SimpleFormInput
+      id="password2"
+      v-model="password2"
+      type="password"
+      :label="$t('password-confirmation-field-label')"
+      :fallback-invalid-feedback="$t('passwords-do-not-match')"
+      :placeholder="$t('enter-your-password')"
+      :valid="passwordsMatch"
     />
   </SimpleForm>
 </template>
 
 <script>
-import authenticationMixin, { isValidEmail } from '@/mixins/authenticationMixin'
+import authenticationMixin from '@/mixins/authenticationMixin'
 import SimpleForm from '@/components/SimpleForm'
 import SimpleFormInput from '@/components/SimpleFormInput'
 
@@ -31,27 +39,38 @@ export default {
     SimpleFormInput,
   },
   mixins: [authenticationMixin],
+  props: {
+    uid: {
+      required: true,
+      type: String,
+    },
+    token: {
+      required: true,
+      type: String,
+    },
+  },
   data() {
     return {
-      email : '',
-      emailValidationError: null,
+      password : '',
+      passwordValidationError: null,
+      password2 : '',
     }
   },
   computed: {
-    isEmailValid() {
-      return isValidEmail(this.email)
-    },
     isFormValid() {
-      return this.isEmailValid && !this.emailValidationError
+      return this.password && !this.passwordValidationError && this.passwordsMatch
+    },
+    passwordsMatch() {
+      return this.password === this.password2
     },
   },
   methods: {
     async onSubmit() {
       try {
-        await this.requestPasswordReset(this.email)
-        this.emailValidationError = null
+        await this.resetPassword(this.uid, this.token, this.password)
+        this.passwordValidationError = null
       } catch(error) {
-        this.emailValidationError = error.validationErrors.email ? error.validationErrors.email[0] : null
+        this.passwordValidationError = error.validationErrors.newPassword ? error.validationErrors.newPassword[0] : null
       }
     }
   },

@@ -84,8 +84,17 @@ export default [
         ],
       },
       {
+        name: 'request-password-reset',
+        path: 'request-password-reset',
+        component: () => import(/* webpackChunkName: "request-password-reset" */ '../views/RequestPasswordReset.vue')
+      },
+      {
         name: 'reset-password',
-        path: 'reset-password',
+        path: 'reset-password/:uid/:token',
+        props: (route) => ({
+          uid: route.params.uid,
+          token: route.params.token,
+        }),
         component: () => import(/* webpackChunkName: "reset-password" */ '../views/ResetPassword.vue')
       },
       {

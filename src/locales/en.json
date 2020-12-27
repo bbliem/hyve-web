@@ -14,6 +14,7 @@
   "could-not-load-page": "Could not load page.",
   "could-not-load-section": "Could not load section.",
   "could-not-request-password-reset": "Could not request password reset.",
+  "could-not-reset-password": "Could not reset password.",
   "delete-account": "Delete account",
   "delete-profile-picture": "Delete profile picture",
   "discard-unsaved-changes-prompt": "You have unsaved changes. Do you want to discard them?",
@@ -61,6 +62,7 @@
   "my-profile": "My profile",
   "name-field-label": "Name:",
   "next-page": "Next page",
+  "new-password-field-label": "New password:",
   "no": "No",
   "no-account": "No account?",
   "organization-profile": "Organization profile",
@@ -69,6 +71,7 @@
   "password-confirmation-field-label": "Confirm password:",
   "password-field-label": "Password:",
   "password-invalid": "The password is invalid.",
+  "password-reset-successful": "Password successfully reset",
   "passwords-do-not-match": "The passwords do not match.",
   "previous-page": "Previous page",
   "profile-picture": "Profile picture",
@@ -102,5 +105,6 @@
   "welcome-back": "Welcome back!",
   "welcome-back-name": "Welcome back, {name}!",
   "yes": "Yes",
+  "you-can-log-in-with-new-password": "You can now log in with your new password",
   "your-changes-have-been-saved": "Your changes have been saved."
 }

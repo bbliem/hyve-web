@@ -1,4 +1,4 @@
-import { emailToUsername, login, logout, register, requestPasswordReset } from '@/auth'
+import { emailToUsername, login, logout, register, requestPasswordReset, resetPassword } from '@/auth'
 import { fetchUser, resetUser } from '@/store'
 
 function isClientErrorResponse(response) {
@@ -96,6 +96,26 @@ export default {
         const errorMessage = error.validationErrors ? this.$t('check-all-fields-valid') : this.$t('unexpected-error')
         this.showToast(this.$t('registration-failed'), errorMessage, 'danger')
         console.error("Registration failed:", error)
+        throw error
+      }
+    },
+
+    async resetPassword(uid, token, password) {
+      // Reset the password to the given one. Throws an error if it failed.
+      // If there were validation errors, the thrown object `error` will have a
+      // property called `validationErrors` so that `error.validationErrors`
+      // maps backend field names to errors.
+      try {
+        await resetPassword(uid, token, password)
+        console.log(`Password reset.`)
+        this.showToast(this.$t('password-reset-successful'), this.$t('you-can-log-in-with-new-password'), 'success')
+        const to = this.$route.query.redirect || { name: 'home' }
+        this.$router.push(to).catch(() => {})
+      } catch(error) {
+        error.validationErrors = getValidationErrors(error)
+        const errorMessage = error.validationErrors ? this.$t('check-all-fields-valid') : this.$t('unexpected-error')
+        this.showToast(this.$t('could-not-reset-password'), errorMessage, 'danger')
+        console.error("Resetting password failed:", error)
         throw error
       }
     },

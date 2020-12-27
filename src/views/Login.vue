@@ -29,7 +29,7 @@
 
     <template #after-button>
       <p class="text-center">
-        <router-link :to="{ name: 'reset-password' }">
+        <router-link :to="{ name: 'request-password-reset' }">
           {{ $t('forgot-password') }}
         </router-link>
       </p>
