@@ -23,6 +23,11 @@ export default [
         component: () => import(/* webpackChunkName: "static-page" */ '../views/StaticPage.vue')
       })),
       {
+        name: 'change-password',
+        path: 'change-password',
+        component: () => import(/* webpackChunkName: "change-password" */ '../views/ChangePassword.vue')
+      },
+      {
         name: 'login',
         path: 'login',
         component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')

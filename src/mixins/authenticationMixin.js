@@ -1,4 +1,4 @@
-import { emailToUsername, login, logout, register, requestPasswordReset, resetPassword } from '@/auth'
+import { changePassword, emailToUsername, login, logout, register, requestPasswordReset, resetPassword } from '@/auth'
 import { fetchUser, resetUser } from '@/store'
 
 function isClientErrorResponse(response) {
@@ -24,6 +24,26 @@ export default {
     user() { return this.$state.user }
   },
   methods: {
+    async changePassword(currentPassword, newPassword) {
+      // Set the password to the given one. Throws an error if it failed.
+      // If there were validation errors, the thrown object `error` will have a
+      // property called `validationErrors` so that `error.validationErrors`
+      // maps backend field names to errors.
+      try {
+        await changePassword(currentPassword, newPassword)
+        console.log(`Password changed.`)
+        this.showToast(this.$t('password-change-successful'), this.$t('you-can-log-in-with-new-password'), 'success')
+        const to = this.$route.query.redirect || { name: 'home' }
+        this.$router.push(to).catch(() => {})
+      } catch(error) {
+        error.validationErrors = getValidationErrors(error)
+        const errorMessage = error.validationErrors ? this.$t('check-all-fields-valid') : this.$t('unexpected-error')
+        this.showToast(this.$t('could-not-change-password'), errorMessage, 'danger')
+        console.error("Changing password failed:", error)
+        throw error
+      }
+    },
+
     async login(email, password) {
       try {
         const userId = await login(email, password)

@@ -76,8 +76,6 @@
         />
       </b-form-group>
 
-      <p>TODO: Password</p>
-
       <!-- At the top of the form, there is a hidden dummy button copying this one. See comment above. When you update this button, also update the dummy SaveButton above. -->
       <SaveButton
         type="submit"
@@ -85,6 +83,12 @@
         :disabled="!unsavedChanges"
       />
     </b-form>
+
+    <p class="mt-3">
+      <router-link :to="{ name: 'change-password' }">
+        {{ $t('change-password') }}
+      </router-link>
+    </p>
 
     <b-button variant="danger" class="mt-3" @click="onDelete">
       {{ $t('delete-account') }}

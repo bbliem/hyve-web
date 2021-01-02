@@ -3,6 +3,10 @@ import axios from 'axios'
 
 // Owns localStorage entries 'userId' and 'token'
 
+export async function changePassword(currentPassword, newPassword) {
+  const data = { currentPassword, newPassword}
+  await axios({ url: Vue.appConfig.backendApiUrl + '/auth/users/set_password/', data, method: 'POST' })
+}
 
 function clearAuthorizationHeader() {
   delete axios.defaults.headers.common['Authorization']
