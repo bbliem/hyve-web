@@ -11,7 +11,7 @@
       type="password"
       :label="$t('new-password-field-label')"
       :fallback-invalid-feedback="this.$t('password-invalid')"
-      :placeholder="$t('enter-your-password')"
+      :placeholder="$t('enter-your-new-password')"
       :validation-error="passwordValidationError"
       @input="passwordValidationError = null"
     />
@@ -21,7 +21,7 @@
       type="password"
       :label="$t('password-confirmation-field-label')"
       :fallback-invalid-feedback="$t('passwords-do-not-match')"
-      :placeholder="$t('enter-your-password')"
+      :placeholder="$t('enter-your-new-password')"
       :valid="passwordsMatch"
     />
   </SimpleForm>

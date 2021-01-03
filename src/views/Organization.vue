@@ -1,37 +1,68 @@
 <template>
-  <div v-if="organization && user">
-    <PageWithSidebar>
-      <template #sidebar>
-        <router-link class="sidebar-headline" :to="{ name: 'organization-home' }">
-          {{ $t('my-organization') }}
-        </router-link>
-        <router-link :to="{ name: 'organization-profile' }">
-          {{ $t('organization-profile') }}
-        </router-link>
-        <router-link :to="{ name: 'organization-members' }">
-          {{ $t('members') }}
-        </router-link>
-      </template>
-
-      <router-view :key="$route.path" />
-    </PageWithSidebar>
-  </div>
+  <FetchedContent :fetch="fetch" :error-message="$t('could-not-load-organization')">
+    <!-- v-slot="{}" is a hack to wait with rendering the content until fetching is done -->
+    <template v-slot="{}">
+      <h1>{{ $t('my-organization') }}</h1>
+      <p v-if="user.isSupervisor">
+        {{ $t('organization-page-instructions-for-supervisor', { organization: organization.name }) }}
+      </p>
+      <p v-else>
+        {{ $t('organization-page-instructions-for-non-supervisor', { organization: organization.name }) }}
+      </p>
+      <b-list-group style="max-width: 500px;">
+        <b-list-group-item v-for="member in members" :key="member.id" class="d-flex align-items-center">
+          <b-avatar class="mr-3" :src="member.avatar" />
+          <a :href="`mailto:${member.email}`" class="mr-auto">
+            <span v-if="member.name" :title="member.email">{{ member.name }}</span>
+            <span v-else class="mr-auto">{{ member.email }}</span>
+          </a>
+          <b-badge v-if="member.isSupervisor">
+            Supervisor
+          </b-badge>
+          <!--
+          <b-button
+            v-else
+            variant="danger"
+            size="sm"
+            :title="$t('delete-user')"
+            @click="onDeleteUser"
+          >
+            <b-icon icon="dash-circle" />
+          </b-button>
+          -->
+        </b-list-group-item>
+      </b-list-group>
+    </template>
+  </FetchedContent>
 </template>
 
 <script>
-import PageWithSidebar from '@/components/PageWithSidebar'
+import Organization from '@/models/Organization'
+import FetchedContent from '@/components/FetchedContent'
 
 export default {
   name: 'Organization',
   components: {
-    PageWithSidebar,
+    FetchedContent,
+  },
+  data() {
+    return {
+      organization: null,
+    }
   },
   computed: {
-    organization() {
-      return this.$state.organization
-    },
     user() {
       return this.$state.user
+    },
+    members() {
+      return this.organization.users
+    },
+  },
+  methods: {
+    async fetch() {
+      this.organization = await Organization
+        .include('users')
+        .find(this.$state.organization.id)
     },
   },
 }

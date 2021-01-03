@@ -67,26 +67,10 @@ export default [
         ],
       },
       {
+        name: 'organization',
         path: 'organization',
         component: () => import(/* webpackChunkName: "organization" */ '../views/Organization.vue'),
         meta: { requiresAuth: true },
-        children: [
-          {
-            name: 'organization-profile',
-            path: 'profile',
-            component: () => import(/* webpackChunkName: "material-profile" */ '../views/organization/OrganizationProfile.vue')
-          },
-          {
-            name: 'organization-members',
-            path: 'members',
-            component: () => import(/* webpackChunkName: "material-members" */ '../views/organization/OrganizationMembers.vue')
-          },
-          {
-            name: 'organization-home',
-            path: '',
-            component: () => import(/* webpackChunkName: "organization-home" */ '../views/organization/OrganizationHome.vue')
-          },
-        ],
       },
       {
         name: 'request-password-reset',
