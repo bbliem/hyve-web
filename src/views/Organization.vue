@@ -4,10 +4,10 @@
     <template v-slot="{}">
       <h1>{{ $t('my-organization') }}</h1>
       <p v-if="user.isSupervisor">
-        {{ $t('organization-page-instructions-for-supervisor', { organization: organization.name }) }}
+        {{ $t('organization-page-instructions-for-supervisor') }}
       </p>
       <p v-else>
-        {{ $t('organization-page-instructions-for-non-supervisor', { organization: organization.name }) }}
+        {{ $t('organization-page-instructions-for-non-supervisor') }}
       </p>
       <b-list-group style="max-width: 500px;">
         <b-list-group-item v-for="member in members" :key="member.id" class="d-flex align-items-center">
