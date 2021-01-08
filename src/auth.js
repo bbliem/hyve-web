@@ -5,7 +5,7 @@ import axios from 'axios'
 
 export async function changePassword(currentPassword, newPassword) {
   const data = { currentPassword, newPassword}
-  await axios({ url: Vue.appConfig.backendApiUrl + '/auth/users/set_password/', data, method: 'POST' })
+  await axios({ url: Vue.appConfig.backendApiUrl + '/users/set_password/', data, method: 'POST' })
 }
 
 function clearAuthorizationHeader() {
@@ -33,7 +33,7 @@ export async function login(email, password) {
     localStorage.setItem('token', token)
     setAuthorizationHeader(token)
     // Get user id
-    const userDataResponse = await axios({ url: Vue.appConfig.backendApiUrl + '/auth/users/me/' })
+    const userDataResponse = await axios({ url: Vue.appConfig.backendApiUrl + '/users/me/' })
     const userId = userDataResponse.data.id
     localStorage.setItem('userId', userId)
     return userId
@@ -52,18 +52,18 @@ export async function register(email, password) {
   const username = emailToUsername(email)
   const organization = Vue.appConfig.organization
   const data = { email, organization, username, password }
-  await axios({ url: Vue.appConfig.backendApiUrl + '/auth/users/', data, method: 'POST' })
+  await axios({ url: Vue.appConfig.backendApiUrl + '/users/', data, method: 'POST' })
 }
 
 export async function requestPasswordReset(email) {
   const organization = Vue.appConfig.organization
   const data = { email, organization }
-  await axios({ url: Vue.appConfig.backendApiUrl + '/auth/users/reset_password/', data, method: 'POST' })
+  await axios({ url: Vue.appConfig.backendApiUrl + '/users/reset_password/', data, method: 'POST' })
 }
 
 export async function resetPassword(uid, token, password) {
   const data = { uid, token, new_password: password }
-  await axios({ url: Vue.appConfig.backendApiUrl + '/auth/users/reset_password_confirm/', data, method: 'POST' })
+  await axios({ url: Vue.appConfig.backendApiUrl + '/users/reset_password_confirm/', data, method: 'POST' })
 }
 
 export function restoreLogin() {

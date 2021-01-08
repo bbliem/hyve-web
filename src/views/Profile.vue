@@ -168,7 +168,7 @@ export default {
       })
       if(response) {
         this.$router.push({ name: 'home' })
-        // FIXME This doesn't work like that. Need to use DELETE to /auth/users/me/ with current_password in payload.
+        // FIXME This doesn't work like that. Need to use DELETE to /auth/users/me/ (or whatever the new endpoint is) with current_password in payload.
         this.$state.user.delete()
         resetUser()
         clearCredentials()
