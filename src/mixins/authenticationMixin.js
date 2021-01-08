@@ -1,5 +1,5 @@
 import { changePassword, emailToUsername, login, logout, register, requestPasswordReset, resetPassword } from '@/auth'
-import { fetchUser, resetUser } from '@/store'
+import { resetUser, setUser } from '@/store'
 
 function isClientErrorResponse(response) {
   return response && response.status >= 400 && response.status < 500
@@ -46,8 +46,7 @@ export default {
 
     async login(email, password) {
       try {
-        const userId = await login(email, password)
-        await fetchUser(userId)
+        setUser(await login(email, password))
         console.log(`Sucessfully logged in as user ${this.$state.user.name}.`)
         const greeting = this.$state.user.name ? this.$t('welcome-back-name', { name: this.$state.user.name }) : this.$t('welcome-back')
         this.showToast(this.$t('login-successful'), greeting, 'success')
@@ -106,8 +105,7 @@ export default {
       try {
         await register(email, password)
         console.log(`Registered as ${email}.`)
-        const userId = await login(email, password)
-        await fetchUser(userId)
+        setUser(await login(email, password))
         this.showToast(this.$t('registration-successful'), this.$t('welcome'), 'success')
         const to = this.$route.query.redirect || { name: 'home' }
         this.$router.push(to).catch(() => {})

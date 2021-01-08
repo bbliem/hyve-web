@@ -31,13 +31,13 @@ async function fetchOrganization() {
   }
 }
 
-export async function fetchUser(userId) {
+export async function fetchUser() {
   state.fetching = true
   try {
     state.user = await User
       .include('multiple_choice_responses', 'open_question_responses', 'section_completions')
       .params({ omit: 'completed_sections' })
-      .find(userId)
+      .find('me')
   } catch(error) {
     resetUser()
     state.error = error
@@ -50,11 +50,11 @@ export async function fetchUser(userId) {
 export async function initStore() {
   await fetchOrganization()
   // Restore login if possible
-  const userId = restoreLogin()
-  if(userId) {
+  const restored = restoreLogin()
+  if(restored) {
     console.log("Restored login.")
     try {
-      await fetchUser(userId)
+      await fetchUser()
     } catch(error) {
       clearCredentials()
     }
@@ -69,6 +69,10 @@ export function resetUser() {
   state.user = null
   state.editMode = false
   localStorage.removeItem('editMode')
+}
+
+export function setUser(user) {
+  state.user = user
 }
 
 export function setEditMode(value) {

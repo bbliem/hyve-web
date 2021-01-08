@@ -1,7 +1,9 @@
 import Vue from 'vue'
 import axios from 'axios'
 
-// Owns localStorage entries 'userId' and 'token'
+import User from '@/models/User'
+
+// Owns localStorage entry 'token'
 
 export async function changePassword(currentPassword, newPassword) {
   const data = { currentPassword, newPassword}
@@ -13,7 +15,6 @@ function clearAuthorizationHeader() {
 }
 
 export function clearCredentials() {
-  localStorage.removeItem('userId')
   localStorage.removeItem('token')
   clearAuthorizationHeader()
 }
@@ -32,11 +33,9 @@ export async function login(email, password) {
     const token = loginResponse.data.authToken
     localStorage.setItem('token', token)
     setAuthorizationHeader(token)
-    // Get user id
+    // Get user data
     const userDataResponse = await axios({ url: Vue.appConfig.backendApiUrl + '/users/me/' })
-    const userId = userDataResponse.data.id
-    localStorage.setItem('userId', userId)
-    return userId
+    return new User(userDataResponse.data)
   } catch(error) {
     clearCredentials()
     throw error
@@ -67,14 +66,13 @@ export async function resetPassword(uid, token, password) {
 }
 
 export function restoreLogin() {
-  // return userId (and set auth header) or null
-  const userId = localStorage.getItem('userId')
+  // return true (and set auth header) if login was restored, else return null
   const token = localStorage.getItem('token')
-  if(token && userId) {
+  if(token) {
     setAuthorizationHeader(token)
-    return userId
+    return true
   }
-  return null
+  return false
 }
 
 function setAuthorizationHeader(token) {
