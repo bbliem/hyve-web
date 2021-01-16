@@ -28,6 +28,11 @@ export default [
         component: () => import(/* webpackChunkName: "change-password" */ '../views/ChangePassword.vue')
       },
       {
+        name: 'admin-login',
+        path: 'admin-login',
+        component: () => import(/* webpackChunkName: "admin-login" */ '../views/AdminLogin.vue')
+      },
+      {
         name: 'login',
         path: 'login',
         component: () => import(/* webpackChunkName: "login" */ '../views/Login.vue')

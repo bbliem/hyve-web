@@ -23,9 +23,9 @@ export function emailToUsername(email) {
   return `${email}:${Vue.appConfig.organization}`
 }
 
-export async function login(email, password) {
+export async function login(email, password, admin=false) {
   // return user ID
-  const username = emailToUsername(email)
+  const username = admin ? email : emailToUsername(email)
   const loginData = { username, password }
   try {
     // Get a token

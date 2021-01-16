@@ -44,9 +44,9 @@ export default {
       }
     },
 
-    async login(email, password) {
+    async login(email, password, admin=false) {
       try {
-        setUser(await login(email, password))
+        setUser(await login(email, password, admin))
         console.log(`Sucessfully logged in as user ${this.$state.user.name}.`)
         const greeting = this.$state.user.name ? this.$t('welcome-back-name', { name: this.$state.user.name }) : this.$t('welcome-back')
         this.showToast(this.$t('login-successful'), greeting, 'success')
