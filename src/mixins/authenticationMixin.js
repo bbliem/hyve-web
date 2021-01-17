@@ -81,7 +81,7 @@ export default {
       ]
       try {
         await this.$state.user.updateFieldsAndSave({
-          username: emailToUsername(email),
+          username: emailToUsername(email, this.$state.user.isSuperuser),
           email: email,
           name: name,
           avatar: avatar,

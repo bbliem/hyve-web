@@ -19,13 +19,13 @@ export function clearCredentials() {
   clearAuthorizationHeader()
 }
 
-export function emailToUsername(email) {
-  return `${email}:${Vue.appConfig.organization}`
+export function emailToUsername(email, admin=false) {
+  return admin ? email : `${email}:${Vue.appConfig.organization}`
 }
 
 export async function login(email, password, admin=false) {
   // return user ID
-  const username = admin ? email : emailToUsername(email)
+  const username = emailToUsername(email, admin)
   const loginData = { username, password }
   try {
     // Get a token
