@@ -3,7 +3,7 @@
     <!-- v-slot="{}" is a hack to wait with rendering the content until fetching is done -->
     <template v-slot="{}">
       <h1>{{ $t('my-organization') }}</h1>
-      <p v-if="user.isSupervisor">
+      <p v-if="user.isSupervisor || user.isSuperuser">
         {{ $t('organization-page-instructions-for-supervisor') }}
       </p>
       <p v-else>
