@@ -13,7 +13,7 @@ export default [
       {
         name: 'home',
         path: '',
-        props: { staticPageId: 1 }, // FIXME think of something better than hard-coding a PK
+        props: { staticPageId: config.homePageId },
         component: () => import(/* webpackChunkName: "static-page" */ '../views/StaticPage.vue')
       },
       ...config.staticPages.map(({name, id}) => ({

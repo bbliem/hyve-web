@@ -12,6 +12,7 @@ const config = {
   organization: parse(process.env.VUE_APP_ORGANIZATION_ID, ''),
   showLogo: parse(process.env.VUE_APP_SHOW_LOGO, true),
   staticPages: parse(process.env.VUE_APP_STATIC_PAGES, []),
+  homePageId: parse(process.env.VUE_APP_HOME_PAGE_ID, 1),
 
   features: {
     // ...
