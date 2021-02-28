@@ -13,11 +13,31 @@ export default class Lesson extends Model {
     return this.setLocalizedField('description', value)
   }
 
-  get name() {
-    return this.getLocalizedField('name')
+  get title() {
+    return this.getLocalizedField('title')
   }
 
-  set name(value) {
-    return this.setLocalizedField('name', value)
+  set title(value) {
+    return this.setLocalizedField('title', value)
+  }
+
+  get body() {
+    return this.getLocalizedField('body')
+  }
+
+  set body(value) {
+    return this.setLocalizedField('body', value)
+  }
+
+  get blockIds() {
+    return this.getLocalizedField('blockIds')
+  }
+
+  set blockIds(value) {
+    return this.setLocalizedField('blockIds', value)
+  }
+
+  get blocks() {
+    return this.body === undefined ? undefined : JSON.parse(this.body)
   }
 }

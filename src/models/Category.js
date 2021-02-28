@@ -19,11 +19,11 @@ export default class Category extends Model {
     return this.setLocalizedField('description', value)
   }
 
-  get name() {
-    return this.getLocalizedField('name')
+  get title() {
+    return this.getLocalizedField('title')
   }
 
-  set name(value) {
-    return this.setLocalizedField('name', value)
+  set title(value) {
+    return this.setLocalizedField('title', value)
   }
 }

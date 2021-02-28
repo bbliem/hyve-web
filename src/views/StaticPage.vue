@@ -2,7 +2,7 @@
   <FetchedContent :fetch="fetch" :error-message="$t('could-not-load-page')">
     <template v-if="page">
       <h1><EditableText :on-save="onSaveTitle" :multi-line="false" :text="page.title" /></h1>
-      <EditableText :on-save="onSaveContent" :text="page.content" />
+      <EditableText :on-save="onSaveContent" :text="page.body" />
     </template>
   </FetchedContent>
 </template>
@@ -37,7 +37,7 @@ export default {
       await this.page.updateFieldAndSave('title', title)
     },
     async onSaveContent(content) {
-      await this.page.updateFieldAndSave('content', content)
+      await this.page.updateFieldAndSave('body', content)
     },
   },
 }

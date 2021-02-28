@@ -1,12 +1,12 @@
 import Model from './Model'
 import MultipleChoiceResponse from './MultipleChoiceResponse'
 import OpenQuestionResponse from './OpenQuestionResponse'
-import SectionCompletion from './SectionCompletion'
+import BlockCompletion from './BlockCompletion'
 
 export default class User extends Model {
   constructor(...attributes) {
     super(...attributes)
-    if(this.multipleChoiceResponses) {
+    if(this.multipleChoiceResponses && this.openQuestionResponses) {
       // Backend omits user in responses to multiple-choice and open questions
       for(let response of this.multipleChoiceResponses) {
         if(response.user === undefined) {
@@ -27,31 +27,33 @@ export default class User extends Model {
     return 'users'
   }
 
-  completeSection(sectionId) {
-    if(!this.hasCompletedSection(sectionId)) {
-      new SectionCompletion({user: this.id, section: sectionId})
+  completeBlock(blockId, lessonId) {
+    if(!this.hasCompletedBlock(blockId)) {
+      new BlockCompletion({user: this.id, lesson: lessonId, block: blockId})
         .save()
         .then((completion) => {
-          console.log("Completed section", sectionId)
-          if(this.completedSections !== undefined) {
-            this.completedSections.push(sectionId)
-          }
-          if(this.sectionCompletions !== undefined) {
-            this.sectionCompletions.push(completion)
+          console.log("Completed block", blockId)
+          if(this.blockCompletions !== undefined) {
+            this.blockCompletions.push(completion)
           }
         })
     }
   }
 
-  hasCompletedSection(sectionId) {
-    if(this.completedSections !== undefined) {
-      return this.completedSections.includes(sectionId)
-    }
-    return this.sectionCompletions.some(({ section }) => section === sectionId)
+  hasCompletedBlock(blockId) {
+    return this.blockCompletions.some(({ block }) => block === blockId)
   }
 
   hasCompletedLesson(lesson) {
-    return lesson.sections.every(id => this.hasCompletedSection(id))
+    return lesson.blockIds.every(id => this.hasCompletedBlock(id))
+  }
+
+  hasRespondedToOpenQuestion(openQuestionId) {
+    return this.openQuestionResponses.some(({ question }) => question == openQuestionId)
+  }
+
+  hasRespondedToQuiz(quizId) {
+    return this.multipleChoiceResponses.some(({ quiz }) => quiz == quizId)
   }
 
   async resetRelation(array, key, idToRemove, ModelConstructor) {
@@ -72,8 +74,8 @@ export default class User extends Model {
     }
   }
 
-  async resetSectionCompletion(sectionId) {
-    this.resetRelation(this.sectionCompletions, 'section', sectionId, SectionCompletion)
+  async resetBlockCompletion(blockId) {
+    this.resetRelation(this.blockCompletions, 'block', blockId, BlockCompletion)
   }
 
   async resetMultipleChoiceResponse(answerId) {

@@ -10,7 +10,7 @@
           }}"
       >
         <div class="lesson-row">
-          {{ lesson.name }}
+          {{ lesson.title }}
           <LessonCompletionCheckmark :lesson="lesson" class="checkmark" />
         </div>
       </router-link>

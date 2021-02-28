@@ -5,12 +5,12 @@ export default class StaticPage extends Model {
     return 'static-pages'
   }
 
-  get content() {
-    return this.getLocalizedField('content')
+  get body() {
+    return this.getLocalizedField('body')
   }
 
-  set content(value) {
-    return this.setLocalizedField('content', value)
+  set body(value) {
+    return this.setLocalizedField('body', value)
   }
 
   get title() {

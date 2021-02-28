@@ -21,7 +21,6 @@ async function fetchOrganization() {
   state.fetching = true
   try {
     state.organization = await Organization
-      .include('lessons')
       .find(Vue.appConfig.organization)
   } catch(error) {
     state.error = i18n.t('could-not-load-organization')
@@ -35,8 +34,7 @@ export async function fetchUser() {
   state.fetching = true
   try {
     state.user = await User
-      .include('multiple_choice_responses', 'open_question_responses', 'section_completions')
-      .params({ omit: 'completed_sections' })
+      .include('multiple_choice_responses', 'open_question_responses', 'block_completions')
       .find('me')
   } catch(error) {
     resetUser()

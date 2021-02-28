@@ -10,7 +10,7 @@
         }"
         class="sidebar-headline"
       >
-        {{ category.name }}
+        {{ category.title }}
       </router-link>
       <LessonList
         v-if="activeCategoryId === category.id"
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     lessonsInCategory(category) {
-      return this.lessons.filter(l => l.categories.includes(category.id))
+      return this.lessons.filter(l => category.lessons.includes(l.id))
     },
   },
 }

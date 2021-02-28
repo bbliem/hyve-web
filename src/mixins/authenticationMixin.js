@@ -77,7 +77,7 @@ export default {
       const unexpandFields = [
         'multipleChoiceResponses',
         'openQuestionResponses',
-        'sectionCompletions',
+        'lessonCompletions',
       ]
       try {
         await this.$state.user.updateFieldsAndSave({

@@ -34,8 +34,11 @@ export async function login(email, password, admin=false) {
     localStorage.setItem('token', token)
     setAuthorizationHeader(token)
     // Get user data
-    const userDataResponse = await axios({ url: Vue.appConfig.backendApiUrl + '/users/me/' })
-    return new User(userDataResponse.data)
+    // const userDataResponse = await axios({ url: Vue.appConfig.backendApiUrl + '/users/me/' })
+    // return new User(userDataResponse.data)
+    return await User
+      .include('multiple_choice_responses', 'open_question_responses', 'block_completions')
+      .find('me')
   } catch(error) {
     clearCredentials()
     throw error

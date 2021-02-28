@@ -6,7 +6,7 @@
       :img-src="`https://picsum.photos/seed/123${category.id}/400/200/`"
       style="max-width: 25rem"
       class="m-2"
-      :title="category.name"
+      :title="category.title"
     >
       <!-- eslint-disable-next-line vue/no-v-html -->
       <b-card-text v-if="category.description" v-html="category.description" />

@@ -1,7 +1,7 @@
 <template>
   <div v-if="category">
     <h1>
-      <EditableText :multi-line="false" :on-save="onSaveName" :text="category.name" />
+      <EditableText :multi-line="false" :on-save="onSaveTitle" :text="category.title" />
     </h1>
     <p v-if="category.description">
       <EditableText :on-save="onSaveDescription" :text="category.description" />
@@ -14,7 +14,7 @@
         :img-src="`https://picsum.photos/seed/${lesson.id}/400/200/`"
         style="max-width: 25rem"
         class="m-2"
-        :title="lesson.name"
+        :title="lesson.title"
       >
         <!-- eslint-disable-next-line vue/no-v-html -->
         <b-card-text v-if="lesson.description" v-html="lesson.description" />
@@ -71,7 +71,7 @@ export default {
   },
   metaInfo() {
     return {
-      title: this.category ? this.category.name : undefined
+      title: this.category ? this.category.title : undefined
     }
   },
   methods: {
@@ -81,8 +81,8 @@ export default {
     async onSaveDescription(description) {
       await this.category.updateFieldAndSave('description', description)
     },
-    async onSaveName(name) {
-      await this.category.updateFieldAndSave('name', name)
+    async onSaveTitle(title) {
+      await this.category.updateFieldAndSave('title', title)
     },
   },
 }
