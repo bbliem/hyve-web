@@ -48,6 +48,7 @@ export default class Model extends BaseModel {
     // reverted after saving (no matter whether saving succeeded or not). The
     // purpose of this is to remove included/expanded resources that are nested
     // in this object.
+    console.assert(unexpandFields.every(field => this[field] !== undefined), 'Invalid value for unexpandFields')
     let unexpandedModel = new this.constructor(this)
     for(const field in newValues) {
       unexpandedModel[field] = newValues[field]
