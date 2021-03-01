@@ -6,7 +6,7 @@
           name: 'lesson-detail',
           params: {
             categoryId: category.id,
-            lessonId: lesson.id
+            lesson: lesson
           }}"
       >
         <div class="lesson-row">

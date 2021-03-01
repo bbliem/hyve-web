@@ -68,8 +68,8 @@ export default {
       type: Object,
       required: true
     },
-    lessonId: {
-      type: Number,
+    lesson: {
+      type: Object,
       required: true
     },
   },
@@ -108,7 +108,7 @@ export default {
       return this.selected[answer.id] === !answer.correct
     },
     onCheckAnswers() {
-      this.$state.user.completeBlock(this.block.id, this.lessonId)
+      this.$state.user.completeBlock(this.block.id, this.lesson.id)
       for(const question of this.quiz.questions) {
         for(const answer of question.answers) {
           this.$state.user.respondToMultipleChoiceQuestion(answer, this.selected[answer.id])

@@ -35,8 +35,8 @@ export default {
       type: Object,
       required: true
     },
-    lessonId: {
-      type: Number,
+    lesson: {
+      type: Object,
       required: true
     },
   },

@@ -4,19 +4,9 @@
     <component
       :is="blockComponent"
       :block="block"
-      :lesson-id="lessonId"
+      :lesson="lesson"
       @block-interaction-done="onBlockInteractionDone"
     />
-    <!-- TODO: Video blocks -->
-    <!--
-    <b-embed
-      v-if="section.video"
-      type="video"
-      controls
-      preload="metadata"
-      :src="section.video"
-    />
-    -->
   </b-card>
 </template>
 
@@ -24,6 +14,7 @@
 import LessonContentBlock from '@/components/LessonContentBlock'
 import OpenQuestionBlock from '@/components/OpenQuestionBlock'
 import QuizBlock from '@/components/QuizBlock'
+import VideoBlock from '@/components/VideoBlock'
 
 export default {
   name: 'StreamFieldBlock',
@@ -31,14 +22,15 @@ export default {
     LessonContentBlock,
     OpenQuestionBlock,
     QuizBlock,
+    VideoBlock,
   },
   props: {
     block: {
       type: Object,
       required: true
     },
-    lessonId: {
-      type: Number,
+    lesson: {
+      type: Object,
       required: true
     },
   },
@@ -59,6 +51,10 @@ export default {
 
       case 'quiz':
         this.blockComponent = 'QuizBlock'
+        break;
+
+      case 'video':
+        this.blockComponent = 'VideoBlock'
         break;
 
       case 'page_break':

@@ -24,7 +24,7 @@
             v-for="block in blocksOnCurrentPage"
             :key="`${block.id}-${timesProgressReset}`"
             :block="block"
-            :lesson-id="lesson.id"
+            :lesson="lesson"
             @block-interaction-done="onBlockInteractionDone($event)"
           />
         </template>
