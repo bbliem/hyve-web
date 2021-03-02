@@ -5,6 +5,15 @@ module.exports = {
     host: 'localhost'
   },
 
+  // Workaround https://github.com/webpack/webpack/issues/5429#issuecomment-731916978
+  configureWebpack: {
+    optimization: {
+      concatenateModules: false,
+      providedExports: false,
+      usedExports: false
+    }
+  },
+
   css: {
     loaderOptions: {
       sass: {
