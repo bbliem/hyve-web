@@ -7,6 +7,8 @@ npm install
 
 Copy `.env.example` to `.env` (or, if it shouldn't be in version control, to `.env.local`) and adapt the values to your needs. You can also use `.env.development`, `.env.production` or `.env.test` for the respective mode in which you want the configuration to be active.
 
+Note that dotenv loads multiple env files if available. For example, if both `.env` and `.env.your-build-mode` are present and your build mode is indeed `your-build-mode`, both will be loaded, with values in `.env.your-build-mode` overriding the ones in `.env`, but if there are values in `.env` that are not in `.env.your-build-mode`, they will still be there. The developers advise against such a setup since config options for different environments should not be shared.
+
 ### Compiles and hot-reloads for development
 ```
 npm run serve
