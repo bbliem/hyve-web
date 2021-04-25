@@ -12,17 +12,17 @@
 
 <script>
 import LessonContentBlock from '@/components/LessonContentBlock'
+import MediaBlock from '@/components/MediaBlock'
 import OpenQuestionBlock from '@/components/OpenQuestionBlock'
 import QuizBlock from '@/components/QuizBlock'
-import VideoBlock from '@/components/VideoBlock'
 
 export default {
   name: 'StreamFieldBlock',
   components: {
     LessonContentBlock,
+    MediaBlock,
     OpenQuestionBlock,
     QuizBlock,
-    VideoBlock,
   },
   props: {
     block: {
@@ -53,8 +53,8 @@ export default {
         this.blockComponent = 'QuizBlock'
         break;
 
-      case 'video':
-        this.blockComponent = 'VideoBlock'
+      case 'media':
+        this.blockComponent = 'MediaBlock'
         break;
 
       case 'page_break':

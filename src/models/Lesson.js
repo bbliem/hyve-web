@@ -38,10 +38,7 @@ export default class Lesson extends Model {
   }
 
   get blocks() {
-    return this.body === undefined ? undefined : JSON.parse(this.body)
-  }
-
-  get videos() {
-    return this.getLocalizedField('videos')
+    // return this.body === undefined ? undefined : JSON.parse(this.body)
+    return this.getLocalizedField('body')
   }
 }
