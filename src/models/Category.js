@@ -11,6 +11,14 @@ export default class Category extends Model {
     return 'categories'
   }
 
+  get imgSrc() {
+    if(this.image?.url) {
+      return `${this.baseURL()}${this.image.url}`
+    } else {
+      return null
+    }
+  }
+
   get description() {
     return this.getLocalizedField('description')
   }

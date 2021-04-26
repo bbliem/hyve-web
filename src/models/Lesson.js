@@ -5,6 +5,14 @@ export default class Lesson extends Model {
     return 'lessons'
   }
 
+  get imgSrc() {
+    if(this.image?.url) {
+      return `${this.baseURL()}${this.image.url}`
+    } else {
+      return null
+    }
+  }
+
   get description() {
     return this.getLocalizedField('description')
   }

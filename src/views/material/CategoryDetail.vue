@@ -11,7 +11,9 @@
       <b-card
         v-for="lesson in lessonsInCategory(category)"
         :key="lesson.id"
-        :img-src="`https://picsum.photos/seed/${lesson.id}/400/200/`"
+        :img-src="lesson.imgSrc"
+        :img-width="lesson.image && lesson.image.width"
+        :img-height="lesson.image && lesson.image.height"
         style="max-width: 25rem"
         class="m-2"
         :title="lesson.title"

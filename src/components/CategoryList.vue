@@ -3,7 +3,9 @@
     <b-card
       v-for="category in categories"
       :key="category.id"
-      :img-src="`https://picsum.photos/seed/123${category.id}/400/200/`"
+      :img-src="category.imgSrc"
+      :img-width="category.image && category.image.width"
+      :img-height="category.image && category.image.height"
       style="max-width: 25rem"
       class="m-2"
       :title="category.title"
